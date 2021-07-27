@@ -100,7 +100,7 @@ function CustomMenu (props) {
                                     </Link> 
                                     <div style={{ marginLeft: '4px' }}>
                                         <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px' }}>Таны хэтэвч</div>      
-                                        <div style={{ margin: 0, fontWeight: 'bold' }}>₮8,213</div>                       
+                                        <div style={{ margin: 0, fontWeight: 'bold' }}>₮7,319</div>                       
                                     </div>                                                   
                                 </>
                             ) : (
@@ -218,7 +218,7 @@ function CustomMenu (props) {
                                     </Link> 
                                     <div style={{ marginLeft: '12px' }}>
                                         <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px' }}>Таны хэтэвч</div>      
-                                        <div style={{ margin: 0, fontWeight: 'bold' }}>₮8,213</div>                       
+                                        <div style={{ margin: 0, fontWeight: 'bold' }}>₮7,319</div>                       
                                     </div>                                                   
                                 </>
                             ) : (
