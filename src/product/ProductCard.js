@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios"; 
 import api from "../api";
-import blank from './blank.jpg'
 import './ProductCard.css'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
@@ -129,7 +128,7 @@ function ProductCard (props) {
                         <div style={{ position: 'relative' }}>
                             <img 
                                 alt={props.item.name} 
-                                src={props.item.images.length > 0 ? props.item.images[0].image : blank} 
+                                src={props.item.images.length > 0 ? props.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
                                 style={{ width: '100%', height: 'auto' }} 
                             />
                             <Tag color="#2d2d2d" style={{ position: 'absolute', top: '8px', left: '8px' }}>Dseabi</Tag>

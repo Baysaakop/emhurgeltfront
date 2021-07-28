@@ -7,7 +7,6 @@ import InfiniteCarousel from 'react-leaf-carousel';
 import axios from "axios"; 
 import api from "../api";
 import { connect } from 'react-redux';
-import blank from './blank.jpg'
 
 const { useBreakpoint } = Grid
 
@@ -200,7 +199,7 @@ function ProductDetail (props) {
                                     ))}
                                 </Carousel>              
                             : 
-                                <img alt={item.name} src={blank} style={{ width: '100%', height: 'auto' }} />
+                                <img alt={item.name} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg" style={{ width: '100%', height: 'auto' }} />
                             }
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={14} style={{ padding: 0 }}>

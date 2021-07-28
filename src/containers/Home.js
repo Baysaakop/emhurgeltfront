@@ -6,10 +6,6 @@ import InfiniteCarousel from 'react-leaf-carousel';
 // import api from '../api';
 import { Link } from 'react-router-dom';
 import ProductScroll from '../product/ProductScroll';
-import carousel1 from './carousel1.jpg'
-import carousel2 from './carousel2.jpg'
-import carousel3 from './carousel3.jpg'
-import carousel4 from './carousel4.jpg'
 
 const { useBreakpoint } = Grid
 
@@ -54,18 +50,30 @@ function Home (props) {
 
     return (
         <div>
-            <Carousel afterChange={onChange} style={{ zIndex: '1' }}>
+            <Carousel autoplay afterChange={onChange} style={{ zIndex: '1' }}>
                 <div>
-                    <img alt="landscape" src={carousel1} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
+                    <div style={{ background: '#ffbe76', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
+                        <div style={{ textAlign: 'center' }}>
+                            <Typography.Title level={1} style={{ color: '#fff', margin: 0 }}>Намрын урамшуулал</Typography.Title>
+                            <Typography.Title level={1} style={{ fontSize: '60px', color: '#fff', margin: 0 }}>25% OFF</Typography.Title>
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <img alt="landscape" src={carousel2} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
+                    <div style={{ background: '#7ed6df', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-news01.png" style={{ width: '30%', height: 'auto' }} />
+                    </div>
                 </div>
                 <div>
-                    <img alt="landscape" src={carousel3} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
+                    <div style={{ background: '#6ab04c', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
+                    </div>
                 </div>
                 <div>
-                    <img alt="landscape" src={carousel4} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
+                    <div style={{ background: '#30336b', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new04.png" style={{ width: '20%', height: 'auto' }} />
+                    </div>
                 </div>
             </Carousel>
             <Typography.Title level={3} style={{ marginTop: '16px' }}>Бүтээгдэхүүний ангилал</Typography.Title>

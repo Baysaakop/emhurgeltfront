@@ -171,7 +171,7 @@ function Cart (props) {
                                     <img
                                         width={100}
                                         alt="logo"
-                                        src={item.item.images.length > 0 ? item.item.images[0].image : undefined}
+                                        src={item.item.images.length > 0 ? item.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"}
                                     />
                                 }
                             >
