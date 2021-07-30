@@ -36,6 +36,7 @@ function ProductCard (props) {
             .then(res => {
                 if (res.status === 200 || res.status === 201) {                    
                     setFavorite(res.data.favorite)          
+                    props.onUpdateSaved(res.data.favorite)           
                 }                                                         
             })
             .catch(err => {                      
@@ -94,6 +95,7 @@ function ProductCard (props) {
                 if (res.status === 200 || res.status === 201) {                    
                     setFavorite(res.data.favorite)      
                     props.onRemove(res.data.favorite)    
+                    props.onUpdateSaved(res.data.favorite)           
                 }                                                         
             })
             .catch(err => {                      
@@ -208,7 +210,8 @@ function ProductCard (props) {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onUpdateCart: (cart) => dispatch(actions.updateCart(cart))
+        onUpdateCart: (cart) => dispatch(actions.updateCart(cart)),
+        onUpdateSaved: (saved) => dispatch(actions.updateSaved(saved))
     }
 }
 

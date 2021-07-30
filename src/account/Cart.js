@@ -4,6 +4,8 @@ import axios from "axios";
 import api from "../api";
 import { Link } from "react-router-dom";
 import { CarOutlined, DeleteOutlined, GoldOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { connect } from "react-redux";
+import * as actions from '../store/actions/auth';
 
 function Cart (props) {
     const [form] = Form.useForm()
@@ -103,6 +105,7 @@ function Cart (props) {
             if (res.status === 200 || res.status === 201) {                                                      
                 setItems(res.data.cart)
                 getAmount(res.data.cart)
+                props.onUpdateCart(res.data.cart)                 
             }                                                         
         })
         .catch(err => {                      
@@ -225,4 +228,10 @@ function Cart (props) {
     )
 }
 
-export default Cart
+const mapDispatchToProps = dispatch => {
+    return {
+        onUpdateCart: (cart) => dispatch(actions.updateCart(cart))        
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Cart)

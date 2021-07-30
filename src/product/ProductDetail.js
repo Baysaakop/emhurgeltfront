@@ -7,6 +7,7 @@ import InfiniteCarousel from 'react-leaf-carousel';
 import axios from "axios"; 
 import api from "../api";
 import { connect } from 'react-redux';
+import * as actions from '../store/actions/auth';
 
 const { useBreakpoint } = Grid
 
@@ -23,8 +24,7 @@ function ProductDetail (props) {
         axios({
             method: 'GET',
             url: `${api.items}/${props.match.params.id}/`,            
-        }).then(res => {            
-            console.log(res.data)
+        }).then(res => {                        
             setItem(res.data)
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
@@ -101,7 +101,8 @@ function ProductDetail (props) {
                             description: `'${item.name}' бүтээгдэхүүн таны хадгалсан бүтээгдэхүүнүүдийн жагсаалтаас хасагдлаа.`,
                         });
                     }
-                    setFavorite(res.data.favorite)                              
+                    setFavorite(res.data.favorite)                         
+                    props.onUpdateSaved(res.data.favorite)         
                 }                                                         
             })
             .catch(err => {                      
@@ -141,7 +142,8 @@ function ProductDetail (props) {
                             description: `'${item.name}' бүтээгдэхүүн сагснаас хасагдлаа.`,
                         });
                     }      
-                    setCart(res.data.cart)                              
+                    setCart(res.data.cart)                            
+                    props.onUpdateCart(res.data.cart)                    
                 }                                                         
             })
             .catch(err => {                      
@@ -152,6 +154,15 @@ function ProductDetail (props) {
             props.history.push('/login')            
         }         
     }    
+
+    function order () {
+        if (cart && cart.find(x => x.item.id === item.id)) {
+            props.history.push("/profile?key=cart")
+        } else {            
+            addToCart("create")
+            props.history.push("/profile?key=cart")
+        }
+    }
 
     function getSliderCount() {
         if (screens.xxl) {
@@ -227,10 +238,8 @@ function ProductDetail (props) {
                                 <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={() => addToCart("delete")} >Сагснаас гаргах</Button>
                             ) : (
                                 <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={() => addToCart("create")} >Сагсанд хийх</Button>
-                            )}                            
-                            <Link to="/profile?key=cart">
-                                <Button type="primary" size="large" icon={<ShoppingOutlined />} style={{ margin: '0 8px 8px 0' }}>Захиалах</Button>                                
-                            </Link>                            
+                            )}                                                        
+                            <Button type="primary" size="large" icon={<ShoppingOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={order}>Захиалах</Button>                                                                 
                             <Button danger type="primary" size="large" icon={<HeartOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={addToSaved}>
                                 { favorite && favorite.find(x => x.id === item.id) ? 'Хадгалсан' : 'Хадгалах' }                                    
                             </Button>
@@ -311,4 +320,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(ProductDetail)
+const mapDispatchToProps = dispatch => {
+    return {
+        onUpdateCart: (cart) => dispatch(actions.updateCart(cart)),
+        onUpdateSaved: (saved) => dispatch(actions.updateSaved(saved))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail)

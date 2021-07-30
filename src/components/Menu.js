@@ -15,6 +15,7 @@ function CustomMenu (props) {
     const [collapsed, setCollapsed] = useState(true)
     const [user, setUser] = useState()    
     const [cart, setCart] = useState([])
+    const [saved, setSaved] = useState([])
 
     useEffect(() => {
         const menuItem = props.location.pathname.toString().split('/')[1]
@@ -26,7 +27,11 @@ function CustomMenu (props) {
             setCart(props.cart)
             getUser()
         }
-    }, [props.location, props.token, props.cart]) // eslint-disable-line react-hooks/exhaustive-deps
+        if (props.saved && props.saved !== null && props.saved.length !== saved.length) {
+            setSaved(props.saved)
+            getUser()
+        }
+    }, [props.location, props.token, props.cart, props.saved]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUser () {
         axios({
@@ -36,8 +41,7 @@ function CustomMenu (props) {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`
             }
-        }).then(res => {                    
-            console.log(res.data)
+        }).then(res => {                                
             setUser(res.data)
         }).catch(err => {
             console.log(err.message)
@@ -52,6 +56,10 @@ function CustomMenu (props) {
     const handleMenuCollapsed = () => {
         setCollapsed(!collapsed);
     }     
+
+    function onSearch (val) {
+        props.history.push(`/products?name=${val}`)
+    }
 
     return (
         <div className="menu">              
@@ -75,7 +83,7 @@ function CustomMenu (props) {
                     </div>
                     <div style={{ height: '40px', width: '100%', padding: '0 5%', border: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
-                            <Input.Search placeholder="Хайх..." style={{ width: '180px' }} />                                                          
+                            <Input.Search placeholder="Хайх..." style={{ width: '180px' }} onSearch={onSearch} />                                                          
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Dropdown overlay={
@@ -174,7 +182,7 @@ function CustomMenu (props) {
                             <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px', marginTop: '-8px' }}>Холбоо барих дугаар</div>       
                         </div>
                         <div className="user" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <Input.Search placeholder="Бүтээгдэхүүн хайх..." style={{ width: '400px' }} />                                                         
+                            <Input.Search placeholder="Бүтээгдэхүүн хайх..." style={{ width: '400px' }} onSearch={onSearch} />                                                         
                             <Dropdown overlay={
                                 <Menu selectedKeys={['mn']}>
                                     <Menu.Item key="mn">
@@ -269,7 +277,8 @@ function CustomMenu (props) {
 const mapStateToProps = state => {
     return {
         token: state.token,
-        cart: state.cart
+        cart: state.cart,
+        saved: state.saved
     }
 }
 

@@ -21,6 +21,13 @@ function ProductList (props) {
     const [total, setTotal] = useState()
 
     useEffect(() => {
+        console.log(props.location.search)
+        if (props.location.search.length > 0 && props.location.search.includes("name=")) {
+            let s = props.location.search.split("name=")[1]
+            if (s !== search) {
+                setSearch(s)              
+            }            
+        }
         if (props.token && !user) {
             getUser()
         }        

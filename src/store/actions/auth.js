@@ -56,10 +56,16 @@ export const authFacebook = (access_token, email, name, picture) => {
     }
 }
 
-export const updateCart = (cart) => {        
-    console.log(cart)
+export const updateCart = (cart) => {            
     return {
         type: actionTypes.UPDATE_CART,
         cart: cart
+    };
+}
+
+export const updateSaved = (saved) => {            
+    return {
+        type: actionTypes.UPDATE_SAVED,
+        saved: saved
     };
 }

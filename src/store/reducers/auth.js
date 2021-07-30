@@ -5,7 +5,8 @@ const initialState = {
     token: localStorage.getItem('token'),    
     error: null,
     loading: false,
-    cart: null
+    cart: null,
+    saved: null
 }
 
 const authStart = (state, action) => {
@@ -43,6 +44,12 @@ const updateCart = (state, action) => {
     });
 }
 
+const updateSaved = (state, action) => {
+    return updateObject(state, {
+        saved: action.saved,
+    });
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_START:
@@ -55,6 +62,8 @@ const reducer = (state = initialState, action) => {
             return authLogout(state, action);         
         case actionTypes.UPDATE_CART:
             return updateCart(state, action);
+        case actionTypes.UPDATE_SAVED:
+            return updateSaved(state, action);
         default:
             return state;
     }

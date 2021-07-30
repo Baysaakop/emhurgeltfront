@@ -27,7 +27,7 @@ function CustomLayout (props) {
                         <Col xs={24} sm={24} md={24} lg={12}>
                             <Typography.Text style={{ fontSize: '16px', marginRight: '8px' }}>Сошиал сувгууд:</Typography.Text>
                             <Tooltip title="Facebook">
-                                <Button type="text" icon={<FacebookFilled />} style={{ marginRight: '8px' }} size="large" /> 
+                                <Button href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542" type="text" icon={<FacebookFilled />} style={{ marginRight: '8px' }} size="large" /> 
                             </Tooltip>
                             <Tooltip title="Instagram">
                                 <Button type="text" icon={<InstagramOutlined />} style={{ marginRight: '8px' }} size="large" /> 
