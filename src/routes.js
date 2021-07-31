@@ -10,6 +10,7 @@ import Admin from './account/Admin';
 import About from './containers/About';
 import Contact from './containers/Contact';
 import ProductShop from './product/ProductShop';
+import BrandProducts from './product/BrandProducts';
 
 function BaseRouter () {
     return (
@@ -21,7 +22,7 @@ function BaseRouter () {
             <Route exact path="/products" component={ProductList} />
             <Route exact path="/products/:id" component={ProductDetail} />
             <Route exact path="/productshop/:id" component={ProductShop} />
-            <Route exact path="/brandproducts" component={ProductList} />
+            <Route exact path="/brandproducts" component={BrandProducts} />
             {/* Posts urls */}
             <Route exact path="/newpost" component={PostCreate} />
             {/* User urls */}

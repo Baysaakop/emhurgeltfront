@@ -1,64 +1,79 @@
 body {
-    font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 .ant-layout {
-    background: #f0f2f5;
-    color: rgba(0, 0, 0, 0.85);
+  background: #f0f2f5;
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .ant-layout-header {
-    /* background: #f0f2f5; */
-    /* rgb(38,222,129) */
-    background: #fff;    
-    border-bottom: 1px solid #dedede;    
-    display: inline-block;
-    z-index: 99;
-    position: fixed;              
-    padding: 0;
-    transition: background-color 0.3s ease-out;
-    height: 120px;   
-    width: 100%;
-    line-height: unset;    
+  /* background: #f0f2f5; */
+  /* rgb(38,222,129) */
+  background: #fff;
+  border-bottom: 1px solid #dedede;
+  display: inline-block;
+  z-index: 99;
+  position: fixed;
+  padding: 0;
+  transition: background-color 0.3s ease-out;
+  height: 120px;
+  width: 100%;
+  line-height: unset;
 }
 
 .ant-layout-content {
-    min-height: 80vh;
-    margin-top: 120px;
+  min-height: 80vh;
+  margin-top: 120px;
 }
 
 .ant-layout-footer {
-    /* background: #f0f2f5; */
-    background: #fff;    
-    border-top: 1px solid #dedede;
-    padding: 0%;
-    margin-top: 16px;
+  /* background: #f0f2f5; */
+  background: #fff;
+  border-top: 1px solid #dedede;
+  padding: 0%;
+  margin-top: 16px;
 }
 
 .ant-btn-dangerous.ant-btn-text:hover,
 .ant-btn-text:hover {
-    background: #dedede;
+  background: #dedede;
 }
 
-.ant-input:disabled {    
-    color: rgba(0, 0, 0, 0.75);
+.ant-input:disabled {
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .ant-list-vertical .ant-list-item-action > li {
-    padding: 0;
+  padding: 0;
 }
 
-.ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button:not(.ant-btn-primary) {
-    color: rgba(0, 0, 0, 1);
+.ant-input-search
+  > .ant-input-group
+  > .ant-input-group-addon:last-child
+  .ant-input-search-button:not(.ant-btn-primary) {
+  color: rgba(0, 0, 0, 1);
 }
 
 .ant-btn-primary {
-    background: #2ed573;
-    border: 0;
+  background: #2ed573;
+  border: 0;
 }
 
 .ant-btn-primary:hover {
-    background: #2ed573;
-    border: 0;
-    opacity: 0.6;
+  background: #2ed573;
+  border: 0;
+  opacity: 0.6;
 }
+
+/* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected {
+  color: #2ed573;
+  border-bottom: 2px solid #2ed573;
+} */

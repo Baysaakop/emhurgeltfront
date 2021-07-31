@@ -25,10 +25,6 @@ function Home (props) {
     //     })        
     // }, [])   
 
-    function onChange(a, b, c) {
-        console.log(a, b, c);
-    }
-
     function getCount() {
         console.log(screens)
         if (screens.xxl) {
@@ -50,7 +46,7 @@ function Home (props) {
 
     return (
         <div>
-            <Carousel autoplay afterChange={onChange} style={{ zIndex: '1' }}>
+            <Carousel autoplay style={{ zIndex: '1' }}>
                 <div>
                     <div style={{ background: '#ffbe76', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />

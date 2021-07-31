@@ -17,11 +17,11 @@ function ProductList (props) {
     const [selectedTags, setSelectedTags] = useState([])
     const [search, setSearch] = useState()
     const [category, setCategory] = useState()
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1)    
     const [total, setTotal] = useState()
+    const [order, setOrder] = useState("-created_at")
 
-    useEffect(() => {
-        console.log(props.location.search)
+    useEffect(() => {        
         if (props.location.search.length > 0 && props.location.search.includes("name=")) {
             let s = props.location.search.split("name=")[1]
             if (s !== search) {
@@ -37,8 +37,8 @@ function ProductList (props) {
         if (!tags) {
             getTags()
         }
-        getProducts(search, category, selectedTags, page)        
-    }, [props.token, search, category, selectedTags, page]) // eslint-disable-line react-hooks/exhaustive-deps
+        getProducts(search, category, selectedTags, order, page)        
+    }, [props.token, search, category, selectedTags, order, page]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUser() {
         axios({
@@ -55,7 +55,7 @@ function ProductList (props) {
         })
     }
 
-    function getProducts (search, category, selectedTags, page) {        
+    function getProducts (search, category, selectedTags, order, page) {        
         let url = `${api.items}/?`
         if (search) {
             url += `name=${search}`
@@ -66,7 +66,10 @@ function ProductList (props) {
         if (selectedTags && selectedTags.length > 0) {
             url += `&tags=${selectedTags}`
         }
-        url += `&page=${page}`
+        if (order) {
+            url += `&order=${order}`
+        }
+        url += `&page=${page}`        
         axios({
             method: 'GET',
             url: url           
@@ -121,6 +124,10 @@ function ProductList (props) {
         return `Нийт ${total} бүтээгдэхүүн:`;
     }   
 
+    function onOrder (val) {
+        setOrder(val)        
+    }
+
     return (
         <div>    
             <Breadcrumb>
@@ -162,11 +169,11 @@ function ProductList (props) {
                     <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography.Title level={5} style={{ margin: 0 }}>Нийт: {total} бүтээгдэхүүн</Typography.Title>
                         <div>
-                            <Select defaultValue="newfirst" style={{ width: '180px' }}>
-                                <Select.Option value="newfirst">Шинэ нь эхэндээ</Select.Option>
-                                <Select.Option value="oldfirst">Хуучин нь эхэндээ</Select.Option>
-                                <Select.Option value="pricelow">Үнэ өсөхөөр</Select.Option>
-                                <Select.Option value="pricehigh">Үнэ буурахаар</Select.Option>
+                            <Select defaultValue={order} style={{ width: '180px' }} onChange={onOrder}>
+                                <Select.Option value="-created_at">Шинэ нь эхэндээ</Select.Option>
+                                <Select.Option value="created_at">Хуучин нь эхэндээ</Select.Option>
+                                <Select.Option value="price">Үнэ өсөхөөр</Select.Option>
+                                <Select.Option value="-price">Үнэ буурахаар</Select.Option>
                             </Select>                            
                         </div>
                     </div>
