@@ -23,9 +23,13 @@ const Login = (props) => {
         }  
     }
 
-    function authFacebook (response) {
+    function authFacebook (response) {        
         console.log(response)
-        props.onAuthFacebook(response.accessToken, response.email, response.name, response.picture.data.url)
+        // if (response.status === "unknown") {
+        //     message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
+        // } else {
+        //     props.onAuthFacebook(response.accessToken, response.email, response.name, response.picture.data.url)
+        // }
     }
 
     function authGoogle (response) {
@@ -57,7 +61,7 @@ const Login = (props) => {
                         cssClass="login-facebook"
                         icon={<FacebookFilled />}
                         textButton=" Facebook ашиглан нэвтрэх"
-                        appId="158154739545222"
+                        appId="358552112401509"
                         fields="name,email,picture"                                    
                         callback={authFacebook}                                    
                     />                                    

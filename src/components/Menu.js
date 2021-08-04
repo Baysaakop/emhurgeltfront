@@ -69,7 +69,7 @@ function CustomMenu (props) {
                         <Link to="/">
                             <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center' }}>                            
                                 <div>
-                                    <Avatar size={48} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/logo.png" style={{ marginBottom: '8px', marginRight: '4px' }} />
+                                    <Avatar size={48} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/dseabi-logo.png" style={{ marginBottom: '8px', marginRight: '4px' }} />
                                 </div>
                                 <div>                                    
                                     <div style={{ margin: 0, fontWeight: 'bold', fontSize: '24px', color: 'black' }}>Ирмүүн аз</div>                       
@@ -169,7 +169,7 @@ function CustomMenu (props) {
                         <Link to="/">
                             <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center' }}>                            
                                 <div>
-                                    <Avatar size={48} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/logo.png" style={{ marginBottom: '8px', marginRight: '4px' }} />
+                                    <Avatar size={48} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/dseabi-logo.png" style={{ marginBottom: '8px', marginRight: '4px' }} />
                                 </div>
                                 <div>                                    
                                     <div style={{ margin: 0, fontWeight: 'bold', fontSize: '24px', color: 'black' }}>Ирмүүн аз</div>                       

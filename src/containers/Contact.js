@@ -2,11 +2,12 @@ import { Row, Col, Typography, Breadcrumb } from 'antd'
 import React from 'react'
 import {    
     MailOutlined,
-    EnvironmentOutlined,
-    FacebookOutlined,
-    PhoneOutlined,    
+    EnvironmentOutlined,    
+    PhoneOutlined,
+    FacebookFilled,    
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import Avatar from 'antd/lib/avatar/avatar';
 
 function Contact () {
     return (
@@ -24,14 +25,49 @@ function Contact () {
             <Row gutter={[16, 16]} style={{ marginTop: '24px' }}>
                 <Col xs={24} sm={24} md={24} lg={8}>
                     <div style={{ padding: '16px', border: '2px solid black', borderRadius: '5px' }}>
-                        <Typography.Title level={3}>Бидэнтэй холбогдох</Typography.Title>
+                        <Typography.Title level={2}>Бидэнтэй холбогдох</Typography.Title>
                         <Typography.Text>
                             Та доор байрлах манай утасны дугаар болон цахим хаягуудад зурвас илгээн бидэнтэй холбогдох боломжтой бөгөөд мөн манай хаягаар ирж үйлчлүүлэх болон мэдээлэл авах боломжтой юм.
-                        </Typography.Text>
-                        <p style={{ fontSize: '18px', marginTop: '16px' }}><PhoneOutlined /> 7607 7722</p>
-                        <p style={{ fontSize: '18px', marginTop: '16px' }}><MailOutlined /><a href="mailto:info@dseabi.mn"> info@dseabi.mn</a></p>
-                        <p style={{ fontSize: '18px', marginTop: '16px' }}><FacebookOutlined /><a href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542/?__cft__[0]=AZU43GdZcxr06phW2DrhKYw4gf4nHJwTDHarpq0hDBLuYAGgTDviyd9VIjLc66_9i1WNmV2LVQ9ioDFz73CA01onW_D8AwNqbQFGzeKbxocBGkbmCivitK_rer1CTKp1W2Wp-IGnjhSk1tkgYYC1bs1YR64xpFu5cyxlTT8HaJrAiA&__tn__=-UC%2CP-R"> Ирмүүн аз эмийн сан</a></p>
-                        <p style={{ fontSize: '18px', marginTop: '16px' }}><EnvironmentOutlined /> ХУД 120 мянгат 1-р хороо Энхтайван хотхон 46А байр 1-р давхар ИРМҮҮН-АЗ эмийн сан, Улаанбаатар, Монгол</p>
+                        </Typography.Text>                        
+                        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div>
+                                <Avatar size={64} icon={<EnvironmentOutlined />} />
+                            </div>
+                            <div style={{ marginLeft: '16px' }}>
+                                <Typography.Title level={5}>ХАЯГ</Typography.Title>
+                                <Typography.Text>ХУД 120 мянгат 1-р хороо Энхтайван хотхон 46А байр 1-р давхар ИРМҮҮН-АЗ эмийн сан, Улаанбаатар</Typography.Text>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div>
+                                <Avatar size={64} icon={<PhoneOutlined />} />
+                            </div>
+                            <div style={{ marginLeft: '16px' }}>
+                                <Typography.Title level={5}>УТАС</Typography.Title>
+                                <Typography.Text style={{ fontSize: '16px' }}>7607-7722, 8080-2594</Typography.Text>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div>
+                                <Avatar size={64} icon={<MailOutlined />} />
+                            </div>
+                            <div style={{ marginLeft: '16px' }}>
+                                <Typography.Title level={5}>И-МЭЙЛ</Typography.Title>
+                                <Typography.Text style={{ fontSize: '16px' }}><a href="mailto:info@dseabi.mn">info@dseabi.mn</a></Typography.Text>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div>
+                                <Avatar size={64} icon={<FacebookFilled />} />
+                            </div>
+                            <div style={{ marginLeft: '16px' }}>
+                                <Typography.Title level={5}>FACEBOOK</Typography.Title>
+                                <Typography.Text style={{ fontSize: '16px' }}>
+                                    <a href="https://www.facebook.com/dseabi.mn">Dseabi Company</a>, 
+                                    <a href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542"> Ирмүүн аз эмийн сан</a>
+                                </Typography.Text>
+                            </div>
+                        </div>                        
                     </div>                    
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={16}>                    

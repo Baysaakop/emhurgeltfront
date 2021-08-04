@@ -72,8 +72,7 @@ function Home (props) {
                     </div>
                 </div>
             </Carousel>
-            <Typography.Title level={3} style={{ marginTop: '16px' }}>Бүтээгдэхүүний ангилал</Typography.Title>
-            <div style={{ background: '#fff', padding: '16px' }}>       
+            <Typography.Title level={3} style={{ marginTop: '16px' }}>Бүтээгдэхүүний ангилал</Typography.Title>            
             { screens.xs || screens.sm || screens.md || screens.lg || screens.xl || screens.xxl ? (
                 <InfiniteCarousel                    
                     dots={false}
@@ -85,58 +84,57 @@ function Home (props) {
                     scrollOnDevice={true}                    
                 >
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<CrownOutlined />} style={{ background: '#ff4d4f' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<CrownOutlined />} style={{ background: '#ff4d4f' }} />
                             <Typography.Title level={5}>Ковид 19</Typography.Title>
                         </Link>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<ExperimentOutlined />} style={{ background: '#e67e22' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<ExperimentOutlined />} style={{ background: '#e67e22' }} />
                             <Typography.Title level={5}>Харшил</Typography.Title>
                         </Link>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<RestOutlined />} style={{ background: '#f39c12' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<RestOutlined />} style={{ background: '#f39c12' }} />
                             <Typography.Title level={5}>Витамин</Typography.Title>
                         </Link>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<SkinOutlined />} style={{ background: '#27ae60' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<SkinOutlined />} style={{ background: '#27ae60' }} />
                             <Typography.Title level={5}>Гоо сайхан</Typography.Title>
                         </Link>                        
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<CoffeeOutlined />} style={{ background: '#9b59b6' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<CoffeeOutlined />} style={{ background: '#9b59b6' }} />
                             <Typography.Title level={5}>Хүнс</Typography.Title>
                         </Link>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<SafetyOutlined />} style={{ background: '#8e44ad' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<SafetyOutlined />} style={{ background: '#8e44ad' }} />
                             <Typography.Title level={5}>Тусламж</Typography.Title>
                         </Link>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<PushpinOutlined />} style={{ background: '#34495e' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<PushpinOutlined />} style={{ background: '#34495e' }} />
                             <Typography.Title level={5}>Ангилал 1</Typography.Title>
                         </Link>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Link to="/">
-                            <Avatar size={128} icon={<CoffeeOutlined />} style={{ background: '#2c3e50' }} />
+                        <Link to="/products">
+                            <Avatar shape="square" size={128} icon={<CoffeeOutlined />} style={{ background: '#2c3e50' }} />
                             <Typography.Title level={5}>Ангилал 2</Typography.Title>
                         </Link>
                     </div>
                 </InfiniteCarousel>
             ) : (
                 <></>
-            )}                         
-            </div>
+            )}                                     
             <Row gutter={[32, 32]} style={{ marginTop: '32px' }}>
                 <Col xs={24} sm={24} md={24} lg={8}>
                     <div style={{ background: '#eb4d4b', height: '200px', width: '100%', borderRadius: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
