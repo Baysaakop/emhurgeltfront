@@ -1,5 +1,5 @@
 import { EllipsisOutlined, HeartOutlined, MinusCircleOutlined, ShoppingCartOutlined, StarFilled } from "@ant-design/icons";
-import { Card, Tooltip, Typography, Modal, message, Button, Tag } from "antd";
+import { Card, Tooltip, Typography, Modal, message, Button } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios"; 
@@ -7,6 +7,7 @@ import api from "../api";
 import './ProductCard.css'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
+import logo from '../components/logo7.png';
 
 function ProductCard (props) {
     const [visible, setVisible] = useState(false)
@@ -132,10 +133,12 @@ function ProductCard (props) {
                                 alt={props.item.name} 
                                 src={props.item.images.length > 0 ? props.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
                                 style={{ width: '100%', height: 'auto' }} 
-                            />
-                            <Tag color="#2d2d2d" style={{ position: 'absolute', top: '8px', left: '8px' }}>Dseabi</Tag>
+                            />                            
                             { props.item.is_brand === true ?
-                                <Tag color="volcano" style={{ position: 'absolute', top: '8px', right: '0px' }}>Брэнд</Tag>
+                                //<Tag color="volcano" style={{ position: 'absolute', top: '8px', right: '0px' }}>Брэнд</Tag>
+                                <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
+                                    <img alt="brand" src={logo} style={{ width: '100%', height: 'auto' }} />
+                                </div>
                             : <></>}                            
                         </div>
                     </Link>

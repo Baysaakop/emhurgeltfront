@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Dropdown } from 'antd';
+import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Dropdown, Typography, Divider } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { DatabaseOutlined, GlobalOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, StarOutlined, PercentageOutlined, UserOutlined } from '@ant-design/icons';
+import { GlobalOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, StarOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import axios from 'axios';
 import api from '../api';
+import logo from './logo7.png'
+import FlowerIcon from './FlowerIcon';
 
 const { useBreakpoint } = Grid;
 
@@ -165,36 +167,37 @@ function CustomMenu (props) {
                 </div>
             ) : (
                 <div>
+                    <div style={{ height: '40px', width: '100%', background: '#2ECC71', padding: '0 10%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <Button type="text" icon={<GlobalOutlined />} style={{ color: '#fff', padding: '4px' }}>English</Button>
+                            <Divider type="vertical" style={{ background: '#fff' }} />
+                            <Typography.Text style={{ color: '#fff', marginLeft: '8px', marginRight: '8px' }}><PhoneOutlined /> 7607-7722</Typography.Text>           
+                            <Divider type="vertical" style={{ background: '#fff' }} />
+                            <Typography.Text style={{ color: '#fff', marginLeft: '12px' }}><MailOutlined /> info@dseabi.mn</Typography.Text>                 
+                        </div>
+                        <div style={{ color: '#fff', fontWeight: 'bold' }}>
+                            Ди Эс И Эй Би Ай ХХК
+                            <Avatar size={32} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/dseabi-logo.png" style={{ marginBottom: '4px', marginLeft: '4px' }} />
+                        </div>
+                    </div>
                     <div style={{ height: '80px', width: '100%', borderBottom: '1px solid #dedede', padding: '0 10%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Link to="/">
                             <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center' }}>                            
                                 <div>
-                                    <Avatar size={48} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/dseabi-logo.png" style={{ marginBottom: '8px', marginRight: '4px' }} />
+                                    <Avatar size={48} src={logo} style={{ marginRight: '4px' }} />
                                 </div>
                                 <div>                                    
-                                    <div style={{ margin: 0, fontWeight: 'bold', fontSize: '24px', color: 'black' }}>Ирмүүн аз</div>                       
-                                    <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px', marginTop: '-8px' }}>Эм хүргэлтийн систем</div>       
+                                    <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>emhurgelt.mn</div>                       
+                                    <div style={{ margin: 0, color: '#2ECC71', fontSize: '14px', marginTop: '-8px' }}>Ирмүүн Аз эмийн сан</div>       
                                 </div>                                                                                                                                   
                             </div>
                         </Link>
-                        <div className="contact">                            
+                        {/* <div className="contact">                            
                             <div style={{ margin: 0, fontWeight: 'bold', fontSize: '20px', color: 'black' }}>7607-7722</div>                       
                             <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px', marginTop: '-8px' }}>Холбоо барих дугаар</div>       
-                        </div>
+                        </div> */}
                         <div className="user" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <Input.Search placeholder="Бүтээгдэхүүн хайх..." style={{ width: '400px' }} onSearch={onSearch} />                                                         
-                            <Dropdown overlay={
-                                <Menu selectedKeys={['mn']}>
-                                    <Menu.Item key="mn">
-                                        <Tag>MN</Tag>Монгол                                       
-                                    </Menu.Item>
-                                    <Menu.Item key="en">
-                                        <Tag>EN</Tag>English
-                                    </Menu.Item>
-                                </Menu>
-                            }>
-                                <Button size="middle" icon={<GlobalOutlined />} style={{ marginLeft: '12px' }} />                                                                    
-                            </Dropdown>                            
+                            <Input.Search placeholder="Бүтээгдэхүүн хайх..." style={{ width: '400px' }} onSearch={onSearch} />                                                                                     
                             <Link to="/profile?key=saved">
                                 <Badge count={user && user.profile.favorite.length ? user.profile.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#2ed573' }} >
                                     <Tooltip title="Хадгалсан бүтээгдэхүүн">                                               
@@ -211,13 +214,13 @@ function CustomMenu (props) {
                             </Link>                        
                             { user ? (
                                 <>
-                                    {parseInt(user.profile.role) < 3 ? (
+                                    {/* {parseInt(user.profile.role) < 3 ? (
                                         <Link to="/admin">
                                             <Tooltip title="Ажилтан">                                           
                                                 <Button size="middle" icon={<DatabaseOutlined />} style={{ marginLeft: '12px' }} />
                                             </Tooltip>
                                         </Link>
-                                    ) : (<></>)}
+                                    ) : (<></>)} */}
                                     <Link to="/profile">
                                         <Tooltip title="Профайл">                                        
                                             <Button type="primary" size="middle" icon={<UserOutlined />} style={{ marginLeft: '12px' }} />
@@ -247,7 +250,7 @@ function CustomMenu (props) {
                             <Menu.Item key="brandproducts" style={{ margin: 0 }}>
                                 <Link to="/brandproducts">
                                     <Tag color="#2ed573" style={{ fontSize: '14px', padding: '3px 8px' }}>                                    
-                                    <StarOutlined style={{ marginRight: '4px' }} /> Брэнд бүтээгдэхүүн
+                                        <FlowerIcon style={{ marginRight: '4px', color: '#fff', fontSize: '14px',  }} /> Онцлох бүтээгдэхүүн
                                     </Tag>
                                 </Link>
                             </Menu.Item>         
@@ -265,7 +268,7 @@ function CustomMenu (props) {
                             </Menu.Item>                 
                         </Menu>
                         <div>
-                            <Button type="text" icon={<PercentageOutlined />}>Хямдрал</Button>                            
+                            {/* <Button type="text" icon={<ReloadOutlined />} />                             */}
                         </div>
                     </div>                    
                 </div>

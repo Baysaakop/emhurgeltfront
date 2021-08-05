@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react"
 import axios from "axios";
 import api from "../api";
-import { Breadcrumb, List, message } from "antd";
+import { Breadcrumb, message } from "antd";
 import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
-
 function BrandProducts (props) {
 
     useEffect(() => {        
@@ -34,34 +32,20 @@ function BrandProducts (props) {
                     </Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                    Брэнд бүтээгдэхүүн
+                    Онцлох бүтээгдэхүүн
                 </Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ margin: '24px 0' }}>                
-                {/* {items ? items.map(item => {
-                    return (
-                        <div>
-                            <h2>{item.name}</h2>
-                        </div>
-                    )
-                }) : <></>}     */}
-                <List
-                    grid={{
-                        gutter: 16,
-                        xs: 2,
-                        sm: 2,
-                        md: 3,
-                        lg: 4,
-                        xl: 5,
-                        xxl: 6,
-                    }}
-                    dataSource={items ? items : undefined}
-                    renderItem={item => (
-                        <List.Item>
-                            <ProductCard history={props.history} item={item} type="list" />
-                        </List.Item>
-                    )}
-                />            
+                <div style={{ display: 'flex', flexWrap: 'wrap', padding: '0 4px' }}>
+                    {/* {data ? data.map(item => {
+                        return (
+                            <div style={{ flex: '33%', maxWidth: '33%', padding: '0 4px' }}>
+                                <img src={`${item}.jpg`} alt="image" style={{ width: '100%', height: 'auto', marginTop: '8px', verticalAlign: 'middle' }} />
+                            </div>
+                        )
+                    }) : <></>} */}                    
+                    {items ? <p>{items.length}</p> : <></>}
+                </div> 
             </div>
         </div>
     )

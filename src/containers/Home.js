@@ -1,10 +1,11 @@
-import { CoffeeOutlined, CrownOutlined, ExperimentOutlined, PushpinOutlined, RestOutlined, SafetyOutlined, SkinOutlined } from '@ant-design/icons';
+import { CoffeeOutlined, CrownOutlined, ExperimentOutlined, PushpinOutlined, RestOutlined, SafetyOutlined } from '@ant-design/icons';
 import { Grid, Avatar, Carousel, Col, Row, Typography } from 'antd';
 import React from 'react';
 import InfiniteCarousel from 'react-leaf-carousel';
 // import axios from 'axios';  
 // import api from '../api';
 import { Link } from 'react-router-dom';
+import FlowerIcon from '../components/FlowerIcon';
 import ProductScroll from '../product/ProductScroll';
 
 const { useBreakpoint } = Grid
@@ -103,7 +104,7 @@ function Home (props) {
                     </div>
                     <div style={{ textAlign: 'center' }}>
                         <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<SkinOutlined />} style={{ background: '#27ae60' }} />
+                            <Avatar shape="square" size={128} icon={<FlowerIcon />} style={{ background: '#27ae60' }} />
                             <Typography.Title level={5}>Гоо сайхан</Typography.Title>
                         </Link>                        
                     </div>

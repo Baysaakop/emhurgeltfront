@@ -25,11 +25,11 @@ const Login = (props) => {
 
     function authFacebook (response) {        
         console.log(response)
-        // if (response.status === "unknown") {
-        //     message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
-        // } else {
-        //     props.onAuthFacebook(response.accessToken, response.email, response.name, response.picture.data.url)
-        // }
+        if (response.status === "unknown") {
+            message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
+        } else {
+            props.onAuthFacebook(response.accessToken, response.email, response.name, response.picture.data.url)
+        }
     }
 
     function authGoogle (response) {

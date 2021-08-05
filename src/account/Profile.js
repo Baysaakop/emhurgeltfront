@@ -64,7 +64,7 @@ function Profile (props) {
                     <Col xs={24} sm={24} md={24} lg={6}>
                         <div style={{ background: '#fff', borderRadius: '2px', padding: '16px' }}>
                             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '16px' }}>                                
-                                <Avatar size={48} shape="square" icon={<UserOutlined />} style={{ background: '#2ed573' }} />
+                                <Avatar size={48} shape="square" icon={<UserOutlined />} style={{ background: '#2ECC71' }} />
                                 <div style={{ marginLeft: '16px' }}>
                                     <Typography.Title level={4} style={{ margin: 0 }}>{user.username}</Typography.Title>
                                     <Typography.Text>{user.email}</Typography.Text>

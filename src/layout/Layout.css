@@ -17,14 +17,14 @@ body {
   position: fixed;
   padding: 0;
   transition: background-color 0.3s ease-out;
-  height: 120px;
+  height: 160px;
   width: 100%;
   line-height: unset;
 }
 
 .ant-layout-content {
   min-height: 80vh;
-  margin-top: 120px;
+  margin-top: 160px;
 }
 
 .ant-layout-footer {
@@ -56,12 +56,12 @@ body {
 }
 
 .ant-btn-primary {
-  background: #2ed573;
+  background: #2ecc71;
   border: 0;
 }
 
 .ant-btn-primary:hover {
-  background: #2ed573;
+  background: #2ecc71;
   border: 0;
   opacity: 0.6;
 }
