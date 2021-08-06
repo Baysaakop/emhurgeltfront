@@ -1,4 +1,4 @@
-import { Breadcrumb, Col, Input, List, Row, Typography, message, Tag, Radio, Space, Pagination, Select } from "antd";
+import { Breadcrumb, Col, Input, List, Row, Typography, message, Tag, Radio, Space, Pagination, Select, Slider, Divider } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -17,6 +17,7 @@ function ProductList (props) {
     const [selectedTags, setSelectedTags] = useState([])
     const [search, setSearch] = useState()
     const [category, setCategory] = useState()
+    const [priceRange, setPriceRange] = useState()
     const [page, setPage] = useState(1)    
     const [total, setTotal] = useState()
     const [order, setOrder] = useState("-created_at")
@@ -37,8 +38,8 @@ function ProductList (props) {
         if (!tags) {
             getTags()
         }
-        getProducts(search, category, selectedTags, order, page)        
-    }, [props.token, search, category, selectedTags, order, page]) // eslint-disable-line react-hooks/exhaustive-deps
+        getProducts(search, category, selectedTags, priceRange, order, page)        
+    }, [props.token, search, category, selectedTags, priceRange, order, page]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUser() {
         axios({
@@ -55,7 +56,7 @@ function ProductList (props) {
         })
     }
 
-    function getProducts (search, category, selectedTags, order, page) {        
+    function getProducts (search, category, selectedTags, priceRange, order, page) {        
         let url = `${api.items}/?`
         if (search) {
             url += `name=${search}`
@@ -65,6 +66,9 @@ function ProductList (props) {
         }
         if (selectedTags && selectedTags.length > 0) {
             url += `&tags=${selectedTags}`
+        }
+        if (priceRange) {
+            url += `&pricelow=${priceRange[0]}&pricehigh=${priceRange[1]}`
         }
         if (order) {
             url += `&order=${order}`
@@ -128,6 +132,10 @@ function ProductList (props) {
         setOrder(val)        
     }
 
+    function onPriceChange (val) {
+        setPriceRange(val)
+    }
+
     return (
         <div>    
             <Breadcrumb>
@@ -140,11 +148,12 @@ function ProductList (props) {
                     Эмийн сан
                 </Breadcrumb.Item>
             </Breadcrumb>
-            <Row gutter={[16, 16]} style={{ marginTop: '24px' }}>
+            <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
                 <Col xs={24} sm={24} md={24} lg={6}>
                     <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>
                         <Typography.Title level={5}>Бүтээгдэхүүн хайх:</Typography.Title>
                         <Search placeholder="Бүтээгдэхүүний нэр" onSearch={onSearch} enterButton />
+                        <Divider />
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>Ангилал:</Typography.Title>
                         <Radio.Group onChange={onSelectCategory}>
                             <Space direction="vertical">
@@ -153,20 +162,42 @@ function ProductList (props) {
                                 )) : <></>}
                             </Space>
                         </Radio.Group>
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>Төрөл:</Typography.Title>
+                        <Divider />
+                        <Typography.Title level={5} style={{ marginTop: '16px' }}>Зориулалт:</Typography.Title>
                         {tags ? tags.map(tag => (
                             <CheckableTag
                                 key={tag.id}
                                 checked={selectedTags ? selectedTags.indexOf(tag.id) > -1 : false}
+                                style={{ fontSize: '14px', marginTop: '8px' }}
                                 onChange={checked => selectTag(tag.id, checked)}
                             >
                                 {tag.name}
                             </CheckableTag>
-                        )) : <></>}                        
+                        )) : <></>}                     
+                        <Divider />
+                        <Typography.Title level={5} style={{ marginTop: '16px' }}>Үнэ:</Typography.Title>   
+                        <Slider 
+                            range 
+                            min={0} 
+                            max={100000} 
+                            defaultValue={[0, 100000]} 
+                            marks={
+                                { 
+                                    0: '0₮', 
+                                    100000: { 
+                                        style: { 
+                                            transform: 'translateX(-100%)' 
+                                        }, 
+                                        label: <span>100,000₮</span> 
+                                    } 
+                                }
+                            } 
+                            onAfterChange={onPriceChange}
+                        />
                     </div>                    
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={18}>
-                    <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderRadius: '2px' }}>
                         <Typography.Title level={5} style={{ margin: 0 }}>Нийт: {total} бүтээгдэхүүн</Typography.Title>
                         <div>
                             <Select defaultValue={order} style={{ width: '180px' }} onChange={onOrder}>
@@ -179,13 +210,13 @@ function ProductList (props) {
                     </div>
                     <List
                         grid={{
-                            gutter: 16,
-                            xs: 2,
+                            gutter: 24,
+                            xs: 1,
                             sm: 2,
                             md: 3,
-                            lg: 4,
+                            lg: 3,
                             xl: 4,
-                            xxl: 5,
+                            xxl: 4,
                         }}
                         dataSource={items ? items : undefined}
                         renderItem={item => (

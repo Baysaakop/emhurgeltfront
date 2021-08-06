@@ -71,7 +71,7 @@ function CustomMenu (props) {
                         <Link to="/">
                             <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center' }}>                            
                                 <div>
-                                    <Avatar size={48} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/dseabi-logo.png" style={{ marginBottom: '8px', marginRight: '4px' }} />
+                                    <Avatar size={48} src={logo} style={{ marginBottom: '8px', marginRight: '4px' }} />
                                 </div>
                                 <div>                                    
                                     <div style={{ margin: 0, fontWeight: 'bold', fontSize: '24px', color: 'black' }}>Ирмүүн аз</div>                       
@@ -134,8 +134,8 @@ function CustomMenu (props) {
                         <Menu.Item key="products" style={{ fontSize: '16px' }} icon={<ShopOutlined />}>
                             <Link to="/products">Эмийн сан</Link>
                         </Menu.Item>
-                        <Menu.Item key="help" style={{ fontSize: '16px' }} icon={<ReadOutlined />}>
-                            <Link to="/help">Мэдээлэл</Link>
+                        <Menu.Item key="posts" style={{ fontSize: '16px' }} icon={<ReadOutlined />}>
+                            <Link to="/posts">Мэдээлэл</Link>
                         </Menu.Item>
                         <Menu.Item key="contact" style={{ fontSize: '16px' }} icon={<PhoneOutlined />}>
                             <Link to="/contact">Холбогдох</Link>
@@ -166,7 +166,7 @@ function CustomMenu (props) {
                     </Menu>
                 </div>
             ) : (
-                <div>
+                <div>                  
                     <div style={{ height: '40px', width: '100%', background: '#2ECC71', padding: '0 10%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                             <Button type="text" icon={<GlobalOutlined />} style={{ color: '#fff', padding: '4px' }}>English</Button>
@@ -179,7 +179,7 @@ function CustomMenu (props) {
                             Ди Эс И Эй Би Ай ХХК
                             <Avatar size={32} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/dseabi-logo.png" style={{ marginBottom: '4px', marginLeft: '4px' }} />
                         </div>
-                    </div>
+                    </div>                    
                     <div style={{ height: '80px', width: '100%', borderBottom: '1px solid #dedede', padding: '0 10%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Link to="/">
                             <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center' }}>                            
@@ -192,10 +192,6 @@ function CustomMenu (props) {
                                 </div>                                                                                                                                   
                             </div>
                         </Link>
-                        {/* <div className="contact">                            
-                            <div style={{ margin: 0, fontWeight: 'bold', fontSize: '20px', color: 'black' }}>7607-7722</div>                       
-                            <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px', marginTop: '-8px' }}>Холбоо барих дугаар</div>       
-                        </div> */}
                         <div className="user" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Input.Search placeholder="Бүтээгдэхүүн хайх..." style={{ width: '400px' }} onSearch={onSearch} />                                                                                     
                             <Link to="/profile?key=saved">
@@ -260,8 +256,8 @@ function CustomMenu (props) {
                             <Menu.Item key="products" icon={<ShopOutlined />} >
                                 <Link to="/products">Эмийн сан</Link>
                             </Menu.Item>
-                            <Menu.Item key="help" icon={<ReadOutlined />}>
-                                <Link to="/help">Мэдээлэл</Link>
+                            <Menu.Item key="posts" icon={<ReadOutlined />}>
+                                <Link to="/posts">Мэдээлэл</Link>
                             </Menu.Item>
                             <Menu.Item key="contact" icon={<PhoneOutlined />}>
                                 <Link to="/contact">Холбогдох</Link>
@@ -270,8 +266,8 @@ function CustomMenu (props) {
                         <div>
                             {/* <Button type="text" icon={<ReloadOutlined />} />                             */}
                         </div>
-                    </div>                    
-                </div>
+                    </div>       
+                </div>                             
             )}                        
         </div>
     )

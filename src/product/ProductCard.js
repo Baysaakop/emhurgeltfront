@@ -8,6 +8,7 @@ import './ProductCard.css'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import logo from '../components/logo7.png';
+import './ProductCard.css'
 
 function ProductCard (props) {
     const [visible, setVisible] = useState(false)
@@ -113,7 +114,10 @@ function ProductCard (props) {
         categories.forEach(element => {
             res.push(element.name)
         })
-        return res.toString()
+        if (res.length > 0) {
+            return res.toString()
+        }
+        return "-Ангилал хийгдээгүй-"
     }
 
     function formatNumber(num) {
@@ -128,18 +132,20 @@ function ProductCard (props) {
                 size="small"                           
                 cover={
                     <Link to={`/products/${props.item.id}`}>
-                        <div style={{ position: 'relative' }}>
-                            <img 
-                                alt={props.item.name} 
-                                src={props.item.images.length > 0 ? props.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
-                                style={{ width: '100%', height: 'auto' }} 
-                            />                            
-                            { props.item.is_brand === true ?
-                                //<Tag color="volcano" style={{ position: 'absolute', top: '8px', right: '0px' }}>Брэнд</Tag>
-                                <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
-                                    <img alt="brand" src={logo} style={{ width: '100%', height: 'auto' }} />
-                                </div>
-                            : <></>}                            
+                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                <img 
+                                    alt={props.item.name} 
+                                    src={props.item.images.length > 0 ? props.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
+                                    style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} 
+                                />                            
+                                { props.item.is_brand === true ?
+                                    //<Tag color="volcano" style={{ position: 'absolute', top: '8px', right: '0px' }}>Брэнд</Tag>
+                                    <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
+                                        <img alt="brand" src={logo} style={{ width: '100%', height: 'auto' }} />
+                                    </div>
+                                : <></>}    
+                            </div>                            
                         </div>
                     </Link>
                 }                
@@ -180,7 +186,7 @@ function ProductCard (props) {
                         </div>
                         <div>
                             <StarFilled style={{ color: '#f9ca24' }} />
-                            <Typography.Text> 4.7</Typography.Text>
+                            {/* <Typography.Text> 4.7</Typography.Text> */}
                         </div>
                     </div>
                 </Link>

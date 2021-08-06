@@ -12,11 +12,9 @@ body {
   /* rgb(38,222,129) */
   background: #fff;
   border-bottom: 1px solid #dedede;
-  display: inline-block;
   z-index: 99;
   position: fixed;
   padding: 0;
-  transition: background-color 0.3s ease-out;
   height: 160px;
   width: 100%;
   line-height: unset;

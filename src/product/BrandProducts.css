@@ -1,0 +1,4 @@
+.ad img:hover {
+  transform: scale(1.4);
+  transition: 0.8s ease-in-out;
+}

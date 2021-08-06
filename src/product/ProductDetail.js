@@ -8,6 +8,7 @@ import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
+import logo from '../components/logo7.png'
 
 const { useBreakpoint } = Grid
 
@@ -204,8 +205,12 @@ function ProductDetail (props) {
                             {item.images.length > 0 ?
                                 <Carousel autoplay>
                                     {item.images.map(element => (
-                                        <div>
-                                            <img alt={element.image} src={element.image} style={{ width: '100%', height: 'auto' }} />
+                                        <div style={{ width: '100%' }}>
+                                            <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                                    <img alt={element.image} src={element.image} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
+                                                </div>                            
+                                            </div>
                                         </div>
                                     ))}
                                 </Carousel>              
@@ -221,7 +226,7 @@ function ProductDetail (props) {
                                 </div>
                                 <div>
                                     {/* <Typography.Title level={3}>{item.company ? item.company : undefined}</Typography.Title>  */}
-                                    <Tag color="#2d2d2d" style={{ fontSize: '16px' }}>Dseabi</Tag>                                   
+                                    { item.is_brand ? <Avatar src={logo} alt="brand" style={{ height: '40px', width: '40px' }} /> : <></> }                
                                 </div>
                             </div>                            
                             <Divider style={{ margin: '16px 0' }} />

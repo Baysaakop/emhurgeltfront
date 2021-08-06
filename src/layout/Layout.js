@@ -14,8 +14,8 @@ function CustomLayout (props) {
     const screens = useBreakpoint()
 
     return(
-        <Layout>
-            <Header>
+        <Layout>            
+            <Header>                  
                 <CustomMenu {...props} />                
             </Header>
             <Content style={{ minHeight: '80vh' }}>                                     

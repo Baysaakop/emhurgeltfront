@@ -11,6 +11,7 @@ import About from './containers/About';
 import Contact from './containers/Contact';
 import ProductShop from './product/ProductShop';
 import BrandProducts from './product/BrandProducts';
+import PostList from './posts/PostList';
 
 function BaseRouter () {
     return (
@@ -24,6 +25,7 @@ function BaseRouter () {
             <Route exact path="/productshop/:id" component={ProductShop} />
             <Route exact path="/brandproducts" component={BrandProducts} />
             {/* Posts urls */}
+            <Route exact path="/posts" component={PostList} />
             <Route exact path="/newpost" component={PostCreate} />
             {/* User urls */}
             <Route exact path="/login" component={Login} />              
