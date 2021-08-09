@@ -1,141 +1,38 @@
-import { CoffeeOutlined, CrownOutlined, ExperimentOutlined, PushpinOutlined, RestOutlined, SafetyOutlined } from '@ant-design/icons';
-import { Grid, Avatar, Carousel, Col, Row, Typography } from 'antd';
-import React from 'react';
-import InfiniteCarousel from 'react-leaf-carousel';
-// import axios from 'axios';  
-// import api from '../api';
+import { CarOutlined, GiftOutlined, SafetyCertificateOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Col, Row, Typography, Card, message, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';  
+import api from '../api';
 import { Link } from 'react-router-dom';
-import FlowerIcon from '../components/FlowerIcon';
 import ProductScroll from '../product/ProductScroll';
+import moment from 'moment'
+import Categories from './Categories';
+import HomeSlider from './HomeSlider';
 
-const { useBreakpoint } = Grid
+function Home (props) {        
+    const [posts, setPosts] = useState()  
 
-function Home (props) {    
-    
-    const screens = useBreakpoint()
-    // const [data, setData] = useState();
+    useEffect(() => {
+        getPosts()       
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    // useEffect(() => {
-    //     axios({
-    //         method: 'GET',
-    //         url: `${api.items}/`
-    //     }).then(res => {            
-    //         setData(res.data)
-    //     }).catch(err => {
-    //         console.log(err.message)
-    //     })        
-    // }, [])   
-
-    function getCount() {
-        console.log(screens)
-        if (screens.xxl) {
-            return 8
-        } else if (screens.xl) {
-            return 6
-        } else if (screens.lg) {
-            return 5
-        } else if (screens.md) {
-            return 4
-        } else if (screens.sm) {
-            return 3
-        } else if (screens.xs) {
-            return 2
-        } else {
-            return 2
-        }        
+    function getPosts() {
+        let url = `${api.posts}/`         
+        axios({
+            method: 'GET',
+            url: url           
+        }).then(res => {                        
+            setPosts(res.data.results)                      
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
     }
 
     return (
         <div>
-            <Carousel autoplay style={{ zIndex: '1' }}>
-                <div>
-                    <div style={{ background: '#ffbe76', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
-                        <div style={{ textAlign: 'center' }}>
-                            <Typography.Title level={1} style={{ color: '#fff', margin: 0 }}>Намрын урамшуулал</Typography.Title>
-                            <Typography.Title level={1} style={{ fontSize: '60px', color: '#fff', margin: 0 }}>25% OFF</Typography.Title>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div style={{ background: '#7ed6df', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-news01.png" style={{ width: '30%', height: 'auto' }} />
-                    </div>
-                </div>
-                <div>
-                    <div style={{ background: '#6ab04c', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
-                    </div>
-                </div>
-                <div>
-                    <div style={{ background: '#30336b', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new04.png" style={{ width: '20%', height: 'auto' }} />
-                    </div>
-                </div>
-            </Carousel>
-            <Typography.Title level={3} style={{ marginTop: '16px' }}>Бүтээгдэхүүний ангилал</Typography.Title>            
-            { screens.xs || screens.sm || screens.md || screens.lg || screens.xl || screens.xxl ? (
-                <InfiniteCarousel                    
-                    dots={false}
-                    showSides={true}
-                    sidesOpacity={.5}
-                    sideSize={.1}
-                    slidesToScroll={2}
-                    slidesToShow={getCount()}
-                    scrollOnDevice={true}                    
-                >
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<CrownOutlined />} style={{ background: '#ff4d4f' }} />
-                            <Typography.Title level={5}>Ковид 19</Typography.Title>
-                        </Link>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<ExperimentOutlined />} style={{ background: '#e67e22' }} />
-                            <Typography.Title level={5}>Харшил</Typography.Title>
-                        </Link>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<RestOutlined />} style={{ background: '#f39c12' }} />
-                            <Typography.Title level={5}>Витамин</Typography.Title>
-                        </Link>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<FlowerIcon />} style={{ background: '#27ae60' }} />
-                            <Typography.Title level={5}>Гоо сайхан</Typography.Title>
-                        </Link>                        
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<CoffeeOutlined />} style={{ background: '#9b59b6' }} />
-                            <Typography.Title level={5}>Хүнс</Typography.Title>
-                        </Link>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<SafetyOutlined />} style={{ background: '#8e44ad' }} />
-                            <Typography.Title level={5}>Тусламж</Typography.Title>
-                        </Link>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<PushpinOutlined />} style={{ background: '#34495e' }} />
-                            <Typography.Title level={5}>Ангилал 1</Typography.Title>
-                        </Link>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link to="/products">
-                            <Avatar shape="square" size={128} icon={<CoffeeOutlined />} style={{ background: '#2c3e50' }} />
-                            <Typography.Title level={5}>Ангилал 2</Typography.Title>
-                        </Link>
-                    </div>
-                </InfiniteCarousel>
-            ) : (
-                <></>
-            )}                                     
+            <HomeSlider />
+            <Typography.Title level={3} style={{ marginTop: '24px' }}>Бүтээгдэхүүний ангилал</Typography.Title>      
+            <Categories />                  
             <Row gutter={[32, 32]} style={{ marginTop: '32px' }}>
                 <Col xs={24} sm={24} md={24} lg={8}>
                     <div style={{ background: '#eb4d4b', height: '200px', width: '100%', borderRadius: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -153,12 +50,81 @@ function Home (props) {
                     </div>
                 </Col>
             </Row>
-            <Typography.Title level={3} style={{ marginTop: '16px' }}>Брэнд бүтээгдэхүүн</Typography.Title>
+            <Typography.Title level={3} style={{ marginTop: '24px' }}>Онцлох бүтээгдэхүүн</Typography.Title>
             <ProductScroll type="brand" />
-            <Typography.Title level={3} style={{ marginTop: '16px' }}>Хямдралтай бүтээгдэхүүн</Typography.Title>            
-            <ProductScroll type="brand" />
-            <Typography.Title level={3} style={{ marginTop: '16px' }}>Хамтрагч байгууллагууд</Typography.Title>
-            <Typography.Title level={3} style={{ marginTop: '16px' }}>Эмчийн зөвлөгөө</Typography.Title>            
+            <div style={{ background: '#fff', padding: '24px', borderRadius: '2px', marginTop: '24px' }}>
+                <Row gutter={[16, 16]} style={{ marginTop: '24px' }}>
+                    <Col xs={24} sm={24} md={12} lg={6} style={{ textAlign: 'center' }}>
+                        <SafetyCertificateOutlined style={{ fontSize: '48px' }} />
+                        <Typography.Title level={3}>Чанартай бүтээгдэхүүн</Typography.Title>                  
+                        <div style={{ marginLeft: '24px', marginRight: '24px' }}>
+                            Ut volutpat pretium nisl, ac elementum sem ultricies non. Pellentesque rhoncus lectus id massa sollicitudin, at aliquam velit maximus.
+                        </div>
+                    </Col>
+                    <Col xs={24} sm={24} md={12} lg={6} style={{ textAlign: 'center' }}>
+                        <ShoppingCartOutlined style={{ fontSize: '48px' }} />
+                        <Typography.Title level={3}>Хялбар захиалга</Typography.Title>           
+                        <div style={{ marginLeft: '24px', marginRight: '24px' }}>
+                            Fusce diam nunc, tincidunt quis lectus a, posuere fermentum velit. Nam et purus congue, fermentum mi vitae, rutrum ligula.
+                        </div>               
+                    </Col>
+                    <Col xs={24} sm={24} md={12} lg={6} style={{ textAlign: 'center' }}>
+                        <CarOutlined style={{ fontSize: '48px' }} />
+                        <Typography.Title level={3}>Шуурхай хүргэлт</Typography.Title>    
+                        <div style={{ marginLeft: '24px', marginRight: '24px' }}>
+                            Curabitur facilisis ante urna, quis posuere mauris pellentesque vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>                    
+                    </Col>                   
+                    <Col xs={24} sm={24} md={12} lg={6} style={{ textAlign: 'center' }}>
+                        <GiftOutlined style={{ fontSize: '48px' }} />
+                        <Typography.Title level={3}>Урамшууллын оноо</Typography.Title>        
+                        <div style={{ marginLeft: '24px', marginRight: '24px' }}>
+                            Sed efficitur diam eu ex semper, gravida lacinia eros laoreet. Nulla facilisi. Quisque vestibulum sollicitudin orci, quis euismod diam.
+                        </div>                   
+                    </Col>
+                </Row>  
+            </div>  
+            <Typography.Title level={3} style={{ marginTop: '24px' }}>Хямдралтай бүтээгдэхүүн</Typography.Title>            
+            <ProductScroll type="brand" />                                  
+            <Typography.Title level={3} style={{ marginTop: '24px' }}>Шинэ мэдээлэл</Typography.Title>        
+            <Row gutter={[24, 24]}>
+                { posts ? posts.slice(0, 3).map(post => {
+                    return (
+                        <Col xs={24} sm={24} md={24} lg={8}>
+                            <Link to={`/posts/${post.id}`}>
+                                <Card 
+                                    hoverable
+                                    style={{ width: '100%' }}
+                                    cover={
+                                        <div style={{ position: 'relative', paddingTop: '50%' }}>                                            
+                                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                                <img alt="asd" src={post.thumbnail} style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'scale-down' }} />
+                                            </div>                                            
+                                        </div>
+                                    }
+                                >
+                                    <Card.Meta
+                                        title={post.title}
+                                        description={
+                                            <Typography.Paragraph ellipsis={{ rows: 3 }} style={{ fontSize: '16px' }}>
+                                                <div dangerouslySetInnerHTML={{__html: post.content }} />
+                                            </Typography.Paragraph>
+                                        }
+                                    />
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Link to={`/posts/${post.id}`}>
+                                            <Button type="primary">Дэлгэрэнгүй</Button>
+                                        </Link>
+                                        <div style={{ fontStyle: 'italic' }}>
+                                            Нийтлэгдсэн: {moment(post.created_at).format("YYYY-MM-DD")}
+                                        </div>
+                                    </div>
+                                </Card>
+                            </Link>
+                        </Col>
+                    )
+                }) : <></>}                
+            </Row>            
         </div>
     )
 }

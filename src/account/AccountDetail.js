@@ -80,7 +80,7 @@ function AccountDetail (props) {
 
     return (
         <div>            
-            <Form layout="vertical" form={form} onFinish={onFinish} style={{ background: '#fff', borderRadius: '2px', padding: '16px' }}>
+            <Form layout="vertical" form={form} onFinish={onFinish} style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>
                 <Typography.Title level={4}>Хувийн мэдээлэл шинэчлэх</Typography.Title>
                 <Divider />
                 <Row gutter={[16, 0]}>

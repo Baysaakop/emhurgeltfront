@@ -4,7 +4,7 @@ import CustomMenu from '../components/Menu';
 import './Layout.css';
 import { FacebookFilled, InstagramOutlined, MailOutlined, YoutubeOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
-import logo from '../components/logo7.png'
+import logo from '../components/logo.png'
 
 const { useBreakpoint } = Grid;
 const { Header, Content, Footer } = Layout;

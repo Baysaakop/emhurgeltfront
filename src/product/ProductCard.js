@@ -7,7 +7,7 @@ import api from "../api";
 import './ProductCard.css'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
-import logo from '../components/logo7.png';
+import logo from '../components/logo.png';
 import './ProductCard.css'
 
 function ProductCard (props) {
@@ -128,6 +128,7 @@ function ProductCard (props) {
         <div>            
             <Card     
                 className="product-card"
+                style={{ borderRadius: '2px' }}
                 hoverable
                 size="small"                           
                 cover={

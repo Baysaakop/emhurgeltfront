@@ -25,19 +25,19 @@ function ProductScroll (props) {
 
     function getSliderCount() {
         if (screens.xxl) {
-            return 8
-        } else if (screens.xl) {
             return 6
-        } else if (screens.lg) {
+        } else if (screens.xl) {
             return 5
-        } else if (screens.md) {
+        } else if (screens.lg) {
             return 4
-        } else if (screens.sm) {
+        } else if (screens.md) {
             return 3
+        } else if (screens.sm) {
+            return 2
         } else if (screens.xs) {
-            return 2
+            return 1
         } else {
-            return 2
+            return 1
         }
     }
 

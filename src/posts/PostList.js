@@ -59,15 +59,19 @@ function PostList (props) {
                     <Col xs={24} sm={24} md={24} lg={16}>
                         { posts ? posts.map(post => {
                             return (
-                                <div style={{ marginBottom: '24px' }}>
-                                    <img src={post.thumbnail} alt={post.title} style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
-                                    <div style={{ background: '#fff', padding: '16px', borderRadius: '4px' }}>
+                                <div style={{ marginBottom: '24px', padding: '24px', background: '#fff', borderRadius: '2px' }}>
+                                    <Link to={`/posts/${post.id}`}>
+                                        <img src={post.thumbnail} alt={post.title} style={{ width: '100%', height: 'auto', borderRadius: '2px' }} />
+                                    </Link>                                    
+                                    <div style={{ marginTop: '24px' }}>
                                         <Typography.Title level={3}>{post.title}</Typography.Title>
                                         <Typography.Paragraph ellipsis={{ rows: 3 }} style={{ fontSize: '16px' }}>
                                             <div dangerouslySetInnerHTML={{__html: post.content }} />
                                         </Typography.Paragraph>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <Button type="primary" shape="round" size="large">Дэлгэрэнгүй</Button>
+                                            <Link to={`/posts/${post.id}`}>
+                                                <Button type="primary">Дэлгэрэнгүй</Button>
+                                            </Link>
                                             <div style={{ fontStyle: 'italic' }}>
                                                 Нийтлэгдсэн: {moment(post.created_at).format("YYYY-MM-DD")}
                                             </div>
@@ -87,8 +91,8 @@ function PostList (props) {
                         />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={8}>
-                        <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>
-                            <Typography.Title level={5}>Мэдээлэл хайх:</Typography.Title>
+                        <div style={{ width: '100%', padding: '24px', background: '#fff', borderRadius: '2px' }}>
+                            <Typography.Title level={5}>Мэдээлэл хайх</Typography.Title>
                             <Search placeholder="Мэдээлэл хайх..." onSearch={onSearch} enterButton />
                             <Divider />
                             <Typography.Title level={5}>Зориулалт:</Typography.Title>

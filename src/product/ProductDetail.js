@@ -8,7 +8,7 @@ import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
-import logo from '../components/logo7.png'
+import logo from '../components/logo.png'
 
 const { useBreakpoint } = Grid
 
@@ -200,7 +200,7 @@ function ProductDetail (props) {
                             {item.name}
                         </Breadcrumb.Item>
                     </Breadcrumb>
-                    <Row gutter={[48, 16]} style={{ marginTop: '24px', marginLeft: 0, marginRight: 0, padding: '24px', background: '#fff' }}>
+                    <Row gutter={[48, 16]} style={{ marginTop: '24px', marginLeft: 0, marginRight: 0, padding: '24px', background: '#fff', borderRadius: '2px' }}>
                         <Col xs={24} sm={24} md={24} lg={10}>
                             {item.images.length > 0 ?
                                 <Carousel autoplay>
@@ -267,7 +267,7 @@ function ProductDetail (props) {
                             </div>                             */}
                         </Col>
                     </Row>
-                    <div style={{ marginTop: '24px', padding: '24px', background: '#fff' }}>
+                    <div style={{ marginTop: '24px', padding: '24px', background: '#fff', borderRadius: '2px' }}>
                         <Typography.Title level={5} style={{ margin: 0 }}>Бүтээгдэхүүний мэдээлэл:</Typography.Title>
                         <Typography.Paragraph>
                             {item.description}                                

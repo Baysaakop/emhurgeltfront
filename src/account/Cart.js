@@ -153,10 +153,10 @@ function Cart (props) {
     }
 
     return (
-        <div style={{ background: '#fff', borderRadius: '2px', padding: '16px' }}>        
+        <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>        
             <Typography.Title level={4} style={{ margin: 0 }}>Таны сагс</Typography.Title>            
             <Divider />
-            <Row gutter={[16, 16]}>
+            <Row gutter={[24, 24]}>
                 <Col xs={24} sm={24} md={24} lg={16}>
                     <List
                         itemLayout="vertical"

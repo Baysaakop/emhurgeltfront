@@ -1,35 +1,42 @@
 import { useEffect, useState } from "react"
 import axios from "axios";
 import api from "../api";
-import { Breadcrumb, Button, Col, message, Row } from "antd";
+import { Breadcrumb, Button, Col, message, Modal, Row } from "antd";
 import { Link } from "react-router-dom";
-import img1 from './1.jpg'
-import img2 from './2.jpg'
-import img3 from './3.jpg'
-import img4 from './4.jpg'
-import img5 from './5.jpg'
-import img6 from './6.jpg'
 import './BrandProducts.css'
 import { PlayCircleOutlined, ShoppingOutlined } from "@ant-design/icons";
 
 function BrandProducts (props) {
 
-    useEffect(() => {        
-        getProducts()        
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
     const [items, setItems] = useState()
+    const [visible, setVisible] = useState(false)
+    const [name, setName] = useState()
+    const [video, setVideo] = useState()
+
+    useEffect(() => {        
+        getProducts()                 
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getProducts () {        
         let url = `${api.items}/?is_brand=true`        
         axios({
             method: 'GET',
             url: url           
-        }).then(res => {                                    
+        }).then(res => {                                           
             setItems(res.data.results)            
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
+    }    
+
+    function showVideo (name, video) {        
+        setName(name)
+        setVideo(video)        
+        setVisible(true)   
+    }
+
+    function handleCancel () {
+        setVisible(false)
     }
 
     return (
@@ -45,47 +52,60 @@ function BrandProducts (props) {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ margin: '24px 0' }}>                
-                <div style={{ display: 'flex', flexWrap: 'wrap', padding: '0 4px' }}>
-                    {/* {data ? data.map(item => {
+                <Modal title={name} visible={visible} footer={null} onCancel={handleCancel} width={window.screen.availWidth / 2}>
+                    <iframe 
+                        title={name}
+                        src={video ? video : "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fdseabi.mn%2Fvideos%2F510778073510439%2F&show_text=false&width=560&t=0"} 
+                        width={window.screen.availWidth / 2 - 48} 
+                        height={window.screen.availWidth / 4}
+                        scrolling="no" 
+                        frameborder="0" 
+                        allowfullscreen="true" 
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" 
+                        allowFullScreen="true">
+                    </iframe>
+                </Modal>
+                <Row gutter={[24, 24]}>
+                    <Col xs={24} sm={24} md={6}>
+                    { items ? items.slice(0, 3).map(item => {
                         return (
-                            <div style={{ flex: '33%', maxWidth: '33%', padding: '0 4px' }}>
-                                <img src={`${item}.jpg`} alt="image" style={{ width: '100%', height: 'auto', marginTop: '8px', verticalAlign: 'middle' }} />
+                            <div className="poster">
+                                <img alt={item.name} src={item.poster} />
+                                <div className="overlay">
+                                    <Button type="primary" shape="round" icon={<PlayCircleOutlined />} style={{ marginRight: '8px', background: '#30336b' }} onClick={() => showVideo(item.name, item.video)}>Видео үзэх</Button>
+                                    <Button type="primary" shape="round" icon={<ShoppingOutlined />} style={{ background: '#130f40' }} href={`products/${item.id}`}>Захиалах</Button>
+                                </div>
                             </div>
-                        )
-                    }) : <></>} */}                                        
-                </div> 
-                <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={16}>
-                        <div className="ad" style={{ width: '100%', height: '500px', overflow: 'hidden', position: 'relative' }}>
-                            <img src={img1} alt="img1" style={{ width: '100%', height: 'auto', objectFit: 'fill' }} />
-                            <div className="overlay" style={{ position: 'absolute', right: '8px', bottom: '8px' }}>
-                                <Button type="primary" size="large" shape="round" icon={<PlayCircleOutlined />} style={{ marginRight: '8px', background: '#2c3e50' }}>Watch Video</Button>
-                                <Button type="primary" size="large" shape="round" icon={<ShoppingOutlined />}>Shop Now</Button>
+                        )       
+                    }) : <></>} 
+                    </Col>
+                    <Col xs={24} sm={24} md={12}>
+                    { items ? items.slice(3, 6).map(item => {
+                        return (
+                            <div className="poster">
+                                <img alt={item.name} src={item.poster} />
+                                <div className="overlay">
+                                    <Button type="primary" shape="round" icon={<PlayCircleOutlined />} style={{ marginRight: '8px', background: '#30336b' }} onClick={() => showVideo(item.name, item.video)}>Видео үзэх</Button>
+                                    <Button type="primary" shape="round" icon={<ShoppingOutlined />} style={{ background: '#130f40' }} href={`products/${item.id}`}>Захиалах</Button>
+                                </div>
                             </div>
-                        </div>
+                        )       
+                    }) : <></>} 
                     </Col>
-                    <Col xs={24} sm={24} md={8}>
-                        <div className="ad" style={{ width: '100%', height: '242px', overflow: 'hidden' }}>
-                            <img src={img2} alt="img2" style={{ width: '100%', height: 'auto', objectFit: 'fill' }} />
-                        </div>
-                        <div className="ad" style={{ marginTop: '16px', width: '100%', height: '242px', overflow: 'hidden' }}>
-                            <img src={img3} alt="img3" style={{ width: '100%', height: 'auto', objectFit: 'fill' }} />
-                        </div>
+                    <Col xs={24} sm={24} md={6}>
+                    { items ? items.slice(6, 9).map(item => {
+                        return (
+                            <div className="poster">
+                                <img alt={item.name} src={item.poster} />
+                                <div className="overlay">
+                                    <Button type="primary" shape="round" icon={<PlayCircleOutlined />} style={{ marginRight: '8px', background: '#30336b' }} onClick={() => showVideo(item.name, item.video)}>Видео үзэх</Button>
+                                    <Button type="primary" shape="round" icon={<ShoppingOutlined />} style={{ background: '#130f40' }} href={`products/${item.id}`}>Захиалах</Button>
+                                </div>
+                            </div>
+                        )       
+                    }) : <></>} 
                     </Col>
-                    <Col xs={24} sm={24} md={8}>
-                        <div className="ad" style={{ width: '100%', height: '242px', overflow: 'hidden' }}>
-                            <img src={img4} alt="img4" style={{ width: '100%', height: 'auto', objectFit: 'fill' }} />
-                        </div>
-                        <div className="ad" style={{ marginTop: '16px', width: '100%', height: '242px', overflow: 'hidden' }}>
-                            <img src={img5} alt="img5" style={{ width: '100%', height: 'auto', objectFit: 'fill' }} />
-                        </div>
-                    </Col>
-                    <Col xs={24} sm={24} md={16}>
-                        <div className="ad" style={{ width: '100%', height: '500px', overflow: 'hidden' }}>
-                            <img src={img6} alt="img6" style={{ width: '100%', height: 'auto', objectFit: 'fill' }} />
-                        </div>
-                    </Col>
-                </Row>
+                </Row>                                    
             </div>
         </div>
     )

@@ -25,7 +25,7 @@ function Contact () {
             <div style={{ marginTop: '24px', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={24} lg={8}>
-                        <div style={{ padding: '16px', border: '2px solid black', borderRadius: '5px' }}>
+                        <div style={{ padding: '16px', border: '2px solid black', borderRadius: '2px' }}>
                             <Typography.Title level={2}>Бидэнтэй холбогдох</Typography.Title>
                             <Typography.Text>
                                 Та доор байрлах манай утасны дугаар болон цахим хаягуудад зурвас илгээн бидэнтэй холбогдох боломжтой бөгөөд мөн манай хаягаар ирж үйлчлүүлэх болон мэдээлэл авах боломжтой юм.

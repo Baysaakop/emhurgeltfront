@@ -60,10 +60,10 @@ function Profile (props) {
             </Breadcrumb>
             <div className="container" style={{ marginTop: '24px' }}>
             {user ? (
-                <Row gutter={[16, 16]}>
+                <Row gutter={[24, 24]}>
                     <Col xs={24} sm={24} md={24} lg={6}>
-                        <div style={{ background: '#fff', borderRadius: '2px', padding: '16px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '16px' }}>                                
+                        <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '24px' }}>                                
                                 <Avatar size={48} shape="square" icon={<UserOutlined />} style={{ background: '#2ECC71' }} />
                                 <div style={{ marginLeft: '16px' }}>
                                     <Typography.Title level={4} style={{ margin: 0 }}>{user.username}</Typography.Title>
@@ -74,7 +74,7 @@ function Profile (props) {
                             <Rate disabled count={5} value={4} tooltips={percentages} />                            
                             <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- 5%</span>
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын оноо</Typography.Title>  
-                            <Typography.Title level={4} style={{ margin: 0 }}><GoldOutlined /> {formatNumber(7319)}</Typography.Title>                                                                         
+                            <Typography.Title level={4} style={{ margin: 0 }}><GoldOutlined /> {formatNumber(7319)}₮</Typography.Title>                                                                         
                             <Menu mode="inline" defaultSelectedKeys={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0)', marginTop: '16px' }} onClick={onSelect}>
                                 <Menu.Item icon={<UserOutlined style={{ fontSize: '18px' }} />} key="1">Хувийн мэдээлэл</Menu.Item>
                                 <Menu.Item icon={<HeartOutlined style={{ fontSize: '18px' }} />} key="2">Хадгалсан</Menu.Item>

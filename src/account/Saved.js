@@ -11,7 +11,7 @@ function Saved (props) {
     }
 
     return (
-        <div style={{ background: '#fff', borderRadius: '2px', padding: '16px' }}>
+        <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>
             <Typography.Title level={4}>Хадгалсан бүтээгдэхүүнүүд</Typography.Title>
             <Divider />
             <List
@@ -22,7 +22,7 @@ function Saved (props) {
                     md: 3,
                     lg: 4,
                     xl: 4,
-                    xxl: 6,
+                    xxl: 5,
                 }}
                 dataSource={items}
                 renderItem={item => (

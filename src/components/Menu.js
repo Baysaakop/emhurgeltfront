@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Dropdown, Typography, Divider } from 'antd';
+import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Typography, Divider } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { GlobalOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, StarOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
+import { GlobalOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import axios from 'axios';
 import api from '../api';
-import logo from './logo7.png'
+import logo from './logo.png'
 import FlowerIcon from './FlowerIcon';
 
 const { useBreakpoint } = Grid;
@@ -67,6 +67,15 @@ function CustomMenu (props) {
         <div className="menu">              
             {screens.xs ? (
                 <div>
+                    <div style={{ height: '40px', width: '100%', background: '#2ECC71', padding: '0 5%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <Button type="text" icon={<GlobalOutlined />} style={{ color: '#fff', padding: '4px' }}>English</Button>             
+                        </div>
+                        <div style={{ color: '#fff', fontWeight: 'bold' }}>
+                            Ди Эс И Эй Би Ай ХХК
+                            <Avatar size={32} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/dseabi-logo.png" style={{ marginBottom: '4px', marginLeft: '4px' }} />
+                        </div>
+                    </div>     
                     <div style={{ height: '80px', width: '100%', borderBottom: '1px solid #dedede', padding: '0 5%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Link to="/">
                             <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center' }}>                            
@@ -85,21 +94,9 @@ function CustomMenu (props) {
                     </div>
                     <div style={{ height: '40px', width: '100%', padding: '0 5%', border: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
-                            <Input.Search placeholder="Хайх..." style={{ width: '180px' }} onSearch={onSearch} />                                                          
+                            <Input.Search placeholder="Хайх..." style={{ width: '100%' }} onSearch={onSearch} />                                                          
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                            <Dropdown overlay={
-                                <Menu selectedKeys={['mn']}>
-                                    <Menu.Item key="mn">
-                                        <Tag>MN</Tag>Монгол                                       
-                                    </Menu.Item>
-                                    <Menu.Item key="en">
-                                        <Tag>EN</Tag>English
-                                    </Menu.Item>
-                                </Menu>
-                            }>
-                                <Button size="middle" icon={<GlobalOutlined />} style={{ marginLeft: '8px' }} />                                                                    
-                            </Dropdown>                                                                      
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>                                                                                        
                             { user ? (
                                 <>                               
                                     <Link to="/profile">
@@ -160,8 +157,8 @@ function CustomMenu (props) {
                                 </div>
                             </Link>
                         </Menu.Item>      
-                        <Menu.Item key="brandproducts" style={{ fontSize: '16px', background: '#2ed573', color: '#fff' }} icon={<StarOutlined />}>
-                            <Link to="/brandproducts" style={{ color: '#fff' }}>Брэнд бүтээгдэхүүн</Link>
+                        <Menu.Item key="brandproducts" style={{ fontSize: '16px', background: '#2ed573', color: '#fff' }} icon={<FlowerIcon />}>
+                            <Link to="/brandproducts" style={{ color: '#fff' }}>Онцлох бүтээгдэхүүн</Link>
                         </Menu.Item>                          
                     </Menu>
                 </div>
