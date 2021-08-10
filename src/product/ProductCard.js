@@ -1,7 +1,7 @@
 import { EllipsisOutlined, HeartOutlined, MinusCircleOutlined, ShoppingCartOutlined, StarFilled } from "@ant-design/icons";
 import { Card, Tooltip, Typography, Modal, message, Button } from "antd";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios"; 
 import api from "../api";
 import './ProductCard.css'
@@ -178,7 +178,9 @@ function ProductCard (props) {
             >
                 <Link to={`/products/${props.item.id}`}>
                     <Card.Meta 
-                        title={<Tooltip title={props.item.name}>{props.item.name}</Tooltip>}    
+                        title={
+                            <Tooltip title={props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
+                        }    
                         description={getCategory(props.item.category)}                    
                     />
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>                        
@@ -218,6 +220,12 @@ function ProductCard (props) {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        language: state.language
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         onUpdateCart: (cart) => dispatch(actions.updateCart(cart)),
@@ -225,4 +233,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ProductCard);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductCard));

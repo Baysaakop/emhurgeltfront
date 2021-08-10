@@ -44,8 +44,7 @@ export const authFacebook = (access_token, email, name, picture) => {
                 picture: picture
             }
         })     
-        .then(res => {                 
-            console.log(res)       
+        .then(res => {                             
             const token = res.data.key;            
             localStorage.setItem('token', token);            
             dispatch(authSuccess(token));       
@@ -67,5 +66,13 @@ export const updateSaved = (saved) => {
     return {
         type: actionTypes.UPDATE_SAVED,
         saved: saved
+    };
+}
+
+export const changeLanguage = (language) => {         
+    localStorage.setItem('language', language)   
+    return {
+        type: actionTypes.LANGUAGE_CHANGED,
+        language: language
     };
 }

@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard";
 import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
+import * as translations from '../translation';
 
 const { Search } = Input
 const { CheckableTag } = Tag
@@ -125,7 +126,7 @@ function ProductList (props) {
     }
 
     function showTotal(total) {
-        return `Нийт ${total} бүтээгдэхүүн:`;
+        return `${ props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total } ${total} ${ props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products }:`;
     }   
 
     function onOrder (val) {
@@ -141,29 +142,31 @@ function ProductList (props) {
             <Breadcrumb>
                 <Breadcrumb.Item>
                     <Link to="/">
-                        Нүүр хуудас
+                    { props.language === "en" ? translations.en.footer.home_page : translations.mn.footer.home_page }
                     </Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                    Эмийн сан
+                    { props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
                 <Col xs={24} sm={24} md={24} lg={6}>
                     <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>
-                        <Typography.Title level={5}>Бүтээгдэхүүн хайх:</Typography.Title>
-                        <Search placeholder="Бүтээгдэхүүний нэр" onSearch={onSearch} enterButton />
+                        <Typography.Title level={5}>{ props.language === "en" ? translations.en.product_list.search_products : translations.mn.product_list.search_products }:</Typography.Title>
+                        <Search placeholder={ props.language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } onSearch={onSearch} enterButton />
                         <Divider />
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>Ангилал:</Typography.Title>
+                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>
                         <Radio.Group onChange={onSelectCategory}>
                             <Space direction="vertical">
                                 {categories ? categories.map(cat => (
-                                    <Radio value={cat.id}>{cat.name}</Radio>
+                                    <Radio value={cat.id}>
+                                        { props.language === "en" ? cat.name_en : cat.name }
+                                    </Radio>
                                 )) : <></>}
                             </Space>
                         </Radio.Group>
                         <Divider />
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>Зориулалт:</Typography.Title>
+                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.tags : translations.mn.product_list.tags }:</Typography.Title>
                         {tags ? tags.map(tag => (
                             <CheckableTag
                                 key={tag.id}
@@ -175,7 +178,7 @@ function ProductList (props) {
                             </CheckableTag>
                         )) : <></>}                     
                         <Divider />
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>Үнэ:</Typography.Title>   
+                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.price : translations.mn.product_list.price }:</Typography.Title>   
                         <Slider 
                             range 
                             min={0} 
@@ -198,13 +201,13 @@ function ProductList (props) {
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={18}>
                     <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderRadius: '2px' }}>
-                        <Typography.Title level={5} style={{ margin: 0 }}>Нийт: {total} бүтээгдэхүүн</Typography.Title>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{ props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total }: {total} { props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products }</Typography.Title>
                         <div>
                             <Select defaultValue={order} style={{ width: '180px' }} onChange={onOrder}>
-                                <Select.Option value="-created_at">Шинэ нь эхэндээ</Select.Option>
-                                <Select.Option value="created_at">Хуучин нь эхэндээ</Select.Option>
-                                <Select.Option value="price">Үнэ өсөхөөр</Select.Option>
-                                <Select.Option value="-price">Үнэ буурахаар</Select.Option>
+                                <Select.Option value="-created_at">{ props.language === "en" ? translations.en.product_list.newest : translations.mn.product_list.newest }</Select.Option>
+                                <Select.Option value="created_at">{ props.language === "en" ? translations.en.product_list.oldest : translations.mn.product_list.oldest }</Select.Option>
+                                <Select.Option value="price">{ props.language === "en" ? translations.en.product_list.lowtohigh : translations.mn.product_list.lowtohigh }</Select.Option>
+                                <Select.Option value="-price">{ props.language === "en" ? translations.en.product_list.hightolow : translations.mn.product_list.hightolow }</Select.Option>
                             </Select>                            
                         </div>
                     </div>
@@ -242,7 +245,8 @@ function ProductList (props) {
 
 const mapStateToProps = state => {
     return {
-        token: state.token
+        token: state.token,
+        language: state.language
     }
 }
 

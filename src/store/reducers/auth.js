@@ -6,7 +6,8 @@ const initialState = {
     error: null,
     loading: false,
     cart: null,
-    saved: null
+    saved: null,
+    language: localStorage.getItem('language'),
 }
 
 const authStart = (state, action) => {
@@ -50,6 +51,12 @@ const updateSaved = (state, action) => {
     });
 }
 
+const changeLanguage = (state, action) => {
+    return updateObject(state, {
+        language: action.language,
+    });
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_START:
@@ -64,6 +71,8 @@ const reducer = (state = initialState, action) => {
             return updateCart(state, action);
         case actionTypes.UPDATE_SAVED:
             return updateSaved(state, action);
+        case actionTypes.LANGUAGE_CHANGED:
+            return changeLanguage(state, action);
         default:
             return state;
     }
