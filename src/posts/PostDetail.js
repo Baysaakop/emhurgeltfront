@@ -4,6 +4,7 @@ import api from "../api";
 import { message, Breadcrumb, Row, Col, Typography, Tag, Divider } from "antd";
 import { Link } from "react-router-dom";
 import moment from 'moment'
+import './PostDetail.css'
 
 function PostDetail (props) {
 
@@ -68,7 +69,7 @@ function PostDetail (props) {
                                                 <Tag color="green">Эрүүл мэнд</Tag>
                                             </div>                                    
                                             <div style={{ fontStyle: 'italic' }}>
-                                                Нийтлэгдсэн: {moment(post.created_at).format("YYYY-MM-DD")}
+                                                /{moment(post.created_at).format("YYYY-MM-DD")}/
                                             </div>
                                         </div>
                                     </div>
@@ -77,16 +78,20 @@ function PostDetail (props) {
                             <Col xs={24} sm={24} md={24} lg={8}>
                                 <div style={{ width: '100%', padding: '24px', background: '#fff', borderRadius: '2px' }}>
                                     <Typography.Title level={5}>Шинэ мэдээлэл</Typography.Title>
-                                    { latest ? latest.slice(0, 3).map(item => {
+                                    { latest ? latest.filter(x => x.id !== post.id).slice(0, 3).map(item => {
                                         return (
                                             <div>
                                                 <Divider /> 
                                                 <Row gutter={[16, 16]}>
-                                                    <Col span={12}>
-                                                        <img alt={item.title} src={item.thumbnail} style={{ width: '100%', height: 'auto', borderRadius: '2px' }} />
+                                                    <Col span={12} style={{ overflow: 'hidden' }}>
+                                                        <a className="postImage" href={`/posts/${item.id}`}>
+                                                            <img alt={item.title} src={item.thumbnail} />
+                                                        </a>
                                                     </Col>
                                                     <Col span={12}>
-                                                        <Typography.Title level={4} style={{ marginTop: '16px' }}>{item.title}</Typography.Title>
+                                                        <a href={`/posts/${item.id}`}>
+                                                            <Typography.Title className="postTitle" level={4} style={{ marginTop: '16px' }}>{item.title}</Typography.Title>
+                                                        </a>
                                                         <Typography.Text type="secondary" style={{ display: 'block', textAlign: 'right' }}>{moment(post.created_at).format("YYYY-MM-DD")}</Typography.Text>
                                                     </Col>
                                                 </Row>                                                

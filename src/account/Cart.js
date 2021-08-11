@@ -1,13 +1,14 @@
-import { Divider, Typography, List, Button, message, Row, Col, Form, Input, Checkbox, Avatar } from "antd"
+import { Divider, Typography, List, Button, message, Row, Col, Form, Input, Checkbox, Avatar, InputNumber } from "antd"
 import React, { useEffect, useState } from "react"
 import axios from "axios"; 
 import api from "../api";
-import { Link } from "react-router-dom";
-import { CarOutlined, DeleteOutlined, GoldOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { Link, useHistory } from "react-router-dom";
+import { CarOutlined, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import * as actions from '../store/actions/auth';
 
 function Cart (props) {
+    let history = useHistory()
     const [form] = Form.useForm()
     const [amount, setAmount] = useState(0)
     const [items, setItems] = useState()
@@ -20,8 +21,8 @@ function Cart (props) {
         form.setFieldsValue({
             phone_number: props.user.profile.phone_number,
             address: getAddress(props.user.profile.address)
-        })
-    }, [props.items]) // eslint-disable-line react-hooks/exhaustive-deps
+        })        
+    }, [props.items, props.user]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getAmount(cartitems) {
         let total = 0
@@ -113,24 +114,20 @@ function Cart (props) {
             message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
         }) 
     }
-
-    function formatNumber(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    function onChangeUseBonus(e) {        
+        if (e.target.checked === false) {
+            setUseBonus(false)
+            setBonus(0)
+        } else {            
+            setUseBonus(true)            
+        }
     }
 
-    function onChangeBonus (e) {        
-        let nums = e.target.value.match(/\d/g)             
-        if (nums === null) {
+    function onChangeBonus (val) {                
+        if (val === null) {
             setBonus(0)
-        } else {                        
-            let num = nums.join("") 
-            if (parseInt(num) < 0) {
-                setBonus(0)
-            } else if (parseInt(num) > 7319) {
-                setBonus(7319)
-            } else {
-                setBonus(parseInt(num))
-            }
+        } else {
+            setBonus(val)
         }        
     }
 
@@ -150,6 +147,40 @@ function Cart (props) {
 
     function onFinish (values) {
         console.log(values)
+        axios({
+            method: 'POST',
+            url: `${api.orders}/`,
+            headers: {
+                'Content-Type': 'application/json',     
+                'Authorization': `Token ${props.token}`                                         
+            },
+            data: {
+                token: props.token,
+                total: amount,
+                bonus: bonus,
+                phone_number: values.phone_number,
+                address: values.address,
+                info: values.info ? values.info : ""                                           
+            }
+        })            
+        .then(res => {
+            if (res.status === 201) {                                                      
+                console.log(res.data)                
+                props.onUpdateCart(res.data.user.profile.cart)    
+                // history.push(`orderinfo/${res.data.id}`)
+                history.push(`profile?key=orders`)
+            } else if (res.status === 406) {
+                console.log("Uldegdel hureltsuhgui")
+            }                                                          
+        })
+        .catch(err => {                      
+            console.log(err.message)         
+            message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
+        }) 
+    }
+
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     return (
@@ -157,7 +188,7 @@ function Cart (props) {
             <Typography.Title level={4} style={{ margin: 0 }}>Таны сагс</Typography.Title>            
             <Divider />
             <Row gutter={[24, 24]}>
-                <Col xs={24} sm={24} md={24} lg={16}>
+                <Col xs={24} sm={24} md={24} lg={18}>
                     <List
                         itemLayout="vertical"
                         size="large"
@@ -193,21 +224,22 @@ function Cart (props) {
                         <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
                     </div>
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={8}>
+                <Col xs={24} sm={24} md={24} lg={6}>
                     <Typography.Title level={5} style={{ margin: 0 }}>Нийт төлбөр: {formatNumber(amount)}₮</Typography.Title>
                     <Typography.Title level={5} style={{ margin: 0 }}>Төлөх дүн: {formatNumber(amount - parseInt(bonus))}₮</Typography.Title>                    
                     <Form form={form} layout="vertical" onFinish={onFinish} style={{ marginTop: '8px' }}>
-                        <Checkbox checked={useBonus} onChange={() => setUseBonus(!useBonus)} style={{ marginBottom: '16px' }}>Урамшууллын оноо ашиглах</Checkbox>
+                        <Checkbox checked={useBonus} onChange={onChangeUseBonus} style={{ marginBottom: '16px' }}>Урамшууллын оноо ашиглах</Checkbox>
                         { useBonus === true ?
                             <>                                
-                                <Form.Item name="bonus" label="Ашиглах дүн: (7,319₮ хүртэл)">
-                                    <Input 
-                                        value={bonus} 
-                                        prefix={<GoldOutlined style={{ color: '#a1a1a1' }} />} 
-                                        suffix="₮"
-                                        style={{ width: '100%', textAlign: 'right' }} 
-                                        onChange={onChangeBonus} 
-                                    />                
+                                <Form.Item name="bonus" label={`Ашиглах дүн: (${formatNumber(props.user.profile.bonus)}₮ хүртэл)`}>
+                                    <InputNumber
+                                        defaultValue={0}
+                                        min={0}
+                                        max={props.user.profile.bonus}
+                                        formatter={value => `₮ ${value}`}      
+                                        style={{ width: '100%' }}                                  
+                                        onChange={onChangeBonus}
+                                    />
                                 </Form.Item>            
                             </>
                         : <></> }

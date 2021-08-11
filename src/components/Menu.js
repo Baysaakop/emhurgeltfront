@@ -71,6 +71,10 @@ function CustomMenu (props) {
         props.onChangeLanguage(val)
     }
 
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
     return (
         <div className="menu">              
             {screens.xs ? (
@@ -167,7 +171,7 @@ function CustomMenu (props) {
                                         <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px' }}>
                                         { language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }
                                         </div>      
-                                        <div style={{ margin: 0, fontWeight: 'bold' }}>₮7,319</div>                       
+                                        <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
                                     </div>                                                   
                                 </>
                             ) : (
@@ -220,14 +224,14 @@ function CustomMenu (props) {
                                 <Input.Search placeholder={ language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } style={{ width: '400px' }} onSearch={onSearch} />                                                                                     
                                 <Link to="/profile?key=saved">
                                     <Badge count={user && user.profile.favorite.length ? user.profile.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#2ed573' }} >
-                                        <Tooltip title={ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }>                                               
+                                        <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }>                                               
                                             <Button size="middle" icon={<HeartOutlined />} style={{ marginLeft: '12px' }} />                                                                    
                                         </Tooltip>
                                     </Badge>
                                 </Link>                                               
                                 <Link to="/profile?key=cart">
                                     <Badge count={user && user.profile.cart.length ? user.profile.cart.length : 0} overflowCount={9} size="default" style={{ background: '#2ed573' }} >
-                                        <Tooltip title={ language === "en" ? translations.en.header.cart : translations.mn.header.cart }>
+                                        <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.cart : translations.mn.header.cart }>
                                             <Button size="middle" icon={<ShoppingCartOutlined />} style={{ marginLeft: '12px' }} />                                        
                                         </Tooltip>
                                     </Badge>
@@ -236,24 +240,24 @@ function CustomMenu (props) {
                                     <>
                                         {/* {parseInt(user.profile.role) < 3 ? (
                                             <Link to="/admin">
-                                                <Tooltip title="Ажилтан">                                           
+                                                <Tooltip placement="bottom" title="Ажилтан">                                           
                                                     <Button size="middle" icon={<DatabaseOutlined />} style={{ marginLeft: '12px' }} />
                                                 </Tooltip>
                                             </Link>
                                         ) : (<></>)} */}
                                         <Link to="/profile">
-                                            <Tooltip title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
+                                            <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
                                                 <Button type="primary" size="middle" icon={<UserOutlined />} style={{ marginLeft: '12px' }} />
                                             </Tooltip>
                                         </Link> 
                                         <div style={{ marginLeft: '12px' }}>
                                             <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px' }}>{ language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }</div>      
-                                            <div style={{ margin: 0, fontWeight: 'bold' }}>₮7,319</div>                       
+                                            <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
                                         </div>                                                   
                                     </>
                                 ) : (
                                     <Link to="/login">
-                                        <Tooltip title="Нэвтрэх">
+                                        <Tooltip placement="bottom" title="Нэвтрэх">
                                             <Button size="middle" icon={<UserOutlined />} style={{ marginLeft: '12px' }}>
                                             { language === "en" ? translations.en.header.signin : translations.mn.header.signin }
                                             </Button>                                                

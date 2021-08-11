@@ -10,7 +10,7 @@ import Logout from './Logout';
 import Cart from './Cart';
 import OrderHistory from './OrderHistory';
 
-const percentages = ['2%', '3%', '4%', '5%', '6%'];
+const percentages = ['1%', '2%', '3%', '4%', '5%'];
 
 function Profile (props) {    
     const [user, setUser] = useState()
@@ -20,9 +20,10 @@ function Profile (props) {
         let key = props.location.search.split("=")[1]
         if (key === "saved") {
             setKey("2")
-        }
-        else if (key === "cart") {
+        } else if (key === "cart") {
             setKey("3")
+        } else if (key === "orders") {
+            setKey("4")
         } else {
             setKey("1")
         }
@@ -71,11 +72,11 @@ function Profile (props) {
                                 </div>
                             </div>                             
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын хувь</Typography.Title>                                               
-                            <Rate disabled count={5} value={4} tooltips={percentages} />                            
-                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- 5%</span>
+                            <Rate disabled count={5} value={user.profile.point} tooltips={percentages} />                            
+                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- {user.profile.point}%</span>
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын оноо</Typography.Title>  
-                            <Typography.Title level={4} style={{ margin: 0 }}><GoldOutlined /> {formatNumber(7319)}₮</Typography.Title>                                                                         
-                            <Menu mode="inline" defaultSelectedKeys={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0)', marginTop: '16px' }} onClick={onSelect}>
+                            <Typography.Title level={4} style={{ margin: 0 }}><GoldOutlined /> {formatNumber(user.profile.bonus)}₮</Typography.Title>                                                                         
+                            <Menu mode="inline" selectedKeys={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0)', marginTop: '16px' }} onClick={onSelect}>
                                 <Menu.Item icon={<UserOutlined style={{ fontSize: '18px' }} />} key="1">Хувийн мэдээлэл</Menu.Item>
                                 <Menu.Item icon={<HeartOutlined style={{ fontSize: '18px' }} />} key="2">Хадгалсан</Menu.Item>
                                 <Menu.Item icon={<ShoppingCartOutlined style={{ fontSize: '18px' }} />} key="3">Сагс</Menu.Item>
@@ -90,7 +91,7 @@ function Profile (props) {
                         : key === "2" ?
                             <Saved items={user.profile.favorite} user={user} />
                         : key === "3" ? 
-                            <Cart items={user.profile.cart} user={user} />                            
+                            <Cart items={user.profile.cart} user={user} token={props.token} />                            
                         : key === "4" ?
                             <OrderHistory user={user} />
                         : key === "5" ? 

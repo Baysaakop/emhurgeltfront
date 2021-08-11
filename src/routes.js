@@ -6,13 +6,13 @@ import Profile from './account/Profile';
 import PostCreate from './posts/PostCreate';
 import ProductList from './product/ProductList';
 import ProductDetail from './product/ProductDetail';
-import Admin from './account/Admin';
 import About from './containers/About';
 import Contact from './containers/Contact';
 import ProductShop from './product/ProductShop';
 import BrandProducts from './product/BrandProducts';
 import PostList from './posts/PostList';
 import PostDetail from './posts/PostDetail';
+import Staff from './account/Staff';
 
 function BaseRouter () {
     return (
@@ -31,8 +31,8 @@ function BaseRouter () {
             <Route exact path="/newpost" component={PostCreate} />
             {/* User urls */}
             <Route exact path="/login" component={Login} />              
-            <Route exact path="/profile" component={Profile} />            
-            <Route exact path="/admin" component={Admin} />            
+            <Route exact path="/profile" component={Profile} />               
+            <Route exact path="/staff" component={Staff} />            
         </Switch>
     )    
 }
