@@ -85,8 +85,7 @@ function PostList (props) {
                             total={total}
                             pageSize={24}
                             showSizeChanger={false}
-                            showTotal={false}
-                            size="small"
+                            showTotal={false}                            
                             onChange={onPageChange}
                         />
                     </Col>
@@ -95,7 +94,7 @@ function PostList (props) {
                             <Typography.Title level={5}>Мэдээлэл хайх</Typography.Title>
                             <Search placeholder="Мэдээлэл хайх..." onSearch={onSearch} enterButton />
                             <Divider />
-                            <Typography.Title level={5}>Зориулалт:</Typography.Title>
+                            <Typography.Title level={5}>Төрөл:</Typography.Title>
                             <CheckableTag
                                 key={1}
                                 checked={false}                

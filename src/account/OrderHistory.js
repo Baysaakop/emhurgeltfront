@@ -1,4 +1,4 @@
-import { Typography, message, List, Row, Col, Result, Collapse } from "antd"
+import { Typography, message, List, Row, Col, Result, Collapse, Pagination } from "antd"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../api"
@@ -27,6 +27,10 @@ function OrderHistory (props) {
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
+    }
+
+    function onPageChange (pageNum, pageSize) {        
+        setPage(pageNum)
     }
     
     function formatNumber(num) {
@@ -80,20 +84,24 @@ function OrderHistory (props) {
                             >
                                 <Row gutter={[24, 24]}>
                                     <Col xs={24} sm={24} md={24} lg={16}>                                
-                                        <Typography.Title level={5}>{`ЗАХИАЛГЫН ДУГААР: ${order.ref}`}</Typography.Title>
+                                        {/* <Typography.Title level={5}>{`ЗАХИАЛГЫН ДУГААР: ${order.ref}`}</Typography.Title> */}
                                         <Row gutter={[16, 16]}>
                                             <Col xs={24} sm={24} md={12}>
-                                                <br />
                                                 <Typography.Text>ОГНОО: {moment(order.created_at).format("YYYY-MM-DD HH:MM")}</Typography.Text>
-                                                <br /><br />
-                                                <Typography.Text>ҮНИЙН ДҮН: {formatNumber(order.total)}₮</Typography.Text>
-                                                <br /><br />
+                                            </Col>
+                                            <Col xs={24} sm={24} md={12}>
                                                 <Typography.Text>УТАСНЫ ДУГААР: {order.phone_number}</Typography.Text>
                                             </Col>
                                             <Col xs={24} sm={24} md={12}>
-                                                <br />
-                                                <Typography.Text>ХҮРГЭЛТИЙН ХАЯГ: {order.address}</Typography.Text>
-                                                <br /><br />
+                                                <Typography.Text>ҮНИЙН ДҮН: {formatNumber(order.total)}₮</Typography.Text>
+                                            </Col>                                            
+                                            <Col xs={24} sm={24} md={12}>
+                                                <Typography.Text>УРАМШУУЛАЛ: +{order.total / 100 * 2}₮</Typography.Text>
+                                            </Col>
+                                            <Col xs={24} sm={24} md={12}>                                                
+                                                <Typography.Text>ХҮРГЭЛТИЙН ХАЯГ: {order.address}</Typography.Text>                                                                                                
+                                            </Col>
+                                            <Col xs={24} sm={24} md={12}>
                                                 <Typography.Text>НЭМЭЛТ МЭДЭЭЛЭЛ: {order.info}</Typography.Text>
                                             </Col>
                                         </Row>            
@@ -126,9 +134,7 @@ function OrderHistory (props) {
                                     </Col>
                                     <Col xs={24} sm={24} md={24} lg={8}>
                                     { order.state === "1" ? (
-                                        <div>
-                                            <Typography.Title level={5}>ТӨЛБӨР ТӨЛӨХ</Typography.Title>
-                                            <br />
+                                        <div>                                            
                                             <Typography.Text>АШИГЛАСАН ОНОО: <strong>{order.bonus}₮</strong></Typography.Text>
                                             <br />
                                             <Typography.Text>ТӨЛӨХ ДҮН: <strong>{formatNumber(order.total - order.bonus)}₮</strong></Typography.Text>
@@ -140,23 +146,19 @@ function OrderHistory (props) {
                                             <Typography.Text>ХУДАЛДАА ХӨГЖЛИЙН БАНК: <strong>456456456</strong> (Хүлээн авагч: <strong>Ирмүүн Аз</strong>)</Typography.Text>                                                                       
                                         </div>
                                     ) : order.state === "2" ? (
-                                        <div>
-                                            <Typography.Title level={5}>ТӨЛӨВ:</Typography.Title>
+                                        <div>                                            
                                             <Result icon={<HourglassOutlined style={{ color: '#C2B280' }} />} title="ХҮЛЭЭЖ АВСАН" />                                    
                                         </div>
                                     ) : order.state === "3" ? (
-                                        <div>
-                                            <Typography.Title level={5}>ТӨЛӨВ:</Typography.Title>
+                                        <div>                                            
                                             <Result icon={<CarOutlined style={{ color: '#2d3436' }} />} title="ХҮРГЭЛТЭНД ГАРСАН" />                                    
                                         </div>
                                     ) : order.state === "4" ? (
-                                        <div>
-                                            <Typography.Title level={5}>ТӨЛӨВ:</Typography.Title>
+                                        <div>                                            
                                             <Result status="success" title="ХҮРГЭГДСЭН" />         
                                         </div>
                                     ) : (
-                                        <div>
-                                            <Typography.Title level={5}>ТӨЛӨВ:</Typography.Title>
+                                        <div>                                            
                                             <Result status="error" title="ЦУЦЛАГДСАН" />                                         
                                         </div>
                                     )}
@@ -166,7 +168,16 @@ function OrderHistory (props) {
                         </Collapse>                                                                             
                     </List.Item>
                 )}
-            />              
+            />    
+            <Pagination
+                current={page}
+                total={total}
+                pageSize={24}
+                showSizeChanger={false}
+                showTotal={false}         
+                style={{ marginTop: '24px' }}       
+                onChange={onPageChange}
+            />          
         </div>
     )
 }

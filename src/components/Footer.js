@@ -39,7 +39,7 @@ function CustomFooter (props) {
                         <Button href="/brandproducts" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Button><br/>
                         <Button href="/about" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }</Button><br/>
                         <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }</Button><br/>
-                        <Button href="/news" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.blog : translations.mn.header.blog }</Button><br/>
+                        <Button href="/posts" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.blog : translations.mn.header.blog }</Button><br/>
                         <Button href="/contact" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Button><br/>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={6}>

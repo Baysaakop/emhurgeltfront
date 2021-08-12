@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Upload, message } from 'antd';
 import './ImageUpload.css';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { InboxOutlined, LoadingOutlined } from '@ant-design/icons';
 
 const ImageUpload = (props) => {
     const [loading, setLoading] = useState(false);
@@ -36,8 +36,8 @@ const ImageUpload = (props) => {
     const uploadButton = (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: props.height, width: props.width }}>
             <div>
-                {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                <div style={{ marginTop: 8 }}>Upload</div>
+                {loading ? <LoadingOutlined style={{ fontSize: '40px' }}/> : <InboxOutlined style={{ fontSize: '40px' }} />}
+                <div style={{ marginTop: 8, fontSize: '18px' }}>Зураг сонгох</div>
             </div>
         </div>
     );

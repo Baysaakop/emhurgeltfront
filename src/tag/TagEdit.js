@@ -32,6 +32,7 @@ function TagEdit (props) {
         let hit = tags.find(x => x.id.toString() === id)
         form.setFieldsValue({
             name: hit.name,
+            name_en: hit.name_en,
             description: hit.description
         })
         setSelection(hit)
@@ -43,6 +44,7 @@ function TagEdit (props) {
             url: `${api.tags}/${selection.id}/`,
             data: {
                 name: values.name ? values.name : selection.name,
+                name_en: values.name_en ? values.name_en : selection.name_en,
                 description: values.description ? values.description : selection.description,
                 token: props.token
             },
@@ -94,7 +96,7 @@ function TagEdit (props) {
 
     return (
         <div>
-            <Typography.Title level={4}>Таг засах / устгах</Typography.Title>
+            <Typography.Title level={5}>Таг засах / устгах</Typography.Title>
             <Select                                
                 placeholder="Таг сонгох"
                 optionFilterProp="children"
@@ -113,6 +115,9 @@ function TagEdit (props) {
                     style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '500px' }}
                 >
                     <Form.Item name="name" label="Нэр"  rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="name_en" label="Нэр (EN)">
                         <Input />
                     </Form.Item>
                     <Form.Item name="description" label="Тайлбар">

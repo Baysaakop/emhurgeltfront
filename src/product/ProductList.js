@@ -62,7 +62,7 @@ function ProductList (props) {
         if (search) {
             url += `name=${search}`
         }
-        if (category) {
+        if (category && category > 0) {
             url += `&category=${category}`
         }
         if (selectedTags && selectedTags.length > 0) {
@@ -123,11 +123,7 @@ function ProductList (props) {
 
     function onPageChange (pageNum, pageSize) {        
         setPage(pageNum)
-    }
-
-    function showTotal(total) {
-        return `${ props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total } ${total} ${ props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products }:`;
-    }   
+    } 
 
     function onOrder (val) {
         setOrder(val)        
@@ -156,8 +152,11 @@ function ProductList (props) {
                         <Search placeholder={ props.language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } onSearch={onSearch} enterButton />
                         <Divider />
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>
-                        <Radio.Group onChange={onSelectCategory}>
+                        <Radio.Group defaultValue={0} onChange={onSelectCategory}>
                             <Space direction="vertical">
+                                <Radio value={0}>
+                                    Бүгд
+                                </Radio>
                                 {categories ? categories.map(cat => (
                                     <Radio value={cat.id}>
                                         { props.language === "en" ? cat.name_en : cat.name }
@@ -233,8 +232,7 @@ function ProductList (props) {
                         total={total}
                         pageSize={24}
                         showSizeChanger={false}
-                        showTotal={showTotal}
-                        size="small"
+                        showTotal={false}                        
                         onChange={onPageChange}
                     />
                 </Col>

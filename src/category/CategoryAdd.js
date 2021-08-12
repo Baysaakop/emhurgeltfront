@@ -13,6 +13,7 @@ function CategoryAdd (props) {
             url: `${api.categories}/`,
             data: {
                 name: values.name,
+                name_en: values.name_en ? values.name_en: '',
                 description: values.description ? values.description: '',
                 token: props.token
             },
@@ -38,15 +39,18 @@ function CategoryAdd (props) {
 
     return (
         <div>
-            <Typography.Title level={4}>Төрөл нэмэх</Typography.Title>
+            <Typography.Title level={5}>Төрөл нэмэх</Typography.Title>
             <Typography.Text type="warning"><WarningOutlined /> Төрөл нэмэхийн өмнө тухайн төрөл өмнө бүртгэгдсэн эсэхийг шалгана уу!</Typography.Text>
             <Form 
                 form={form} 
                 layout="vertical" 
                 onFinish={onFinish}
-                style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '500px' }}
+                style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '100%' }}
             >
                 <Form.Item name="name" label="Нэр"  rules={[{ required: true }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="name_en" label="Нэр (EN)">
                     <Input />
                 </Form.Item>
                 <Form.Item name="description" label="Тайлбар">

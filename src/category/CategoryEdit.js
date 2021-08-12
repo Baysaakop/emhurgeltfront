@@ -32,6 +32,7 @@ function CategoryEdit (props) {
         let hit = categories.find(x => x.id.toString() === id)
         form.setFieldsValue({
             name: hit.name,
+            name_en: hit.name_en,
             description: hit.description
         })
         setSelection(hit)
@@ -43,6 +44,7 @@ function CategoryEdit (props) {
             url: `${api.categories}/${selection.id}/`,
             data: {
                 name: values.name ? values.name : selection.name,
+                name_en: values.name_en ? values.name_en : selection.name_en,
                 description: values.description ? values.description : selection.description,
                 token: props.token
             },
@@ -94,12 +96,12 @@ function CategoryEdit (props) {
 
     return (
         <div>
-            <Typography.Title level={4}>Төрөл засах / устгах</Typography.Title>
+            <Typography.Title level={5}>Төрөл засах / устгах</Typography.Title>
             <Select                                
                 placeholder="Төрөл сонгох"
                 optionFilterProp="children"
                 onSelect={onSelect}
-                style={{ width: '500px' }}
+                style={{ width: '100%' }}
             >
                 { categories ? categories.map(cat => (
                     <Select.Option key={cat.id}>{cat.name}</Select.Option>
@@ -110,9 +112,12 @@ function CategoryEdit (props) {
                     form={form} 
                     layout="vertical" 
                     onFinish={onFinish}                    
-                    style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '500px' }}
+                    style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '100%' }}
                 >
-                    <Form.Item name="name" label="Нэр"  rules={[{ required: true }]}>
+                    <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="name_en" label="Нэр (EN)">
                         <Input />
                     </Form.Item>
                     <Form.Item name="description" label="Тайлбар">

@@ -2,22 +2,18 @@ import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from 'axios';
 import api from '../api';
-import { Breadcrumb, Button, Menu, Result, Tabs, Layout, Row, Col, Typography } from "antd";
+import { Breadcrumb, Button, Menu, Result, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import CategoryAdd from "../category/CategoryAdd";
 import CategoryEdit from "../category/CategoryEdit";
 import TagAdd from "../tag/TagAdd";
 import TagEdit from "../tag/TagEdit";
-import CompanyAdd from "../company/CompanyAdd";
-import CompanyEdit from "../company/CompanyEdit";
 import ProductAdd from "../product/ProductAdd";
 import ProductEdit from "../product/ProductEdit";
-import ShopAdd from "../shop/ShopAdd";
-import ShopEdit from "../shop/ShopEdit";
-import { BranchesOutlined, ExperimentOutlined, FileDoneOutlined, HistoryOutlined, LaptopOutlined, NotificationOutlined, ReadOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
+import { BranchesOutlined, ExperimentOutlined, HistoryOutlined, ReadOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
+import Orders from "./Orders";
 
 const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
 
 function Staff (props) {
     const [user, setUser] = useState()
@@ -93,29 +89,52 @@ function Staff (props) {
                                         <Menu.Item key="9">Засах / Устгах</Menu.Item>               
                                     </SubMenu>
                                     <SubMenu key="sub4" icon={<TagsOutlined />} title="Таг">
-                                        <Menu.Item key="8">Нэмэх</Menu.Item>
-                                        <Menu.Item key="9">Засах / Устгах</Menu.Item> 
-                                    </SubMenu>
-                                    <SubMenu key="sub5" icon={<ShopOutlined />} title="Компани">
                                         <Menu.Item key="10">Нэмэх</Menu.Item>
                                         <Menu.Item key="11">Засах / Устгах</Menu.Item> 
                                     </SubMenu>
-                                    <SubMenu key="sub6" icon={<BranchesOutlined />} title="Салбар">
+                                    <SubMenu key="sub5" icon={<ShopOutlined />} title="Компани">
                                         <Menu.Item key="12">Нэмэх</Menu.Item>
                                         <Menu.Item key="13">Засах / Устгах</Menu.Item> 
                                     </SubMenu>
-                                    <SubMenu key="sub7" icon={<ReadOutlined />} title="Мэдээлэл">
+                                    <SubMenu key="sub6" icon={<BranchesOutlined />} title="Салбар">
                                         <Menu.Item key="14">Нэмэх</Menu.Item>
                                         <Menu.Item key="15">Засах / Устгах</Menu.Item> 
                                     </SubMenu>
-                                    <SubMenu key="sub8" icon={<UserOutlined />} title="Хэрэглэгч">
+                                    <SubMenu key="sub7" icon={<ReadOutlined />} title="Мэдээлэл">
                                         <Menu.Item key="16">Нэмэх</Menu.Item>
                                         <Menu.Item key="17">Засах / Устгах</Menu.Item> 
                                     </SubMenu>
+                                    <SubMenu key="sub8" icon={<UserOutlined />} title="Хэрэглэгч">
+                                        <Menu.Item key="18">Нэмэх</Menu.Item>
+                                        <Menu.Item key="19">Засах / Устгах</Menu.Item> 
+                                    </SubMenu>
                                 </Menu>
                             </Col>
-                            <Col xs={24} sm={24} md={24} lg={18} xl={20} style={{ padding: '8px' }}>
-                                <Typography.Title level={5}>{key}</Typography.Title>
+                            <Col xs={24} sm={24} md={24} lg={18} xl={20} style={{ padding: '16px' }}>
+                                {/* <Typography.Title level={5}>{key}</Typography.Title> */}
+                                { key === "1" ? (
+                                    <Orders state="1" token={props.token} />
+                                ) : key === "2" ? (
+                                    <Orders state="2" token={props.token} />
+                                ) : key === "3" ? (
+                                    <Orders state="3" token={props.token} />
+                                ) : key === "4" ? (
+                                    <Orders state="4" token={props.token} />
+                                ) : key === "5" ? (
+                                    <Orders state="5" token={props.token} />
+                                ) : key === "6" ? (
+                                    <ProductAdd token={props.token} />
+                                ) : key === "7" ? (
+                                    <ProductEdit token={props.token} />
+                                ) : key === "8" ? (
+                                    <CategoryAdd token={props.token} />
+                                ) : key === "9" ? (
+                                    <CategoryEdit token={props.token} />
+                                ) : key === "10" ? (
+                                    <TagAdd token={props.token} />
+                                ) : key === "11" ? (
+                                    <TagEdit token={props.token} />
+                                ) : <></>}
                             </Col>
                         </Row>
                     </div>

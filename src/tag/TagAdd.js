@@ -13,6 +13,7 @@ function TagAdd (props) {
             url: `${api.tags}/`,
             data: {
                 name: values.name,
+                name_en: values.name_en ? values.name_en: '',
                 description: values.description ? values.description: '',
                 token: props.token
             },
@@ -38,15 +39,18 @@ function TagAdd (props) {
 
     return (
         <div>
-            <Typography.Title level={4}>Таг нэмэх</Typography.Title>
+            <Typography.Title level={5}>Таг нэмэх</Typography.Title>
             <Typography.Text type="warning"><WarningOutlined /> Таг нэмэхийн өмнө тухайн таг өмнө бүртгэгдсэн эсэхийг шалгана уу!</Typography.Text>
             <Form 
                 form={form} 
                 layout="vertical" 
                 onFinish={onFinish}
-                style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '500px' }}
+                style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '100%' }}
             >
                 <Form.Item name="name" label="Нэр"  rules={[{ required: true }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="name_en" label="Нэр (EN)">
                     <Input />
                 </Form.Item>
                 <Form.Item name="description" label="Тайлбар">

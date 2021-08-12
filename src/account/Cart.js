@@ -145,8 +145,7 @@ function Cart (props) {
         return result
     }
 
-    function onFinish (values) {
-        console.log(values)
+    function onFinish (values) {        
         axios({
             method: 'POST',
             url: `${api.orders}/`,
