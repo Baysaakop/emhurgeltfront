@@ -1,5 +1,5 @@
-import { CarOutlined, HeartOutlined, ShopOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
-import { Grid, Typography, Breadcrumb, Row, Col, Button, InputNumber, message, Divider, Tag, notification, Carousel, Avatar } from "antd";
+import { CarOutlined, HeartOutlined, MinusOutlined, PlusOutlined, ShopOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { Grid, Typography, Breadcrumb, Row, Col, Button, InputNumber, message, Divider, Tag, notification, Avatar, Space } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -20,6 +20,7 @@ function ProductDetail (props) {
     const [favorite, setFavorite] = useState()
     const [cart, setCart] = useState()
     const [suggestedItems, setSuggestedItems] = useState()
+    const [image, setImage] = useState()
 
     useEffect(() => {
         axios({
@@ -27,6 +28,7 @@ function ProductDetail (props) {
             url: `${api.items}/${props.match.params.id}/`,            
         }).then(res => {                        
             setItem(res.data)
+            setImage(res.data.image1)
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })        
@@ -200,23 +202,61 @@ function ProductDetail (props) {
                             {item.name}
                         </Breadcrumb.Item>
                     </Breadcrumb>
-                    <Row gutter={[48, 16]} style={{ marginTop: '24px', marginLeft: 0, marginRight: 0, padding: '24px', background: '#fff', borderRadius: '2px' }}>
+                    <Row gutter={ screens.xs ? [8, 8] : [60, 16]} style={{ marginTop: '24px', marginLeft: 0, marginRight: 0, padding: '24px', background: '#fff', borderRadius: '2px' }}>
                         <Col xs={24} sm={24} md={24} lg={10}>
-                            {item.images.length > 0 ?
-                                <Carousel autoplay>
-                                    {item.images.map(element => (
-                                        <div style={{ width: '100%' }}>
-                                            <div style={{ position: 'relative', paddingTop: '100%' }}>
-                                                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-                                                    <img alt={element.image} src={element.image} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
-                                                </div>                            
-                                            </div>
+                            <div style={{ border: '1px solid #dedede' }}>
+                                <div style={{ position: 'relative', paddingTop: '100%'  }}>
+                                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                        <img alt={item.name} src={image ? image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
+                                    </div>                            
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '12px' }}>
+                                { item.image1 ? (
+                                    <div style={ item.image1 === image ? { width: '22%', border: '2px solid #000', cursor: 'pointer' } : { width: '22%', border: '1px solid #dedede', marginRight: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image1)}>
+                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                                <img alt={item.image1} src={item.image1} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
+                                            </div>                            
                                         </div>
-                                    ))}
-                                </Carousel>              
-                            : 
-                                <img alt={item.name} src="https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg" style={{ width: '100%', height: 'auto' }} />
-                            }
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                                { item.image2 ? (
+                                    <div style={ item.image2 === image ? { width: '22%', border: '2px solid #000', marginLeft: '4%', cursor: 'pointer'  } : { width: '22%', border: '1px solid #dedede', marginLeft: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image2)}>
+                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                                <img alt={item.image2} src={item.image2} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
+                                            </div>                            
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}          
+                                { item.image3 ? (
+                                    <div style={ item.image3 === image ? { width: '22%', border: '2px solid #000', marginLeft: '4%', cursor: 'pointer'  } : { width: '22%', border: '1px solid #dedede', marginLeft: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image3)}>
+                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                                <img alt={item.image3} src={item.image3} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
+                                            </div>                            
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}          
+                                { item.image4 ? (
+                                    <div style={ item.image4 === image ? { width: '22%', border: '2px solid #000', marginLeft: '4%', cursor: 'pointer'  } : { width: '22%', border: '1px solid #dedede', marginLeft: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image4)}>
+                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                                <img alt={item.image4} src={item.image4} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
+                                            </div>                            
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}                                
+                            </div>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={14} style={{ padding: 0 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -234,23 +274,28 @@ function ProductDetail (props) {
                                 <div>                                    
                                     <Typography.Title level={5} style={{ margin: '0' }}>Үнэ:</Typography.Title>
                                     <Typography.Title level={2} style={{ margin: '0' }}>{formatNumber(item.price)}₮</Typography.Title>
-                                </div>                                
+                                </div>                                                       
                             </div>                            
-                            <Divider style={{ margin: '16px 0' }} />                                                                                                                                                                                                                          
-                            <Typography.Text style={{ fontSize: '18px' }}>Тоо:</Typography.Text>
-                            <InputNumber value={count} size="large" min={1} max={100} style={{ margin: '0 8px 8px 8px' }} onChange={(val) => setCount(val)} />                                                                       
-                            {cart && cart.find(x => x.item.id === item.id) ? (
-                                <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={() => addToCart("delete")} >Сагснаас гаргах</Button>
-                            ) : (
-                                <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={() => addToCart("create")} >Сагсанд хийх</Button>
-                            )}                                                        
-                            <Button type="primary" size="large" icon={<ShoppingOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={order}>Захиалах</Button>                                                                 
-                            <Button danger type="primary" size="large" icon={<HeartOutlined />} style={{ margin: '0 8px 8px 0' }} onClick={addToSaved}>
-                                { favorite && favorite.find(x => x.id === item.id) ? 'Хадгалсан' : 'Хадгалах' }                                    
-                            </Button>
-                            <Link to={`/productshop/${item.id}`}>
-                                <Button type="ghost" size="large" icon={<ShopOutlined />} style={{ margin: '0 8px 8px 0' }}>Зарагдаж буй салбарууд</Button>                            
-                            </Link>
+                            <Divider style={{ margin: '16px 0' }} />  
+                            <Space size={[8, 8]} wrap>
+                                <div>
+                                    <Button size="large" type="ghost" icon={<MinusOutlined />} onClick={() => count > 1 ? setCount(count - 1) : setCount(count)} />            
+                                    <InputNumber readOnly value={count} size="large" min={1} max={50} style={{ width: '60px' }} />                                                                       
+                                    <Button size="large" type="ghost" icon={<PlusOutlined />} onClick={() => count < 50 ? setCount(count + 1) : setCount(count)} />            
+                                </div>    
+                                {cart && cart.find(x => x.item.id === item.id) ? (
+                                    <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("delete")} >Сагснаас гаргах</Button>
+                                ) : (
+                                    <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >Сагсанд хийх</Button>
+                                )}       
+                                <Button type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>Захиалах</Button>
+                                <Button danger type="primary" size="large" icon={<HeartOutlined />} onClick={addToSaved}>
+                                    { favorite && favorite.find(x => x.id === item.id) ? 'Хадгалсан' : 'Хадгалах' }                                    
+                                </Button>
+                                <Link to={`/productshop/${item.id}`}>
+                                    <Button type="ghost" size="large" icon={<ShopOutlined />} style={{ margin: '0 8px 8px 0' }}>Зарагдаж буй салбарууд</Button>                            
+                                </Link>
+                            </Space>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                             <Divider style={{ margin: '16px 0' }} />
                             {item.tag.map(tag => {
                                 return (

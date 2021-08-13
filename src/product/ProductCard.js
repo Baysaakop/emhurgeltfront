@@ -137,7 +137,7 @@ function ProductCard (props) {
                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
                                 <img 
                                     alt={props.item.name} 
-                                    src={props.item.images.length > 0 ? props.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
+                                    src={props.item.image1 ? props.item.image1 : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
                                     style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} 
                                 />                            
                                 { props.item.is_brand === true ?

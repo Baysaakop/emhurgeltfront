@@ -123,7 +123,7 @@ function OrderHistory (props) {
                                                         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', border: '1px solid #dedede', borderRadius: '2px' }}>
                                                             <img 
                                                                 alt={item.item.name} 
-                                                                src={item.item.images.length > 0 ? item.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
+                                                                src={item.item.image1 ? item.item.image1 : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
                                                                 style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} 
                                                             /> 
                                                         </div>   

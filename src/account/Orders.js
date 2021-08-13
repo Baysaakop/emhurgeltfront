@@ -114,7 +114,7 @@ function Orders (props) {
                                         <div style={{ width: '100px', height: '100px', border: '1px solid #dedede' }}>
                                             <img 
                                                 alt={item.item.name} 
-                                                src={item.item.images.length > 0 ? item.item.images[0].image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
+                                                src={item.item.image1 ? item.item.image1 : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
                                                 style={{ width: '100%', height: '100%', objectFit: 'scale-down' }} 
                                             />
                                         </div>

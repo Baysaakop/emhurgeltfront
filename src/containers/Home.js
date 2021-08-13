@@ -116,7 +116,7 @@ function Home (props) {
                                             <Button type="primary">Дэлгэрэнгүй</Button>
                                         </Link>
                                         <div style={{ fontStyle: 'italic' }}>
-                                            Нийтлэгдсэн: {moment(post.created_at).format("YYYY-MM-DD")}
+                                            {moment(post.created_at).format("YYYY-MM-DD")}
                                         </div>
                                     </div>
                                 </Card>
