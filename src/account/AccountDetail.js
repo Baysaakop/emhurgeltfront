@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Popconfirm, Button, message, Row, Col, DatePicker, Typography, Divider, Modal } from 'antd';
+import { Form, Input, Popconfirm, Button, message, Row, Col, DatePicker, Typography, Divider, Modal, Space } from 'antd';
 import { UserOutlined, MobileOutlined, MailOutlined, CheckOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import api from '../api';
@@ -41,7 +41,7 @@ function AccountDetail (props) {
             url: `${api.profiles}/${props.user.profile.id}/`,
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': props.token                          
+                'Authorization': `Token ${props.token}`                               
             },
             data: formData
         })            
@@ -117,13 +117,21 @@ function AccountDetail (props) {
                         </Form.Item> 
                     </Col>                    
                     <Col span={24}>
-                        <Form.Item name="address" label="Хаяг:">                            
-                            <Input                                 
-                                disabled
-                                prefix={<EnvironmentOutlined style={{ color: '#a1a1a1' }} />} 
-                                suffix={<Button type="primary" style={{ background: '#2ed573', border: 0 }} onClick={() => setVisible(true)}>Засах</Button>}
-                                defaultValue={getAddress(props.user.profile.address)}                                                                                
-                            />                            
+                        <Form.Item name="address" label="Хаяг:">         
+                            <Input.Group>
+                                <Row gutter={[8, 8]}>
+                                    <Col xs={24} sm={24} md={16} lg={18} xl={20}>
+                                        <Input 
+                                            prefix={<EnvironmentOutlined style={{ color: '#a1a1a1' }} />}                                 
+                                            defaultValue={props.user.profile.address ? props.user.profile.address : undefined} 
+                                            style={{ width: '100%' }}
+                                        />     
+                                    </Col>
+                                    <Col xs={24} sm={24} md={8} lg={6} xl={4}>
+                                        <Button type="primary" style={{ width: '100%' }} onClick={() => setVisible(true)}>Хаяг сонгох</Button>
+                                    </Col>
+                                </Row>
+                            </Input.Group>                                                         
                         </Form.Item>  
                     </Col>
                 </Row>              

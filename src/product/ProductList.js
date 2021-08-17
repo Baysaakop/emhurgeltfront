@@ -158,7 +158,7 @@ function ProductList (props) {
                                     Бүгд
                                 </Radio>
                                 {categories ? categories.map(cat => (
-                                    <Radio value={cat.id}>
+                                    <Radio key={cat.id} value={cat.id}>
                                         { props.language === "en" ? cat.name_en : cat.name }
                                     </Radio>
                                 )) : <></>}
@@ -222,8 +222,8 @@ function ProductList (props) {
                         }}
                         dataSource={items ? items : undefined}
                         renderItem={item => (
-                            <List.Item>
-                                <ProductCard history={props.history} item={item} user={user} type="list" />
+                            <List.Item key={item.id}>
+                                <ProductCard history={props.history} item={item} user={user} token={props.token} type="list" />
                             </List.Item>
                         )}
                     />

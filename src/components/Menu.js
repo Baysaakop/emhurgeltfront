@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Typography, Divider, Affix, Select } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { GlobalOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
+import { GlobalOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, MailOutlined, SettingOutlined, StarOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import axios from 'axios';
@@ -238,13 +238,13 @@ function CustomMenu (props) {
                                 </Link>                        
                                 { user ? (
                                     <>
-                                        {/* {parseInt(user.profile.role) < 3 ? (
-                                            <Link to="/admin">
+                                        {parseInt(user.profile.role) < 3 ? (
+                                            <Link to="/staff">
                                                 <Tooltip placement="bottom" title="Ажилтан">                                           
-                                                    <Button size="middle" icon={<DatabaseOutlined />} style={{ marginLeft: '12px' }} />
+                                                    <Button size="middle" icon={<SettingOutlined />} style={{ marginLeft: '12px' }} />
                                                 </Tooltip>
                                             </Link>
-                                        ) : (<></>)} */}
+                                        ) : (<></>)}
                                         <Link to="/profile">
                                             <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
                                                 <Button type="primary" size="middle" icon={<UserOutlined />} style={{ marginLeft: '12px' }} />
@@ -277,7 +277,7 @@ function CustomMenu (props) {
                             <Menu.Item key="brandproducts" style={{ margin: 0 }}>
                                 <Link to="/brandproducts">
                                     <Tag color="#2ed573" style={{ fontSize: '14px', padding: '3px 8px' }}>                                    
-                                        <FlowerIcon style={{ marginRight: '4px', color: '#fff', fontSize: '14px',  }} /> { language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }
+                                        <StarOutlined style={{ marginRight: '4px', color: '#fff', fontSize: '14px',  }} /> { language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }
                                     </Tag>
                                 </Link>
                             </Menu.Item>         

@@ -169,17 +169,17 @@ function ProductDetail (props) {
 
     function getSliderCount() {
         if (screens.xxl) {
-            return 7
-        } else if (screens.xl) {
             return 6
-        } else if (screens.lg) {
+        } else if (screens.xl) {
             return 5
-        } else if (screens.md) {
+        } else if (screens.lg) {
             return 4
-        } else if (screens.sm) {
+        } else if (screens.md) {
             return 3
-        } else if (screens.xs) {
+        } else if (screens.sm) {
             return 2
+        } else if (screens.xs) {
+            return 1
         }
     }
 
@@ -205,7 +205,7 @@ function ProductDetail (props) {
                     <Row gutter={ screens.xs ? [8, 8] : [60, 16]} style={{ marginTop: '24px', marginLeft: 0, marginRight: 0, padding: '24px', background: '#fff', borderRadius: '2px' }}>
                         <Col xs={24} sm={24} md={24} lg={10}>
                             <div style={{ border: '1px solid #dedede' }}>
-                                <div style={{ position: 'relative', paddingTop: '100%'  }}>
+                                <div style={{ position: 'relative', padding: '100% 0 0 0'  }}>
                                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
                                         <img alt={item.name} src={image ? image : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
                                     </div>                            
@@ -213,8 +213,8 @@ function ProductDetail (props) {
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '12px' }}>
                                 { item.image1 ? (
-                                    <div style={ item.image1 === image ? { width: '22%', border: '2px solid #000', cursor: 'pointer' } : { width: '22%', border: '1px solid #dedede', marginRight: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image1)}>
-                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                    <div style={ item.image1 === image ? { width: '22%', border: '2px solid #000', cursor: 'pointer' } : { width: '22%', border: '1px solid #dedede', cursor: 'pointer'  }} onClick={() => setImage(item.image1)}>
+                                        <div style={{ position: 'relative', padding: '100% 0 0 0' }}>
                                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
                                                 <img alt={item.image1} src={item.image1} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
                                             </div>                            
@@ -225,7 +225,7 @@ function ProductDetail (props) {
                                 )}
                                 { item.image2 ? (
                                     <div style={ item.image2 === image ? { width: '22%', border: '2px solid #000', marginLeft: '4%', cursor: 'pointer'  } : { width: '22%', border: '1px solid #dedede', marginLeft: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image2)}>
-                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                        <div style={{ position: 'relative', padding: '100% 0 0 0' }}>
                                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
                                                 <img alt={item.image2} src={item.image2} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
                                             </div>                            
@@ -236,7 +236,7 @@ function ProductDetail (props) {
                                 )}          
                                 { item.image3 ? (
                                     <div style={ item.image3 === image ? { width: '22%', border: '2px solid #000', marginLeft: '4%', cursor: 'pointer'  } : { width: '22%', border: '1px solid #dedede', marginLeft: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image3)}>
-                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                        <div style={{ position: 'relative', padding: '100% 0 0 0' }}>
                                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
                                                 <img alt={item.image3} src={item.image3} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
                                             </div>                            
@@ -247,7 +247,7 @@ function ProductDetail (props) {
                                 )}          
                                 { item.image4 ? (
                                     <div style={ item.image4 === image ? { width: '22%', border: '2px solid #000', marginLeft: '4%', cursor: 'pointer'  } : { width: '22%', border: '1px solid #dedede', marginLeft: '4%', cursor: 'pointer'  }} onClick={() => setImage(item.image4)}>
-                                        <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                        <div style={{ position: 'relative', padding: '100% 0 0 0' }}>
                                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
                                                 <img alt={item.image4} src={item.image4} style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} />                            
                                             </div>                            
@@ -281,7 +281,7 @@ function ProductDetail (props) {
                                 <div>
                                     <Button size="large" type="ghost" icon={<MinusOutlined />} onClick={() => count > 1 ? setCount(count - 1) : setCount(count)} />            
                                     <InputNumber readOnly value={count} size="large" min={1} max={50} style={{ width: '60px' }} />                                                                       
-                                    <Button size="large" type="ghost" icon={<PlusOutlined />} onClick={() => count < 50 ? setCount(count + 1) : setCount(count)} />            
+                                    <Button size="large" type="ghost" icon={<PlusOutlined />} onClick={() => count < 200 ? setCount(count + 1) : setCount(count)} />            
                                 </div>    
                                 {cart && cart.find(x => x.item.id === item.id) ? (
                                     <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("delete")} >Сагснаас гаргах</Button>
@@ -293,13 +293,13 @@ function ProductDetail (props) {
                                     { favorite && favorite.find(x => x.id === item.id) ? 'Хадгалсан' : 'Хадгалах' }                                    
                                 </Button>
                                 <Link to={`/productshop/${item.id}`}>
-                                    <Button type="ghost" size="large" icon={<ShopOutlined />} style={{ margin: '0 8px 8px 0' }}>Зарагдаж буй салбарууд</Button>                            
+                                    <Button type="ghost" size="large" icon={<ShopOutlined />}>Зарагдаж буй салбарууд</Button>                            
                                 </Link>
                             </Space>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                             <Divider style={{ margin: '16px 0' }} />
                             {item.tag.map(tag => {
                                 return (
-                                    <Tag>{tag.name}</Tag>
+                                    <Tag key={tag.id}>{tag.name}</Tag>
                                 )                                
                             })}
                             <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
@@ -348,7 +348,7 @@ function ProductDetail (props) {
                             >
                                 {suggestedItems.map(item => {
                                     return (
-                                        <ProductCard history={props.history} item={item} user={user} type="" />
+                                        <ProductCard key={item.id} history={props.history} item={item} user={user} type="" />
                                     )
                                 })}
                             </InfiniteCarousel>

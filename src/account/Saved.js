@@ -27,7 +27,7 @@ function Saved (props) {
                 dataSource={items}
                 renderItem={item => (
                     <List.Item>
-                        <ProductCard item={item} user={props.user} type="favorite" onRemove={onRemove} />
+                        <ProductCard item={item} user={props.user} token={props.token} type="favorite" onRemove={onRemove} />
                     </List.Item>
                 )}
             />

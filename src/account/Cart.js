@@ -39,6 +39,7 @@ function Cart (props) {
                 url: `${api.profiles}/${props.user.profile.id}/`,
                 headers: {
                     'Content-Type': 'application/json',                                              
+                    'Authorization': `Token ${props.token}`           
                 },
                 data: {
                     cart: true,
@@ -66,7 +67,8 @@ function Cart (props) {
                 method: 'PUT',
                 url: `${api.profiles}/${props.user.profile.id}/`,
                 headers: {
-                    'Content-Type': 'application/json',                                              
+                    'Content-Type': 'application/json',            
+                    'Authorization': `Token ${props.token}`                                             
                 },
                 data: {
                     cart: true,
@@ -93,7 +95,8 @@ function Cart (props) {
             method: 'PUT',
             url: `${api.profiles}/${props.user.profile.id}/`,
             headers: {
-                'Content-Type': 'application/json',                                              
+                'Content-Type': 'application/json',  
+                'Authorization': `Token ${props.token}`                                                       
             },
             data: {
                 cart: true,

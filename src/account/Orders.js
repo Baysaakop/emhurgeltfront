@@ -63,7 +63,8 @@ function Orders (props) {
         })            
         .then(res => {
             if (res.status === 200) {                                                      
-                getOrders(props.state, page)                                                       
+                getOrders(props.state, page)         
+                message.info("Амжилттай")                                                              
             }                                                        
         })
         .catch(err => {                      
@@ -87,6 +88,7 @@ function Orders (props) {
         .then(res => {
             if (res.status === 200) {                                                      
                 getOrders(props.state, page)                                                             
+                message.info("Амжилттай")                
             }                                                        
         })
         .catch(err => {                      

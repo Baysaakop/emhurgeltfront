@@ -94,7 +94,7 @@ export const en = {
         products: 'products',
         newest: 'Date: New to Old',
         oldest: 'Date: Old to New',
-        lowtohigh: 'Price: Low to Hight',
+        lowtohigh: 'Price: Low to High',
         hightolow: 'Price: High to Low',
     }
 }

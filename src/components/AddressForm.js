@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Select, Input } from 'antd';
+import { Button, Form, Select, Input, Row, Col } from 'antd';
 import axios from "axios";
 import api from "../api";
+import { PlusOutlined, PlusSquareOutlined, SaveOutlined } from "@ant-design/icons";
 
 const { Option } = Select
 
@@ -9,13 +10,12 @@ function AddressForm (props) {
     const [form] = Form.useForm()    
     const [cities, setCities] = useState()
     const [districts, setDistricts] = useState()    
+    const [sections, setSections] = useState()    
+    const [buildings, setBuildings] = useState()    
 
     useEffect(() => {        
         getCities()            
-        if (props.address) {            
-            getDisctricts(props.address.city.id.toString())        
-        }
-    }, [props.address])
+    }, [])
 
     function getCities () {
         axios({
@@ -80,14 +80,8 @@ function AddressForm (props) {
                 form={form} 
                 layout="vertical" 
                 onFinish={onFinish}
-                initialValues={ props.address ? {
-                    city: props.address.city.id.toString(),
-                    district: props.address.district.id.toString(),
-                    section: props.address.section.toString(),
-                    address: props.address.address.toString()
-                } : undefined}        
             >
-                <Form.Item name="city" label="Хот" rules={[{ required: true }]}>
+                <Form.Item name="city" label="Хот">
                     <Select                                
                         placeholder="Хот сонгох"
                         optionFilterProp="children"
@@ -98,7 +92,7 @@ function AddressForm (props) {
                         )) : <></> }
                     </Select>          
                 </Form.Item>
-                <Form.Item name="district" label="Дүүрэг"  rules={[{ required: true }]}>
+                <Form.Item name="district" label="Дүүрэг">
                     <Select                                
                         placeholder="Дүүрэг сонгох"
                         optionFilterProp="children"            
@@ -110,14 +104,56 @@ function AddressForm (props) {
                     </Select>          
                 </Form.Item>                        
                 <Form.Item name="section" label="Хороо">
-                    <Input />
+                    <Input.Group>
+                        <Row gutter={8}>
+                            <Col span={18}>
+                                <Select                                
+                                    placeholder="Хороо сонгох"
+                                    optionFilterProp="children"            
+                                    onSelect={onSelectDistrict}    
+                                    style={{ width: '100%' }}             
+                                >
+                                    { sections ? sections.map(section => (
+                                        <Option key={section.id}>{section.name}</Option>
+                                    )) : <></> }
+                                </Select>  
+                            </Col>
+                            <Col span={6}>
+                                <Button icon={<PlusOutlined />} type="primary" style={{ width: '100%' }}>Нэмэх</Button>
+                            </Col>
+                        </Row>
+                    </Input.Group>                    
+                </Form.Item>              
+                <Form.Item name="building" label="Байр">
+                    <Input.Group>
+                        <Row gutter={8}>
+                            <Col span={18}>
+                                <Select                                
+                                    placeholder="Байр сонгох"
+                                    optionFilterProp="children"            
+                                    onSelect={onSelectDistrict}    
+                                    style={{ width: '100%' }}             
+                                >
+                                    { buildings ? buildings.map(building => (
+                                        <Option key={building.id}>{building.name}</Option>
+                                    )) : <></> }
+                                </Select>  
+                            </Col>
+                            <Col span={6}>
+                                <Button icon={<PlusOutlined />} type="primary" style={{ width: '100%' }}>Нэмэх</Button>
+                            </Col>
+                        </Row>
+                    </Input.Group>                    
                 </Form.Item>                            
-                <Form.Item name="address" label="Байр, тоот (бусад)" rules={[{ required: true }]}>
+                <Form.Item name="additional" label="Нэмэлт (Орц, Давхар, Тоот)">
                     <Input.TextArea rows={6} />
                 </Form.Item>
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>                    
-                    <Button type="primary" onClick={form.submit}>Хадгалах</Button>                                     
-                </div>                
+                <Row gutter={8}>
+                    <Col span={18}></Col>
+                    <Col span={6}>                
+                        <Button icon={<SaveOutlined />} type="primary" style={{ width: '100%' }} onClick={form.submit}>Хадгалах</Button>                                                               
+                    </Col>
+                </Row>      
             </Form>
         </div>
     )

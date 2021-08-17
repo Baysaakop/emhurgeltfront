@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Button, Typography, Row, Col, Avatar } from 'antd';
-import { FacebookFilled, InstagramOutlined, MailOutlined, YoutubeOutlined } from '@ant-design/icons';
+import { FacebookFilled, GoogleOutlined, InstagramOutlined, YoutubeOutlined } from '@ant-design/icons';
 import logo from './logo.png'
 import * as translations from '../translation';
 import { withRouter } from 'react-router-dom';
@@ -55,26 +55,26 @@ function CustomFooter (props) {
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.social_channels : translations.mn.footer.social_channels }</Typography.Title>
                         <a href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542">
                             <div style={{ marginTop: '8px' }}>
-                                <Button size="large" shape="circle" type="primary" style={{ background: '#3B5998', paddingTop: '4px' }} icon={<FacebookFilled />} /> 
-                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold' }}> Facebook</Typography.Text>
+                                <Button size="large" type="primary" style={{ background: '#3B5998', paddingTop: '4px' }} icon={<FacebookFilled />} /> 
+                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold', marginLeft: '8px' }}> Facebook</Typography.Text>
                             </div>       
                         </a>  
                         <a href="/">
                             <div style={{ marginTop: '8px' }}>
-                                <Button size="large" shape="circle" type="primary" style={{ background: '#bb0000', paddingTop: '4px' }} icon={<YoutubeOutlined />} /> 
-                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold' }}> YouTube</Typography.Text>
+                                <Button size="large" type="primary" style={{ background: '#bb0000', paddingTop: '4px' }} icon={<YoutubeOutlined />} /> 
+                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold', marginLeft: '8px' }}> YouTube</Typography.Text>
                             </div>  
                         </a>          
                         <a href="/">
                             <div style={{ marginTop: '8px' }}>
-                                <Button size="large" shape="circle" type="primary" style={{ background: '#125688', paddingTop: '4px' }} icon={<InstagramOutlined />} /> 
-                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold' }}> Instagram</Typography.Text>
+                                <Button size="large" type="primary" style={{ background: '#125688', paddingTop: '4px' }} icon={<InstagramOutlined />} /> 
+                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold', marginLeft: '8px' }}> Instagram</Typography.Text>
                             </div>   
                         </a>    
                         <a href="mailto:info@dseabi.mn">     
                             <div style={{ marginTop: '8px' }}>
-                                <Button size="large" shape="circle" type="primary" style={{ background: '#dd4b39', paddingTop: '4px' }} icon={<MailOutlined />} /> 
-                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold' }}> Email</Typography.Text>
+                                <Button size="large" type="primary" style={{ background: '#dd4b39', paddingTop: '4px' }} icon={<GoogleOutlined />} /> 
+                                <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold', marginLeft: '8px' }}> Gmail</Typography.Text>
                             </div>    
                         </a>
                     </Col>

@@ -247,8 +247,8 @@ function ProductEdit (props) {
             console.log(res)
             if (res.status === 200 || res.status === 204) {
                 notification['info']({
-                    message: 'Амжилттай',
-                    description: `${selection.name} бүтээгдэхүүн амжилттай устлаа.`
+                    message: 'Устсан.',
+                    description: `${selection.name} бүтээгдэхүүн устлаа.`
                 })
             }
             form.resetFields()

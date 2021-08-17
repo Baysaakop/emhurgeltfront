@@ -1,4 +1,4 @@
-import { Row, Col, Typography, Breadcrumb } from 'antd'
+import { Row, Col, Typography, Breadcrumb, Avatar } from 'antd'
 import React from 'react'
 import {    
     MailOutlined,
@@ -6,10 +6,11 @@ import {
     PhoneOutlined,
     FacebookFilled,    
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import Avatar from 'antd/lib/avatar/avatar';
+import { Link, withRouter } from 'react-router-dom';
+import * as translations from '../translation';
+import { connect } from 'react-redux';
 
-function Contact () {
+function Contact (props) {
     return (
         <div>
             <Breadcrumb>
@@ -30,39 +31,39 @@ function Contact () {
                             <Typography.Text>
                                 Та доор байрлах манай утасны дугаар болон цахим хаягуудад зурвас илгээн бидэнтэй холбогдох боломжтой бөгөөд мөн манай хаягаар ирж үйлчлүүлэх болон мэдээлэл авах боломжтой юм.
                             </Typography.Text>                        
-                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'start', marginTop: '16px' }}>
                                 <div>
-                                    <Avatar size={64} icon={<EnvironmentOutlined />} style={{ background: '#27ae60' }} />
+                                    <Avatar shape="square" size={48} icon={<EnvironmentOutlined />} style={{ background: '#27ae60' }} />
                                 </div>
                                 <div style={{ marginLeft: '16px' }}>
-                                    <Typography.Title level={5}>ХАЯГ</Typography.Title>
-                                    <Typography.Text>ХУД 120 мянгат 1-р хороо Энхтайван хотхон 46А байр 1-р давхар ИРМҮҮН-АЗ эмийн сан, Улаанбаатар</Typography.Text>
+                                    <Typography.Title level={5}>{ props.language === "en" ? translations.en.footer.address : translations.mn.footer.address }</Typography.Title>
+                                    <Typography.Text>{ props.language === "en" ? translations.en.footer.address_pharmacy : translations.mn.footer.address_pharmacy }</Typography.Text>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'start', marginTop: '16px' }}>
                                 <div>
-                                    <Avatar size={64} icon={<PhoneOutlined />} style={{ background: '#2c3e50' }} />
+                                    <Avatar shape="square" size={48} icon={<PhoneOutlined />} style={{ background: '#2c3e50' }} />
                                 </div>
                                 <div style={{ marginLeft: '16px' }}>
-                                    <Typography.Title level={5}>УТАС</Typography.Title>
+                                    <Typography.Title level={5}>{ props.language === "en" ? translations.en.footer.phone_number : translations.mn.footer.phone_number }</Typography.Title>
                                     <Typography.Text style={{ fontSize: '16px' }}>7607-7722, 8080-2594</Typography.Text>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'start', marginTop: '16px' }}>
                                 <div>
-                                    <Avatar size={64} icon={<MailOutlined />} style={{ background: '#dd4b39' }} />
+                                    <Avatar shape="square" size={48} icon={<MailOutlined />} style={{ background: '#dd4b39' }} />
                                 </div>
                                 <div style={{ marginLeft: '16px' }}>
-                                    <Typography.Title level={5}>И-МЭЙЛ</Typography.Title>
+                                    <Typography.Title level={5}>И-Мэйл хаяг</Typography.Title>
                                     <Typography.Text style={{ fontSize: '16px' }}><a href="mailto:info@dseabi.mn">info@dseabi.mn</a></Typography.Text>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'start', marginTop: '16px' }}>
                                 <div>
-                                    <Avatar size={64} icon={<FacebookFilled />} style={{ background: '#3B5998' }} />
+                                    <Avatar shape="square" size={48} icon={<FacebookFilled />} style={{ background: '#3B5998' }} />
                                 </div>
                                 <div style={{ marginLeft: '16px' }}>
-                                    <Typography.Title level={5}>FACEBOOK</Typography.Title>
+                                    <Typography.Title level={5}>Facebook хуудас</Typography.Title>
                                     <Typography.Text style={{ fontSize: '16px' }}>
                                         <a href="https://www.facebook.com/dseabi.mn">Dseabi Company</a>, 
                                         <a href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542"> Ирмүүн аз эмийн сан</a>
@@ -83,4 +84,10 @@ function Contact () {
     )
 }
 
-export default Contact
+const mapStateToProps = state => {
+    return {
+        language: state.language
+    }
+}
+
+export default withRouter(connect(mapStateToProps, null)(Contact));
