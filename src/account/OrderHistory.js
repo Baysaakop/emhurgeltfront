@@ -20,8 +20,7 @@ function OrderHistory (props) {
         axios({
             method: 'GET',
             url: url           
-        }).then(res => {                        
-            console.log(res.data.results)
+        }).then(res => {                                    
             setOrders(res.data.results)          
             setTotal(res.data.count)
         }).catch(err => {

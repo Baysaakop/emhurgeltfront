@@ -25,13 +25,13 @@ export const authFail = error => {
 
 export const logout = () => {
     localStorage.removeItem('token');    
-    message.info("Signed out")
+    message.info("Гарлаа.")
     return {
         type: actionTypes.AUTH_LOGOUT
     };
 }
 
-export const authFacebook = (access_token, email, name, picture) => {
+export const authFacebook = (access_token, email, name) => {
     return dispatch => {        
         dispatch(authStart());
         axios({
@@ -40,8 +40,30 @@ export const authFacebook = (access_token, email, name, picture) => {
             data: {
                 access_token: access_token,
                 email: email,
-                name: name,
-                picture: picture
+                username: name
+            }
+        })     
+        .then(res => {                             
+            const token = res.data.key;            
+            localStorage.setItem('token', token);            
+            dispatch(authSuccess(token));       
+        })
+        .catch(err => {
+            console.log(err.message)                    
+        })                  
+    }
+}
+
+export const authGoogle = (access_token, email, name) => {
+    return dispatch => {        
+        dispatch(authStart());
+        axios({
+            method: 'POST',
+            url: api.authGoogle,
+            data: {
+                access_token: access_token,
+                email: email,
+                username: name,
             }
         })     
         .then(res => {                             

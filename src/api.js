@@ -1,5 +1,5 @@
-const baseUrl = "http://localhost:8000/"
-// const baseUrl = "https://emhurgeltback.herokuapp.com/"
+// const baseUrl = "http://localhost:8000/"
+const baseUrl = "https://emhurgeltback.herokuapp.com/"
 
 const api = {
     items: baseUrl + 'api/items/items',
@@ -17,9 +17,6 @@ const api = {
     buildings: baseUrl + 'api/users/buildings',
     authFacebook: baseUrl + 'rest-auth/facebook/',
     authGoogle: baseUrl + 'rest-auth/google/',
-    // cities: baseUrl + 'api/address/cities',
-    // districts: baseUrl + 'api/address/districts',
-    // addresses: baseUrl + 'api/address/addresses',
     profile: baseUrl + 'rest-auth/user/',    
     ckeditor: baseUrl + 'ckeditor/',
 }

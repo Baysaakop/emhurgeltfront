@@ -19,7 +19,7 @@ const Login = (props) => {
     if (props.error) {
         const errorMessage = props.error.message.toString()
         if (errorMessage.endsWith('400')) {
-            message.error("Authentication failed! Username or password is incorrect.")
+            message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
         }  
     }
 
@@ -28,12 +28,17 @@ const Login = (props) => {
         if (response.status === "unknown") {
             message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
         } else {
-            props.onAuthFacebook(response.accessToken, response.email, response.name, response.picture.data.url)
+            props.onAuthFacebook(response.accessToken, response.email, response.name)
         }
     }
 
     function authGoogle (response) {
         console.log(response)
+        if (response.status === "unknown") {
+            message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
+        } else {
+            props.onAuthGoogle(response.accessToken, response.email, response.name)
+        }
     }
 
     return (
@@ -61,19 +66,21 @@ const Login = (props) => {
                         cssClass="login-facebook"
                         icon={<FacebookFilled />}
                         textButton=" Facebook ашиглан нэвтрэх"
-                        appId="358552112401509"
-                        fields="name,email,picture"                                    
+                        appId="158154739545222"
+                        fields="name,email"                                    
                         callback={authFacebook}                                    
                     />                                    
                     <GoogleLogin                                                                                                            
-                        clientId="<Google Client ID>"
-                        buttonText=" Sign in with Google"
+                        clientId="334510141695-a9leelseahje4g0a5tlg6diptlq8ffre.apps.googleusercontent.com"
+                        buttonText=" Google ашиглан нэвтрэх"                        
                         render={renderProps => (
                             <Button size="large" danger type="primary" onClick={renderProps.onClick} icon={<GoogleOutlined style={{ fontSize: '18px' }} />} style={{ width: '100%', marginTop: '16px' }}>
                                 Google ашиглан нэвтрэх
                             </Button>
-                        )}
+                        )}                        
                         onSuccess={authGoogle}                                    
+                        onFailure={authGoogle}        
+                        cookiePolicy={'single_host_origin'}                            
                     />                                                      
                 </div>
             )}  
@@ -92,7 +99,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuthFacebook: (access_token) => dispatch(actions.authFacebook(access_token))
+        onAuthFacebook: (access_token, email, name) => dispatch(actions.authFacebook(access_token, email, name)),
+        onAuthGoogle: (access_token, email, name) => dispatch(actions.authGoogle(access_token, email, name))
     }
 }
 

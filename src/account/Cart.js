@@ -1,4 +1,4 @@
-import { Divider, Typography, List, Button, message, Row, Col, Form, Input, Checkbox, Avatar, InputNumber } from "antd"
+import { Divider, Typography, List, Button, message, Row, Col, Form, Input, Checkbox, Avatar, InputNumber, Modal, notification } from "antd"
 import React, { useEffect, useState } from "react"
 import axios from "axios"; 
 import api from "../api";
@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import { CarOutlined, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import * as actions from '../store/actions/auth';
+import AddressForm from '../components/AddressForm';
 
 function Cart (props) {
     let history = useHistory()
@@ -14,13 +15,14 @@ function Cart (props) {
     const [items, setItems] = useState()
     const [useBonus, setUseBonus] = useState(false)
     const [bonus, setBonus] = useState(0)
+    const [visible, setVisible] = useState(false)
 
     useEffect(() => {   
         setItems(props.items)   
         getAmount(props.items)          
         form.setFieldsValue({
             phone_number: props.user.profile.phone_number,
-            address: getAddress(props.user.profile.address)
+            address: props.user.profile.address
         })        
     }, [props.items, props.user]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -134,21 +136,33 @@ function Cart (props) {
         }        
     }
 
-    function getAddress (address_obj) {
-        if (!address_obj || address_obj == null) {
-            return ""
-        }
-        let result = address_obj.city.name + ", " + address_obj.district.name + " дүүрэг"
-        if (address_obj.section) {
-            result = result + ", " + address_obj.section + "-р хороо"
-        }
-        if (address_obj.address) {
-            result = result + ", " + address_obj.address
-        }        
-        return result
-    }
-
     function onFinish (values) {        
+        if (values.phone_number !== props.user.profile.phone_number) {
+            axios({
+                method: 'PUT',
+                url: `${api.profiles}/${props.user.profile.id}/`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${props.token}`                               
+                },
+                data: {
+                    phone_number: values.phone_number
+                }
+            })             
+        }
+        if (values.address !== props.user.profile.address) {
+            axios({
+                method: 'PUT',
+                url: `${api.profiles}/${props.user.profile.id}/`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${props.token}`                               
+                },
+                data: {
+                    address: values.address
+                }
+            })             
+        }
         axios({
             method: 'POST',
             url: `${api.orders}/`,
@@ -158,7 +172,7 @@ function Cart (props) {
             },
             data: {
                 token: props.token,
-                total: amount,
+                total: amount, 
                 bonus: bonus,
                 phone_number: values.phone_number,
                 address: values.address,
@@ -166,13 +180,20 @@ function Cart (props) {
             }
         })            
         .then(res => {
-            if (res.status === 201) {                                                      
-                console.log(res.data)                
-                props.onUpdateCart(res.data.user.profile.cart)    
-                // history.push(`orderinfo/${res.data.id}`)
+            if (res.status === 201) {                                                                      
+                props.onUpdateCart(res.data.user.profile.cart)                    
                 history.push(`profile?key=orders`)
+                notification['success']({
+                    message: 'Захиалга хүлээж авлаа.',
+                    description: `'${res.data.ref}' дугаартай захиалга үүслээ. Төлбөр төлөгдсөний дараа таны захиалга хүргэгдэх болно. Баярлалаа`,
+                    duration: 8
+                });
             } else if (res.status === 406) {
-                console.log("Uldegdel hureltsuhgui")
+                notification['error']({
+                    message: 'Захиалга амжилтгүй боллоо.',
+                    description: `Таны захиалга амжилтгүй боллоо. Та 7607-7722 дугаарт холбогдон лавлана уу. Баярлалаа,`,
+                    duration: 8
+                });
             }                                                          
         })
         .catch(err => {                      
@@ -185,12 +206,19 @@ function Cart (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
+    function changeAddress (address) {                
+        form.setFieldsValue({
+            address: address
+        })
+        setVisible(false)
+    }
+
     return (
         <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>        
             <Typography.Title level={4} style={{ margin: 0 }}>Таны сагс</Typography.Title>            
             <Divider />
             <Row gutter={[24, 24]}>
-                <Col xs={24} sm={24} md={24} lg={18}>
+                <Col xs={24} sm={24} md={24} lg={16}>
                     <List
                         itemLayout="vertical"
                         size="large"
@@ -226,7 +254,7 @@ function Cart (props) {
                         <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
                     </div>
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={6}>
+                <Col xs={24} sm={24} md={24} lg={8}>
                     <Typography.Title level={5} style={{ margin: 0 }}>Нийт төлбөр: {formatNumber(amount)}₮</Typography.Title>
                     <Typography.Title level={5} style={{ margin: 0 }}>Төлөх дүн: {formatNumber(amount - parseInt(bonus))}₮</Typography.Title>                    
                     <Form form={form} layout="vertical" onFinish={onFinish} style={{ marginTop: '8px' }}>
@@ -248,13 +276,22 @@ function Cart (props) {
                         <Form.Item name="phone_number" label="Утасны дугаар:" rules={[{ required: true, message: 'Утасны дугаараа оруулна уу!' }]}>                                             
                             <Input prefix={<MobileOutlined style={{ color: '#a1a1a1' }} />} style={{ width: '100%' }} />
                         </Form.Item>
-                        <Form.Item name="address" label="Хүргүүлэх хаяг:" rules={[{ required: true, message: 'Хүргүүлэх хаягаа оруулна уу!' }]}>                                             
+                        <Form.Item name="address" label="Хүргүүлэх хаяг:" rules={[{ required: true, message: 'Хүргүүлэх хаягаа оруулна уу!' }]} style={{ marginBottom: '8px' }}>                                             
                             <Input.TextArea rows={4} />       
                         </Form.Item>
+                        <Button type="primary" style={{ width: '100%', marginBottom: '16px' }} onClick={() => setVisible(true)}>Хаяг сонгох</Button>
+                        <Modal
+                            title="Хаяг оруулах"
+                            visible={visible}
+                            footer={false}                                        
+                            onCancel={() => setVisible(false)}
+                        >
+                            <AddressForm token={props.token} user={props.user} changeAddress={changeAddress} />
+                        </Modal>    
                         <Form.Item name="info" label="Нэмэлт мэдээлэл:">                                             
                             <Input.TextArea rows={4} />       
-                        </Form.Item>
-                        <Button block type="primary" icon={<ShoppingOutlined />} onClick={form.submit}>Захиалах</Button>
+                        </Form.Item>                        
+                        <Button block disabled={items && items.length === 0} type="primary" icon={<ShoppingOutlined />} onClick={form.submit}>Захиалах</Button>
                     </Form>
                 </Col>
             </Row>                                      

@@ -2,18 +2,17 @@ import React from 'react';
 import { Button, Divider, Result, Typography } from 'antd';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
-import { Redirect } from 'react-router';
 import { CloseOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 
 const Logout = (props) => {    
+
+    let history = useHistory()
     
     const onClick = () => {                
-        props.logout();               
+        props.logout();          
+        history.push('/')     
     };
-
-    if (!props.token) {
-        return <Redirect to="/" />
-    }
 
     return (
         <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>

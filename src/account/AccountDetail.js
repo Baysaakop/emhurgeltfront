@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Form, Input, Popconfirm, Button, message, Row, Col, DatePicker, Typography, Divider, Modal, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Popconfirm, Button, message, Row, Col, DatePicker, Typography, Divider, Modal } from 'antd';
 import { UserOutlined, MobileOutlined, MailOutlined, CheckOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import api from '../api';
@@ -9,33 +9,39 @@ import AddressForm from '../components/AddressForm';
 function AccountDetail (props) {
     const [form] = Form.useForm()
     const [visible, setVisible] = useState(false)
-    const [address, setAddress] = useState()
-
+    
+    useEffect(() => {
+        form.setFieldsValue({
+            email: props.user.email,
+            username: props.user.username,
+            first_name: props.user.first_name,
+            last_name: props.user.last_name,
+            phone_number: props.user.profile.phone_number,
+            birth_date: moment(props.user.profile.birth_date, "YYYY-MM-DD"),
+            address: props.user.profile.address
+        })
+    }, [props.user]) // eslint-disable-line react-hooks/exhaustive-deps
+    
     function onFinish (values) {                          
         var formData = new FormData();
-        if (values.username) {
+        if (values.username !== props.user.username) {
             formData.append('username', values.username)
         } 
-        if (values.last_name) {
+        if (values.last_name !== props.user.last_name) {
             formData.append('last_name', values.last_name);        
         }               
-        if (values.first_name) {
+        if (values.first_name !== props.user.first_name) {
             formData.append('first_name', values.first_name);        
         }        
-        if (values.phone_number) { 
+        if (values.phone_number !== props.user.profile.phone_number) { 
             formData.append('phone_number', values.phone_number);        
         }        
-        if (values.birth_date) {
-            let date = new Date(moment(values.birth_date));
-            formData.append('birth_date', date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());        
+        if (moment(values.birth_date).format("YYYY-MM-DD") !== moment(props.user.profile.birth_date).format("YYYY-MM-DD")) {            
+            formData.append('birth_date', moment(values.birth_date).format("YYYY-MM-DD"));        
         }        
-        if (address) {
-            formData.append('address', true)
-            formData.append('city', address.city)
-            formData.append('district', address.district)
-            formData.append('section', address.section)
-            formData.append('address', address.address)
-        }        
+        if (values.address !== props.user.profile.address) {
+            formData.append('address', values.address)
+        }       
         axios({
             method: 'PUT',
             url: `${api.profiles}/${props.user.profile.id}/`,
@@ -56,24 +62,9 @@ function AccountDetail (props) {
         })          
     }
 
-    function getAddress (address_obj) {
-        if (!address_obj || address_obj == null) {
-            return ""
-        }
-        let result = address_obj.city.name + ", " + address_obj.district.name + " дүүрэг"
-        if (address_obj.section) {
-            result = result + ", " + address_obj.section + "-р хороо"
-        }
-        if (address_obj.address) {
-            result = result + ", " + address_obj.address
-        }        
-        return result
-    }
-
-    function changeAddress (values, address_text) {        
-        setAddress(values)
+    function changeAddress (address) {                
         form.setFieldsValue({
-            address: address_text
+            address: address
         })
         setVisible(false)
     }
@@ -91,49 +82,42 @@ function AccountDetail (props) {
                     </Col>
                     <Col xs={24} sm={24} md={8}>
                         <Form.Item name="username" label="Хэрэглэгчийн нэр:">
-                            <Input prefix={<UserOutlined style={{ color: '#a1a1a1' }} />} defaultValue={props.user.username ? props.user.username : undefined} />
+                            <Input prefix={<UserOutlined style={{ color: '#a1a1a1' }} />} />
                         </Form.Item>   
                     </Col>
                     <Col xs={24} sm={24} md={8}>
                         <Form.Item name="phone_number" label="Утасны дугаар:">
-                            <Input prefix={<MobileOutlined style={{ color: '#a1a1a1' }} />} defaultValue={props.user.profile.phone_number ? props.user.profile.phone_number : undefined} />
+                            <Input prefix={<MobileOutlined style={{ color: '#a1a1a1' }} />} />
                         </Form.Item> 
                     </Col>
                 </Row>           
                 <Row gutter={[16, 0]}>
                     <Col xs={24} sm={24} md={8}>
                         <Form.Item name="last_name" label="Овог:">
-                            <Input prefix={<UserOutlined style={{ color: '#a1a1a1' }} />} defaultValue={props.user.last_name ? props.user.last_name : undefined} />
+                            <Input prefix={<UserOutlined style={{ color: '#a1a1a1' }} />} />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={8}>
                         <Form.Item name="first_name" label="Нэр:">
-                            <Input prefix={<UserOutlined style={{ color: '#a1a1a1' }} />} defaultValue={props.user.first_name ? props.user.first_name : undefined} />
+                            <Input prefix={<UserOutlined style={{ color: '#a1a1a1' }} />} />
                         </Form.Item>  
                     </Col>
                     <Col xs={24} sm={24} md={8}>
                         <Form.Item name="birth_date" label="Төрсөн өдөр:">
-                            <DatePicker style={{ width: '100%' }} defaultValue={props.user.profile.birth_date ? moment(props.user.profile.birth_date, "YYYY-MM-DD") : undefined} />
+                            <DatePicker style={{ width: '100%' }} />
                         </Form.Item> 
-                    </Col>                    
-                    <Col span={24}>
+                    </Col>             
+                    <Col xs={24} sm={24} md={16} lg={18} xl={20}>
                         <Form.Item name="address" label="Хаяг:">         
-                            <Input.Group>
-                                <Row gutter={[8, 8]}>
-                                    <Col xs={24} sm={24} md={16} lg={18} xl={20}>
-                                        <Input 
-                                            prefix={<EnvironmentOutlined style={{ color: '#a1a1a1' }} />}                                 
-                                            defaultValue={props.user.profile.address ? props.user.profile.address : undefined} 
-                                            style={{ width: '100%' }}
-                                        />     
-                                    </Col>
-                                    <Col xs={24} sm={24} md={8} lg={6} xl={4}>
-                                        <Button type="primary" style={{ width: '100%' }} onClick={() => setVisible(true)}>Хаяг сонгох</Button>
-                                    </Col>
-                                </Row>
-                            </Input.Group>                                                         
-                        </Form.Item>  
+                            <Input 
+                                prefix={<EnvironmentOutlined style={{ color: '#a1a1a1' }} />}                                 
+                                style={{ width: '100%' }}
+                            />    
+                        </Form.Item> 
                     </Col>
+                    <Col xs={24} sm={24} md={8} lg={6} xl={4}>
+                        <Button type="primary" style={{ width: '100%', marginTop:'30px' }} onClick={() => setVisible(true)}>Хаяг сонгох</Button>
+                    </Col>                                     
                 </Row>              
                 <Modal
                     title="Хаяг оруулах"
@@ -141,7 +125,7 @@ function AccountDetail (props) {
                     footer={false}                                        
                     onCancel={() => setVisible(false)}
                 >
-                    <AddressForm address={props.user.profile.address ? props.user.profile.address : undefined} changeAddress={changeAddress} />
+                    <AddressForm token={props.token} user={props.user} changeAddress={changeAddress} />
                 </Modal>                                              
                 <Form.Item>                                                                  
                     <Popconfirm title="Хадгалах уу？" okText="Тийм" cancelText="Үгүй" onConfirm={form.submit}>

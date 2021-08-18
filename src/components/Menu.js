@@ -24,8 +24,12 @@ function CustomMenu (props) {
     useEffect(() => {
         const menuItem = props.location.pathname.toString().split('/')[1]
         setCurrent(menuItem === '' ? 'home' : menuItem)
-        if (props.token && props.token !== null && !user) {
-            getUser()
+        if (props.token && props.token !== null) {
+            if (!user) {
+                getUser()
+            }            
+        } else {
+            setUser(undefined)
         }
         if (props.cart && props.cart !== null && props.cart.length !== cart.length) {
             setCart(props.cart)

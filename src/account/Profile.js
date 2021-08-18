@@ -104,7 +104,7 @@ function Profile (props) {
                     status="403"
                     title="Хуудас үзэх боломжгүй."
                     subTitle="Та эхлээд системд нэвтэрч орно уу."
-                    extra={<Button size="large" type="primary" href="/login">Нэвтрэх</Button>}
+                    extra={<Button icon={<UserOutlined />} size="large" type="primary" href="/login">Нэвтрэх</Button>}
                 />
             )}
             </div>
