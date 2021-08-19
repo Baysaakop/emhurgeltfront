@@ -17,7 +17,7 @@ function AccountDetail (props) {
             first_name: props.user.first_name,
             last_name: props.user.last_name,
             phone_number: props.user.profile.phone_number,
-            birth_date: moment(props.user.profile.birth_date, "YYYY-MM-DD"),
+            birth_date: props.user.profile.birth_date ? moment(props.user.profile.birth_date, "YYYY-MM-DD") : undefined,
             address: props.user.profile.address
         })
     }, [props.user]) // eslint-disable-line react-hooks/exhaustive-deps

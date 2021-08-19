@@ -99,8 +99,7 @@ function AddressForm (props) {
         })
     }
 
-    function onFinish (values) {                
-        console.log(values)
+    function onFinish (values) {                        
         let city = cities.find(x => x.id.toString() === values.city).name
         let district = districts.find(x => x.id.toString() === values.district).name
         let section = "";
@@ -112,7 +111,7 @@ function AddressForm (props) {
                 method: 'POST',
                 url: `${api.sections}/`,
                 data: {
-                    district: values.district,
+                    district: parseInt(values.district),
                     name: values.sectionNew
                 },
                 headers: {

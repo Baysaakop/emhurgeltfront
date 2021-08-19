@@ -137,6 +137,7 @@ function Cart (props) {
     }
 
     function onFinish (values) {        
+        console.log(values)
         if (values.phone_number !== props.user.profile.phone_number) {
             axios({
                 method: 'PUT',
@@ -181,13 +182,13 @@ function Cart (props) {
         })            
         .then(res => {
             if (res.status === 201) {                                                                      
-                props.onUpdateCart(res.data.user.profile.cart)                    
-                history.push(`profile?key=orders`)
+                props.onUpdateCart(res.data.user.profile.cart)                                    
                 notification['success']({
                     message: 'Захиалга хүлээж авлаа.',
                     description: `'${res.data.ref}' дугаартай захиалга үүслээ. Төлбөр төлөгдсөний дараа таны захиалга хүргэгдэх болно. Баярлалаа`,
                     duration: 8
                 });
+                history.push(`profile?key=orders`)
             } else if (res.status === 406) {
                 notification['error']({
                     message: 'Захиалга амжилтгүй боллоо.',
@@ -274,7 +275,7 @@ function Cart (props) {
                             </>
                         : <></> }
                         <Form.Item name="phone_number" label="Утасны дугаар:" rules={[{ required: true, message: 'Утасны дугаараа оруулна уу!' }]}>                                             
-                            <Input prefix={<MobileOutlined style={{ color: '#a1a1a1' }} />} style={{ width: '100%' }} />
+                            <Input maxLength={8} prefix={<MobileOutlined style={{ color: '#a1a1a1' }} />} style={{ width: '100%' }} />
                         </Form.Item>
                         <Form.Item name="address" label="Хүргүүлэх хаяг:" rules={[{ required: true, message: 'Хүргүүлэх хаягаа оруулна уу!' }]} style={{ marginBottom: '8px' }}>                                             
                             <Input.TextArea rows={4} />       

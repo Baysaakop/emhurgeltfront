@@ -32,14 +32,18 @@ const Login = (props) => {
         }
     }
 
-    function authGoogle (response) {
-        console.log(response)
-        if (response.status === "unknown") {
-            message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
-        } else {
-            props.onAuthGoogle(response.accessToken, response.email, response.name)
-        }
-    }
+    // function authGoogle (response) {
+    //     console.log(response)
+    //     if (response.status === "unknown") {
+    //         message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
+    //     } else {
+    //         props.onAuthGoogle(response.accessToken, response.profileObj.email, response.profileObj.name)
+    //     }
+    // }
+
+    // function authGoogleFail () {
+    //     message.error("Нэвтрэх явцад алдаа гарлаа. Та дахин оролдоно уу.")
+    // }
 
     return (
         <div>
@@ -78,10 +82,11 @@ const Login = (props) => {
                                 Google ашиглан нэвтрэх
                             </Button>
                         )}                        
-                        onSuccess={authGoogle}                                    
-                        onFailure={authGoogle}        
-                        cookiePolicy={'single_host_origin'}                            
-                    />                                                      
+                        // onSuccess={authGoogle}                                    
+                        // onFailure={authGoogleFail}        
+                        // isSignedIn={true}
+                        // cookiePolicy={'single_host_origin'}                            
+                    /> 
                 </div>
             )}  
         </div>   

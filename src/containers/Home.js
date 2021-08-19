@@ -8,6 +8,7 @@ import ProductScroll from '../product/ProductScroll';
 import moment from 'moment'
 import Categories from './Categories';
 import HomeSlider from './HomeSlider';
+import HomeTimeline from './HomeTimeline';
 
 function Home (props) {        
     const [posts, setPosts] = useState()  
@@ -125,6 +126,7 @@ function Home (props) {
                     )
                 }) : <></>}                
             </Row>            
+            <HomeTimeline />
         </div>
     )
 }

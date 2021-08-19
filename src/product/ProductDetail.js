@@ -84,7 +84,8 @@ function ProductDetail (props) {
                 method: 'PUT',
                 url: `${api.profiles}/${user.profile.id}/`,
                 headers: {
-                    'Content-Type': 'application/json',                                              
+                    'Content-Type': 'application/json',            
+                    'Authorization': `Token ${props.token}`                                  
                 },
                 data: {
                     favorite: true,
@@ -123,7 +124,8 @@ function ProductDetail (props) {
                 method: 'PUT',
                 url: `${api.profiles}/${user.profile.id}/`,
                 headers: {
-                    'Content-Type': 'application/json',                                              
+                    'Content-Type': 'application/json',      
+                    'Authorization': `Token ${props.token}` 
                 },
                 data: {
                     cart: true,
