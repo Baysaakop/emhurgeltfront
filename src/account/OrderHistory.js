@@ -86,7 +86,7 @@ function OrderHistory (props) {
                                         {/* <Typography.Title level={5}>{`ЗАХИАЛГЫН ДУГААР: ${order.ref}`}</Typography.Title> */}
                                         <Row gutter={[16, 16]}>
                                             <Col xs={24} sm={24} md={12}>
-                                                <Typography.Text>ОГНОО: {moment(order.created_at).format("YYYY-MM-DD HH:MM")}</Typography.Text>
+                                                <Typography.Text>{moment(order.created_at).format("YYYY-MM-DD HH:MM")}</Typography.Text>
                                             </Col>
                                             <Col xs={24} sm={24} md={12}>
                                                 <Typography.Text>УТАСНЫ ДУГААР: {order.phone_number}</Typography.Text>
@@ -95,7 +95,7 @@ function OrderHistory (props) {
                                                 <Typography.Text>ҮНИЙН ДҮН: {formatNumber(order.total)}₮</Typography.Text>
                                             </Col>                                            
                                             <Col xs={24} sm={24} md={12}>
-                                                <Typography.Text>УРАМШУУЛАЛ: +{order.total / 100 * 2}₮</Typography.Text>
+                                                <Typography.Text style={{ fontWeight: 'bold', color: '#52c41a' }}>УРАМШУУЛАЛ: +{order.total / 100 * 2}₮</Typography.Text>
                                             </Col>
                                             <Col xs={24} sm={24} md={12}>                                                
                                                 <Typography.Text>ХҮРГЭЛТИЙН ХАЯГ: {order.address}</Typography.Text>                                                                                                
@@ -133,16 +133,14 @@ function OrderHistory (props) {
                                     </Col>
                                     <Col xs={24} sm={24} md={24} lg={8}>
                                     { order.state === "1" ? (
-                                        <div>                                            
-                                            <Typography.Text>АШИГЛАСАН ОНОО: <strong>{order.bonus}₮</strong></Typography.Text>
-                                            <br />
+                                        <div>                                                                                                                                    
                                             <Typography.Text>ТӨЛӨХ ДҮН: <strong>{formatNumber(order.total - order.bonus)}₮</strong></Typography.Text>
-                                            <br />
+                                            <br /><br />
                                             <Typography.Text>ГҮЙЛГЭЭНИЙ УТГА: <strong>{order.ref}</strong></Typography.Text>                                                                        
                                             <br /><br />
-                                            <Typography.Text>ХААН БАНК: <strong>5454545454</strong> (Хүлээн авагч: <strong>Ирмүүн Аз</strong>)</Typography.Text>     
+                                            <Typography.Text>ХААН БАНК: <strong>5219166940</strong> (Хүлээн авагч: <strong>DSEABI</strong>)</Typography.Text>     
                                             <br /><br />
-                                            <Typography.Text>ХУДАЛДАА ХӨГЖЛИЙН БАНК: <strong>456456456</strong> (Хүлээн авагч: <strong>Ирмүүн Аз</strong>)</Typography.Text>                                                                       
+                                            <Typography.Text>ХУДАЛДАА ХӨГЖЛИЙН БАНК: <strong>472037839</strong> (Хүлээн авагч: <strong>DSEABI</strong>)</Typography.Text>                                                                       
                                         </div>
                                     ) : order.state === "2" ? (
                                         <div>                                            

@@ -23,7 +23,7 @@ const Logout = (props) => {
                         status="warning"
                         title="Та гарахдаа итгэлтэй байна уу?"
                         extra={
-                            <Button danger size="large" type="primary" icon={<CloseOutlined />} onClick={onClick}>
+                            <Button danger size="default" type="primary" icon={<CloseOutlined />} onClick={onClick}>
                                 Гарах
                             </Button>
                         }

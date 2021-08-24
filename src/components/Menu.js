@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Typography, Divider, Affix, Select } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { GlobalOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, MailOutlined, SettingOutlined, StarOutlined } from '@ant-design/icons';
+import { GlobalOutlined, GiftOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, MailOutlined, SettingOutlined, StarOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import axios from 'axios';
@@ -296,6 +296,9 @@ function CustomMenu (props) {
                             </Menu.Item>
                             <Menu.Item key="contact" icon={<PhoneOutlined />}>
                                 <Link to="/contact">{ language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Link>
+                            </Menu.Item>     
+                            <Menu.Item key="bonus" icon={<GiftOutlined />}>
+                                <Link to="/bonus">Урамшуулал</Link>
                             </Menu.Item>                 
                         </Menu>
                         <div>

@@ -70,7 +70,8 @@ const Login = (props) => {
                         cssClass="login-facebook"
                         icon={<FacebookFilled />}
                         textButton=" Facebook ашиглан нэвтрэх"
-                        appId="158154739545222"
+                        // appId="158154739545222"
+                        appId="358552112401509"
                         fields="name,email"                                    
                         callback={authFacebook}                                    
                     />                                    

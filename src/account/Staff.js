@@ -104,7 +104,7 @@ function Staff (props) {
                                         <Menu.Item key="16">Нэмэх</Menu.Item>
                                         <Menu.Item key="17">Засах / Устгах</Menu.Item> 
                                     </SubMenu>
-                                    <SubMenu key="sub8" icon={<UserOutlined />} title="Хэрэглэгч">
+                                    <SubMenu key="sub8" icon={<UserOutlined />} title="Ажилтан">
                                         <Menu.Item key="18">Нэмэх</Menu.Item>
                                         <Menu.Item key="19">Засах / Устгах</Menu.Item> 
                                     </SubMenu>
