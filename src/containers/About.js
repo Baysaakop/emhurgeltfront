@@ -1,6 +1,5 @@
 import { CarOutlined, GiftOutlined, SafetyCertificateOutlined, ShopOutlined, ShoppingCartOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, Divider, Row, Typography } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
+import { Breadcrumb, Button, Col, Divider, Row, Typography, Avatar } from "antd";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import * as translations from '../translation';

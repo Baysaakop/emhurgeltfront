@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"; 
 import api from "../api";
 import { Link, useHistory } from "react-router-dom";
-import { CarOutlined, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { CarOutlined, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined, WarningOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import * as actions from '../store/actions/auth';
 import AddressForm from '../components/AddressForm';
@@ -251,12 +251,17 @@ function Cart (props) {
                         )}
                     />  
                     <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
-                        <div><Avatar size={64} icon={<CarOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
+                        <div><Avatar shape="square" size={64} icon={<CarOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
+                        <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
+                    </div>
+                    <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
+                        <div><Avatar shape="square" size={64} icon={<WarningOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
                         <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
                     </div>
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={8}>
-                    <Typography.Title level={5} style={{ margin: 0 }}>Нийт төлбөр: {formatNumber(amount)}₮</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: 0 }}>Нийт дүн: {formatNumber(amount)}₮</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: 0 }}>Хүргэлт: {formatNumber(0)}₮</Typography.Title>
                     <Typography.Title level={5} style={{ margin: 0 }}>Төлөх дүн: {formatNumber(amount - parseInt(bonus))}₮</Typography.Title>                    
                     <Form form={form} layout="vertical" onFinish={onFinish} style={{ marginTop: '8px' }}>
                         <Checkbox checked={useBonus} onChange={onChangeUseBonus} style={{ marginBottom: '16px' }}>Урамшууллын оноо ашиглах</Checkbox>
@@ -278,7 +283,7 @@ function Cart (props) {
                             <Input maxLength={8} prefix={<MobileOutlined style={{ color: '#a1a1a1' }} />} style={{ width: '100%' }} />
                         </Form.Item>
                         <Form.Item name="address" label="Хүргүүлэх хаяг:" rules={[{ required: true, message: 'Хүргүүлэх хаягаа оруулна уу!' }]} style={{ marginBottom: '8px' }}>                                             
-                            <Input.TextArea rows={4} />       
+                            <Input.TextArea rows={4} disabled />       
                         </Form.Item>
                         <Button type="primary" style={{ width: '100%', marginBottom: '16px' }} onClick={() => setVisible(true)}>Хаяг сонгох</Button>
                         <Modal
@@ -290,7 +295,7 @@ function Cart (props) {
                             <AddressForm token={props.token} user={props.user} changeAddress={changeAddress} />
                         </Modal>    
                         <Form.Item name="info" label="Нэмэлт мэдээлэл:">                                             
-                            <Input.TextArea rows={4} />       
+                            <Input.TextArea rows={4} placeholder="Жич: Нялх хүүхэдтэй тул хонх дарахгүй байх" />       
                         </Form.Item>                        
                         <Button block disabled={items && items.length === 0} type="primary" icon={<ShoppingOutlined />} onClick={form.submit}>Захиалах</Button>
                     </Form>

@@ -83,7 +83,7 @@ function CustomMenu (props) {
         <div className="menu">              
             {screens.xs ? (
                 <div>
-                    <div style={{ height: '40px', width: '100%', background: '#2ECC71', padding: '0 5%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ height: '40px', width: '100%', background: '#009432', padding: '0 5%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                             <GlobalOutlined style={{ color: '#fff', marginLeft: '4px', marginRight: '-4px' }} />
                             <Select defaultValue="mn" bordered={false} style={{ color: '#fff' }} onChange={onChangeLanguage} >
@@ -105,13 +105,13 @@ function CustomMenu (props) {
                                     </div>
                                     <div>                                    
                                         <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>emhurgelt.mn</div>                       
-                                        <div style={{ margin: 0, color: '#8e8e8e', fontSize: '14px', marginTop: '-8px' }}>
+                                        <div style={{ margin: 0, color: '#4c4c4c', fontSize: '14px', marginTop: '-8px' }}>
                                         { language === "en" ? translations.en.header.irmuun_az_pharmacy : translations.mn.header.irmuun_az_pharmacy }
                                         </div>       
                                     </div>                                                                                                                                    
                                 </div>
                             </Link>
-                            <Button type="primary" onClick={handleMenuCollapsed} style={{ background: '#2ECC71', color: '#fff', border: '1px solid #2ECC71' }}>
+                            <Button type="primary" onClick={handleMenuCollapsed}>
                                 <MenuOutlined />
                             </Button>                            
                         </div>
@@ -133,6 +133,9 @@ function CustomMenu (props) {
                             </Menu.Item>
                             <Menu.Item key="contact" style={{ fontSize: '16px' }} icon={<PhoneOutlined />}>
                                 <Link to="/contact">{ language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Link>
+                            </Menu.Item>  
+                            <Menu.Item key="bonus" style={{ fontSize: '16px' }} icon={<GiftOutlined />}>
+                                <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
                             </Menu.Item>      
                             <Menu.Item key="saved" style={{ fontSize: '16px' }} icon={<HeartOutlined />}>
                                 <Link to="/profile?key=saved" style={{ width: '100%' }}>
@@ -172,7 +175,7 @@ function CustomMenu (props) {
                                         </Tooltip>
                                     </Link> 
                                     <div style={{ marginLeft: '4px' }}>
-                                        <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px' }}>
+                                        <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>
                                         { language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }
                                         </div>      
                                         <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
@@ -192,7 +195,7 @@ function CustomMenu (props) {
                 </div>
             ) : (
                 <div>                  
-                    <div style={{ height: '40px', width: '100%', background: '#2ECC71', padding: '0 10%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ height: '40px', width: '100%', background: '#009432', padding: '0 10%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                             <GlobalOutlined style={{ color: '#fff', marginLeft: '4px', marginRight: '-4px' }} />
                             <Select defaultValue={props.language ? props.language : 'mn'} bordered={false} style={{ color: '#fff' }} onChange={onChangeLanguage} >
@@ -218,7 +221,7 @@ function CustomMenu (props) {
                                     </div>
                                     <div>                                    
                                         <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>emhurgelt.mn</div>                       
-                                        <div style={{ margin: 0, color: '#8e8e8e', fontSize: '14px', marginTop: '-8px' }}>
+                                        <div style={{ margin: 0, color: '#4c4c4c', fontSize: '14px', marginTop: '-8px' }}>
                                         { language === "en" ? translations.en.header.irmuun_az_pharmacy : translations.mn.header.irmuun_az_pharmacy }
                                         </div>       
                                     </div>                                                                                                                                   
@@ -227,14 +230,14 @@ function CustomMenu (props) {
                             <div className="user" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                                 <Input.Search placeholder={ language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } style={{ width: '400px' }} onSearch={onSearch} />                                                                                     
                                 <Link to="/profile?key=saved">
-                                    <Badge count={user && user.profile.favorite.length ? user.profile.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#2ed573' }} >
+                                    <Badge count={user && user.profile.favorite.length ? user.profile.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
                                         <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }>                                               
                                             <Button size="middle" icon={<HeartOutlined />} style={{ marginLeft: '12px' }} />                                                                    
                                         </Tooltip>
                                     </Badge>
                                 </Link>                                               
                                 <Link to="/profile?key=cart">
-                                    <Badge count={user && user.profile.cart.length ? user.profile.cart.length : 0} overflowCount={9} size="default" style={{ background: '#2ed573' }} >
+                                    <Badge count={user && user.profile.cart.length ? user.profile.cart.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
                                         <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.cart : translations.mn.header.cart }>
                                             <Button size="middle" icon={<ShoppingCartOutlined />} style={{ marginLeft: '12px' }} />                                        
                                         </Tooltip>
@@ -255,7 +258,7 @@ function CustomMenu (props) {
                                             </Tooltip>
                                         </Link> 
                                         <div style={{ marginLeft: '12px' }}>
-                                            <div style={{ margin: 0, color: '#8e8e8e', fontSize: '12px' }}>{ language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }</div>      
+                                            <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>{ language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }</div>      
                                             <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
                                         </div>                                                   
                                     </>
@@ -280,7 +283,7 @@ function CustomMenu (props) {
                         >   
                             <Menu.Item key="brandproducts" style={{ margin: 0 }}>
                                 <Link to="/brandproducts">
-                                    <Tag color="#2ed573" style={{ fontSize: '14px', padding: '3px 8px' }}>                                    
+                                    <Tag color="#009432" style={{ fontSize: '14px', padding: '3px 8px' }}>                                    
                                         <StarOutlined style={{ marginRight: '4px', color: '#fff', fontSize: '14px',  }} /> { language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }
                                     </Tag>
                                 </Link>
@@ -298,7 +301,7 @@ function CustomMenu (props) {
                                 <Link to="/contact">{ language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Link>
                             </Menu.Item>     
                             <Menu.Item key="bonus" icon={<GiftOutlined />}>
-                                <Link to="/bonus">Урамшуулал</Link>
+                                <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
                             </Menu.Item>                 
                         </Menu>
                         <div>

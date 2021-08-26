@@ -25,21 +25,6 @@ function HomeSlider (props) {
                         </div>
                     </div>
                 </div>
-                {/* <div>
-                    <div style={{ background: '#7ed6df', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '2px' }}>
-                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-news01.png" style={{ width: '30%', height: 'auto' }} />
-                    </div>
-                </div>
-                <div>
-                    <div style={{ background: '#6ab04c', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '2px' }}>
-                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
-                    </div>
-                </div>
-                <div>
-                    <div style={{ background: '#30336b', width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '2px' }}>
-                        <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new04.png" style={{ width: '20%', height: 'auto' }} />
-                    </div>
-                </div> */}
             </Carousel>            
         </div>
     )

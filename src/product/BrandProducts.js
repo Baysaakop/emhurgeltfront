@@ -18,7 +18,7 @@ function BrandProducts (props) {
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getProducts () {        
-        let url = `${api.items}/?is_brand=true`        
+        let url = `${api.items}/?is_featured=true`        
         axios({
             method: 'GET',
             url: url           

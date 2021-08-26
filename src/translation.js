@@ -14,7 +14,8 @@ export const mn = {
         about_us: 'Бидний тухай',
         pharmacy: 'Эмийн сан',
         blog: 'Мэдээлэл',
-        contact: 'Холбогдох',        
+        contact: 'Холбогдох',      
+        bonus: 'Урамшуулал',        
     },
     footer: {
         all_rights_reserved: 'Зохиогчийн эрх хуулиар хамгаалагдсан',
@@ -32,8 +33,14 @@ export const mn = {
         shop_now: 'Эмийн Сан',
         feature1: 'Чанартай бүтээгдэхүүн',
         feature2: 'Хялбар захиалга',
-        feature3: 'Үнэгүй хүргэлт',
+        feature3: 'Шуурхай хүргэлт',
         feature4: 'Урамшууллын оноо',
+    },
+    contact: {
+        email: 'И-Мэйл хаяг',
+        facebook: 'Facebook хуудас',
+        contact_us: 'Бидэнтэй холбогдох',
+        location: 'Бидний байршил'
     },
     product_list: {
         search_products: 'Бүтээгдэхүүн хайх',
@@ -65,6 +72,7 @@ export const en = {
         pharmacy: 'Pharmacy',
         blog: 'Blog',
         contact: 'Contact',        
+        bonus: 'Bonus',        
     },
     footer: {        
         all_rights_reserved: 'All Rights Reserved',
@@ -84,6 +92,12 @@ export const en = {
         feature2: 'Хялбар захиалга',
         feature3: 'Free Delivery',
         feature4: 'Урамшууллын оноо',    
+    },
+    contact: {
+        email: 'E-mail address',
+        facebook: 'Facebook page',
+        contact_us: 'Contact us',
+        location: 'Our location'
     },
     product_list: {
         search_products: 'Search for products',

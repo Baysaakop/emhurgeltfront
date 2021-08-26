@@ -110,6 +110,7 @@ function AccountDetail (props) {
                     <Col xs={24} sm={24} md={16} lg={18} xl={20}>
                         <Form.Item name="address" label="Хаяг:">         
                             <Input 
+                                disabled
                                 prefix={<EnvironmentOutlined style={{ color: '#a1a1a1' }} />}                                 
                                 style={{ width: '100%' }}
                             />    
@@ -129,7 +130,7 @@ function AccountDetail (props) {
                 </Modal>                                              
                 <Form.Item>                                                                  
                     <Popconfirm title="Хадгалах уу？" okText="Тийм" cancelText="Үгүй" onConfirm={form.submit}>
-                        <Button type="primary" icon={<CheckOutlined />} style={{ background: '#2ed573', border: 0 }} >
+                        <Button type="primary" icon={<CheckOutlined />} >
                             Хадгалах
                         </Button>
                     </Popconfirm>                                                                                                            

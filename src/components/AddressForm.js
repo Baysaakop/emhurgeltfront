@@ -8,27 +8,26 @@ const { Option } = Select
 
 function AddressForm (props) {
     const [form] = Form.useForm()    
-    const [cities, setCities] = useState()
+    // const [cities, setCities] = useState()
     const [districts, setDistricts] = useState()    
     const [sections, setSections] = useState()    
-    const [buildings, setBuildings] = useState()    
-    const [sectionNew, setSectionNew] = useState(false)
+    const [buildings, setBuildings] = useState()        
     const [buildingNew, setBuildingNew] = useState(false)
 
     useEffect(() => {        
-        getCities()            
+        getDisctricts("1")            
     }, [])
 
-    function getCities () {
-        axios({
-            method: 'GET',
-            url: `${api.cities}/`,            
-        }).then(res => {
-            setCities(res.data.results)            
-        }).catch(err => {
-            console.log(err.message)
-        })
-    }
+    // function getCities () {
+    //     axios({
+    //         method: 'GET',
+    //         url: `${api.cities}/`,            
+    //     }).then(res => {
+    //         setCities(res.data.results)            
+    //     }).catch(err => {
+    //         console.log(err.message)
+    //     })
+    // }
 
     function getDisctricts (target) {
         let url = `${api.districts}?city=${parseInt(target)}`
@@ -66,15 +65,15 @@ function AddressForm (props) {
         })
     }
 
-    function onSelectCity(id) {                           
-        getDisctricts(id)
-        form.setFieldsValue({
-            district: undefined,
-            section: undefined,
-            building: undefined,
-            additional: undefined
-        })
-    }
+    // function onSelectCity(id) {                           
+    //     getDisctricts(id)
+    //     form.setFieldsValue({
+    //         district: undefined,
+    //         section: undefined,
+    //         building: undefined,
+    //         additional: undefined
+    //     })
+    // }
 
     function onSelectDistrict(id) {       
         getSections(id)                            
@@ -99,45 +98,11 @@ function AddressForm (props) {
         })
     }
 
-    function onFinish (values) {                        
-        let city = cities.find(x => x.id.toString() === values.city).name
+    function onFinish (values) {                                
         let district = districts.find(x => x.id.toString() === values.district).name
         let section = "";
         let building = "";
-        if (sectionNew && buildingNew) {
-            section = values.sectionNew
-            building = values.buildingNew
-            axios({
-                method: 'POST',
-                url: `${api.sections}/`,
-                data: {
-                    district: parseInt(values.district),
-                    name: values.sectionNew
-                },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${props.token}`            
-                }
-            })
-            .then(res => {
-                if (res.status === 201) {                    
-                    if (buildingNew) {
-                        axios({
-                            method: 'POST',
-                            url: `${api.buildings}/`,
-                            data: {                    
-                                section: res.data.id,
-                                name: values.buildingNew
-                            },
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Token ${props.token}`            
-                            }
-                        }) 
-                    }
-                }                                                         
-            })    
-        } else if (buildingNew) {
+        if (buildingNew) {
             section = sections.find(x => x.id.toString() === values.section).name
             building = values.buildingNew
             axios({
@@ -156,7 +121,7 @@ function AddressForm (props) {
             section = sections.find(x => x.id.toString() === values.section).name
             building = buildings.find(x => x.id.toString() === values.building).name
         }        
-        let address = city + ", " + district + " дүүрэг, " + section + " хороо, " + building + " байр, " + values.additional          
+        let address = "Улаанбаатар, " + district + " дүүрэг, " + section + " хороо, " + building + " байр, " + values.additional          
         props.changeAddress(address)        
     }    
 
@@ -167,8 +132,9 @@ function AddressForm (props) {
                 layout="vertical" 
                 onFinish={onFinish}
             >
-                <Form.Item name="city" label="Хот">
-                    <Select                                
+                {/* <Form.Item name="city" label="Хот">
+                    <Select                     
+                        defaultValue="1"                    
                         placeholder="Хот сонгох"
                         optionFilterProp="children"
                         onSelect={onSelectCity}
@@ -177,7 +143,7 @@ function AddressForm (props) {
                             <Option key={city.id}>{city.name}</Option>
                         )) : <></> }
                     </Select>          
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item name="district" label="Дүүрэг">
                     <Select                                
                         placeholder="Дүүрэг сонгох"
@@ -188,39 +154,18 @@ function AddressForm (props) {
                             <Option key={district.id}>{district.name}</Option>
                         )) : <></> }
                     </Select>          
-                </Form.Item>                                                                
-                { sectionNew ? (                                  
-                    <Row gutter={[8, 8]}>
-                        <Col span={16}>
-                            <Form.Item name="sectionNew" label="Хороо">          
-                                <Input placeholder="Хорооны дугаараа оруулна уу." />   
-                            </Form.Item>
-                        </Col>
-                        <Col span={8} style={{ display: 'flex', alignItems: 'end' }}>                            
-                            <Button type="dashed" icon={<DoubleLeftOutlined />} style={{ width: '100%', marginTop: '30px'  }} onClick={() => setSectionNew(false)}>Сонгох</Button>
-                        </Col>       
-                    </Row>                                            
-                ) : (
-                    <Row gutter={[8, 8]}>
-                        <Col span={16}>
-                            <Form.Item name="section" label="Хороо">                        
-                                <Select                                
-                                    placeholder="Хороо сонгох"
-                                    optionFilterProp="children"            
-                                    onSelect={onSelectSection}    
-                                    style={{ width: '100%' }}             
-                                >
-                                    { sections ? sections.map(section => (
-                                        <Option key={section.id}>{section.name}</Option>
-                                    )) : <></> }
-                                </Select>                                  
-                            </Form.Item>                            
-                        </Col>
-                        <Col span={8}>                                   
-                            <Button type="dashed" icon={<PlusOutlined />} style={{ width: '100%', marginTop: '30px' }} onClick={() => setSectionNew(true)}>Нэмэх</Button>                            
-                        </Col>     
-                    </Row>                                      
-                )}                                                                                                                                                     
+                </Form.Item>          
+                <Form.Item name="section" label="Хороо">
+                    <Select                                
+                        placeholder="Хороо сонгох"
+                        optionFilterProp="children"            
+                        onSelect={onSelectSection}                 
+                    >
+                        { sections ? sections.map(section => (
+                            <Option key={section.id}>{section.name}</Option>
+                        )) : <></> }
+                    </Select>          
+                </Form.Item>                                                                                            
                 { buildingNew ? (                            
                     <Row gutter={8}>
                         <Col span={16}>
@@ -254,7 +199,7 @@ function AddressForm (props) {
                     </Row>                                         
                 )}                        
                 <Form.Item name="additional" label="Нэмэлт мэдээлэл (Орц, Давхар, Тоот)">
-                    <Input.TextArea rows={6} />
+                    <Input.TextArea rows={6} placeholder="1 орц, 2 давхар, 33 тоот" />
                 </Form.Item>
                 <Row gutter={8}>
                     <Col span={16}></Col>

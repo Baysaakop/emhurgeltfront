@@ -6,6 +6,7 @@ import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as translations from '../translation';
+import Checkbox from "antd/lib/checkbox/Checkbox";
 
 const { Search } = Input
 const { CheckableTag } = Tag
@@ -17,17 +18,30 @@ function ProductList (props) {
     const [items, setItems] = useState()
     const [selectedTags, setSelectedTags] = useState([])
     const [search, setSearch] = useState()
-    const [category, setCategory] = useState()
+    const [isFeatured, setIsFeatured] = useState(false)
+    const [onSale, setOnSale] = useState(false)
+    const [category, setCategory] = useState("0")
     const [priceRange, setPriceRange] = useState()
     const [page, setPage] = useState(1)    
     const [total, setTotal] = useState()
     const [order, setOrder] = useState("-created_at")
 
     useEffect(() => {        
-        if (props.location.search.length > 0 && props.location.search.includes("name=")) {
-            let s = props.location.search.split("name=")[1]
-            if (s !== search) {
-                setSearch(s)              
+        if (props.location.search.length > 0) {
+            if (props.location.search.includes("name=")) {
+                let s = props.location.search.split("name=")[1]
+                if (s !== search) {
+                    setSearch(s)              
+                }            
+            } else if (props.location.search.includes("is_featured=true")) {
+                setIsFeatured(true)
+            } else if (props.location.search.includes("on_sale=true")) {
+                setOnSale(true)
+            } else if (props.location.search.includes("category=")) {
+                let c = props.location.search.split("category=")[1]
+                if (c !== category) {
+                    setCategory(c)              
+                }     
             }            
         }
         if (props.token && !user) {
@@ -39,8 +53,8 @@ function ProductList (props) {
         if (!tags) {
             getTags()
         }
-        getProducts(search, category, selectedTags, priceRange, order, page)        
-    }, [props.token, search, category, selectedTags, priceRange, order, page]) // eslint-disable-line react-hooks/exhaustive-deps
+        getProducts(search, isFeatured, onSale, category, selectedTags, priceRange, order, page)        
+    }, [props.token, search, isFeatured, onSale, category, selectedTags, priceRange, order, page]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUser() {
         axios({
@@ -57,10 +71,16 @@ function ProductList (props) {
         })
     }
 
-    function getProducts (search, category, selectedTags, priceRange, order, page) {        
+    function getProducts (search, isFeatured, onSale, category, selectedTags, priceRange, order, page) {        
         let url = `${api.items}/?`
         if (search) {
             url += `name=${search}`
+        }
+        if (isFeatured) {
+            url += `&is_featured=true`
+        }
+        if (onSale) {
+            url += `&on_sale=true`
         }
         if (category && category > 0) {
             url += `&category=${category}`
@@ -117,6 +137,10 @@ function ProductList (props) {
         setSearch(val)
     }
 
+    function onCheckFeatured (e) {        
+        setIsFeatured(!isFeatured)
+    }
+
     function onSelectCategory (e) {
         setCategory(e.target.value)
     }
@@ -151,14 +175,16 @@ function ProductList (props) {
                         <Typography.Title level={5}>{ props.language === "en" ? translations.en.product_list.search_products : translations.mn.product_list.search_products }:</Typography.Title>
                         <Search placeholder={ props.language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } onSearch={onSearch} enterButton />
                         <Divider />
+                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
+                        <Checkbox checked={isFeatured} onChange={onCheckFeatured}>Тийм</Checkbox>
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>
-                        <Radio.Group defaultValue={0} onChange={onSelectCategory}>
+                        <Radio.Group value={category} onChange={onSelectCategory}>
                             <Space direction="vertical">
-                                <Radio value={0}>
+                                <Radio value={"0"}>
                                     Бүгд
                                 </Radio>
                                 {categories ? categories.map(cat => (
-                                    <Radio key={cat.id} value={cat.id}>
+                                    <Radio key={cat.id} value={cat.id.toString()}>
                                         { props.language === "en" ? cat.name_en : cat.name }
                                     </Radio>
                                 )) : <></>}

@@ -72,8 +72,8 @@ function PostList (props) {
                                             <Link to={`/posts/${post.id}`}>
                                                 <Button type="primary">Дэлгэрэнгүй</Button>
                                             </Link>
-                                            <div style={{ fontStyle: 'italic' }}>
-                                                /{moment(post.created_at).format("YYYY-MM-DD")}/
+                                            <div>
+                                                {moment(post.created_at).format("YYYY-MM-DD")}
                                             </div>
                                         </div>
                                     </div>

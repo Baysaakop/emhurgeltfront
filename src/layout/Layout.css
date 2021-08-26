@@ -52,14 +52,22 @@ body {
 }
 
 .ant-btn-primary {
-  background: #2ecc71;
+  background: #009432;
   border: 0;
 }
 
-.ant-btn-primary:hover {
-  background: #2ecc71;
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: #009432;
   border: 0;
-  opacity: 0.6;
+  color: #fff;
+  opacity: 0.75;
+}
+
+.ant-carousel .slick-dots li button {
+  height: 16px;
+  width: 16px;
+  border-radius: 50px;
 }
 
 /* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,

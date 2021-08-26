@@ -1,16 +1,35 @@
-import React from 'react';
-import { Grid, Button, Typography, Row, Col, Avatar } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Grid, Button, Typography, Row, Col, Avatar, message } from 'antd';
 import { FacebookFilled, GoogleOutlined, InstagramOutlined, YoutubeOutlined } from '@ant-design/icons';
 import logo from './logo.png'
 import * as translations from '../translation';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import api from '../api';
 
 const { useBreakpoint } = Grid;
 
 function CustomFooter (props) {
 
     const screens = useBreakpoint()
+    const [categories, setCategories] = useState()  
+
+    useEffect(() => {
+        getCategories()        
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    function getCategories() {
+        let url = `${api.categories}/`         
+        axios({
+            method: 'GET',
+            url: url           
+        }).then(res => {                        
+            setCategories(res.data.results)                      
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    }
 
     return (
         <div>
@@ -23,7 +42,7 @@ function CustomFooter (props) {
                             </div>
                             <div>                                    
                                 <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>emhurgelt.mn</div>                       
-                                <div style={{ margin: 0, color: '#8e8e8e', fontSize: '14px', marginTop: '-8px' }}>
+                                <div style={{ margin: 0, color: '#4c4c4c', fontSize: '14px', marginTop: '-8px' }}>
                                 { props.language === "en" ? translations.en.header.irmuun_az_pharmacy : translations.mn.header.irmuun_az_pharmacy }
                                 </div>       
                             </div>                                                                                                                                   
@@ -35,21 +54,18 @@ function CustomFooter (props) {
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={6}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.main_menu : translations.mn.footer.main_menu }</Typography.Title>                            
-                        <Button href="/" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.footer.home_page : translations.mn.footer.home_page }</Button><br/>
-                        <Button href="/brandproducts" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Button><br/>
-                        <Button href="/about" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }</Button><br/>
-                        <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }</Button><br/>
-                        <Button href="/posts" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.blog : translations.mn.header.blog }</Button><br/>
-                        <Button href="/contact" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Button><br/>
+                        <Button href="/" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.footer.home_page : translations.mn.footer.home_page }</Button>
+                        <Button href="/brandproducts" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Button>
+                        <Button href="/about" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }</Button>
+                        <Button href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }</Button>
+                        <Button href="/posts" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.blog : translations.mn.header.blog }</Button>
+                        <Button href="/contact" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Button>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={6}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.categories : translations.mn.footer.categories }</Typography.Title>                            
-                        <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>Эмнэлгийн хэрэгсэл</Button><br/>
-                        <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>Гоо сайхан</Button><br/>
-                        <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>Витамин</Button><br/>
-                        <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>Хүүхэд</Button><br/>
-                        <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>Хүнс</Button><br/>
-                        <Button href="/products" block type="text" style={{ color: '#8e8e8e', textAlign: 'left' }}>Ковид 19</Button><br/>
+                        {categories ? categories.map(category => (
+                            <Button href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? category.name_en : category.name }</Button>   
+                        )) : []}                        
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={4}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.social_channels : translations.mn.footer.social_channels }</Typography.Title>

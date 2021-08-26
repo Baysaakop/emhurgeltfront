@@ -143,9 +143,9 @@ function ProductCard (props) {
                                     src={props.item.image1 ? props.item.image1 : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
                                     style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} 
                                 />                            
-                                { props.item.is_brand === true ?                                    
+                                { props.item.is_featured === true ?                                    
                                     <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
-                                        <img alt="brand" src={logo} style={{ width: '100%', height: 'auto' }} />                                        
+                                        <img alt="featured" src={logo} style={{ width: '100%', height: 'auto' }} />                                        
                                     </div>
                                     // <Tag color="geekblue" style={{ position: 'absolute', top: '8px', right: '0px' }}>Онцлох</Tag>
                                 : <></>}    

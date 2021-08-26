@@ -44,7 +44,7 @@ function HomeTimeline () {
                     <Timeline.Item label=
                     {
                         <div>
-                            <Typography.Title level={4}>Урамшууллын оноо цуглуулах</Typography.Title>
+                            <Typography.Title level={4}>Бонус цуглуулах</Typography.Title>
                             Ut lacinia arcu quis aliquam auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, risus vitae porta molestie, felis mauris ultricies nunc, ac tincidunt ipsum arcu a magna.                                                                                   
                         </div>
                     }>
@@ -80,7 +80,7 @@ function HomeTimeline () {
                     <Timeline.Item label=
                     {
                         <div>
-                            <Typography.Title level={5}>Урамшууллын оноо цуглуулах</Typography.Title>                            
+                            <Typography.Title level={5}>Бонус цуглуулах</Typography.Title>                            
                         </div>
                     }>
                         <img alt="bonus" src={bonusSvg} style={{ width: '60%', height: 'auto', objectFit: 'scale-down' }} />   
