@@ -50,7 +50,7 @@ function Home (props) {
                 </Col>   
                 <Col xs={24} sm={24} md={24} lg={6}>
                     <div style={{ background: '#fff', borderRadius: '2px', padding: '16px', height: '100%' }}>
-                        <Typography.Title level={3}><MenuOutlined style={{ fontSize: '22px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>      
+                        <Typography.Title level={3}><MenuOutlined style={{ fontSize: '20px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>      
                         <Divider style={{ margin: '8px 0' }} />   
                         {categories ? categories.map(item => (
                             <div>

@@ -1,5 +1,5 @@
 import { WarningOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Input, notification, Popconfirm, Row, Select, Typography, message, Spin } from "antd";
+import { Button, Col, Form, Input, notification, Popconfirm, Row, Select, Typography, message, Spin, InputNumber } from "antd";
 import ImageUpload from '../components/ImageUpload'
 import axios from "axios";
 import api from "../api";
@@ -18,6 +18,7 @@ function ProductAdd (props) {
     const [image2, setImage2] = useState()
     const [image3, setImage3] = useState()
     const [image4, setImage4] = useState()
+    const [poster, setPoster] = useState()
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -100,6 +101,9 @@ function ProductAdd (props) {
         if (values.name_en) {
             formData.append('name_en', values.name_en);
         }     
+        if (values.total) {
+            formData.append('total', values.total);
+        }     
         if (values.description) {
             formData.append('description', values.description);
         }
@@ -154,6 +158,9 @@ function ProductAdd (props) {
         if (image4) {
             formData.append('image4', image4)
         }                
+        if (poster) {
+            formData.append('poster', poster)
+        }                
         axios({
             method: 'POST',
             url: `${api.items}/`,
@@ -173,6 +180,7 @@ function ProductAdd (props) {
                 setImage2(undefined)                
                 setImage3(undefined)                
                 setImage4(undefined)                
+                setPoster(undefined)                
                 setLoading(false)
             }
         }).catch(err => {
@@ -200,12 +208,12 @@ function ProductAdd (props) {
                         style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
                     >
                         <Row gutter={[16, 0]}>
-                            <Col span={8}>
+                            <Col span={6}>
                                 <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                                     <Input />
                                 </Form.Item>
                             </Col>
-                            <Col span={8}>
+                            <Col span={6}>
                                 <Form.Item name="name_en" label="Нэр (EN)">
                                     <Input />
                                 </Form.Item>
@@ -216,10 +224,15 @@ function ProductAdd (props) {
                                 </Form.Item>
                             </Col>
                             <Col span={4}>
+                                <Form.Item name="total" label="Тоо ширхэг">
+                                    <InputNumber style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>  
+                            <Col span={4}>
                                 <Form.Item name="is_brand" label="Онцлох бүтээгдэхүүн">
                                     <Checkbox onChange={() => setBrand(!brand)}>Тийм</Checkbox>
                                 </Form.Item>
-                            </Col>         
+                            </Col>                                     
                             <Col span={12}>
                                 <Form.Item name="category" label="Төрөл">
                                     <Select          
@@ -319,7 +332,17 @@ function ProductAdd (props) {
                                 <Form.Item name="storage_en" label="Хадгалах нөхцөл (EN)">
                                     <Input.TextArea rows={3} />
                                 </Form.Item>
-                            </Col>                                          
+                            </Col>                                                                  
+                            <Col span={12}>
+                                <Form.Item name="video" label="Видео">
+                                    <Input.TextArea rows={10} />
+                                </Form.Item>
+                            </Col>    
+                            <Col span={12}>
+                                <Form.Item name="poster" label="Постер">
+                                    <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="225px" width="450px" st />     
+                                </Form.Item>
+                            </Col>    
                             <Col span={6}>
                                 <Form.Item name="image1" label="Зураг 1">
                                     <ImageUpload image={image1} onImageSelected={(path) => setImage1(path)} height="200px" width="200px" />     

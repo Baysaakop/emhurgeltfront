@@ -1,4 +1,4 @@
-import { Typography, message, List, Row, Col, Result, Collapse, Pagination } from "antd"
+import { Typography, message, List, Row, Col, Result, Collapse, Pagination, Button } from "antd"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../api"
@@ -141,14 +141,18 @@ function OrderHistory (props) {
                                             <Typography.Text>ХААН БАНК: <strong>5219166940</strong> (Хүлээн авагч: <strong>DSEABI</strong>)</Typography.Text>     
                                             <br /><br />
                                             <Typography.Text>ХУДАЛДАА ХӨГЖЛИЙН БАНК: <strong>472037839</strong> (Хүлээн авагч: <strong>DSEABI</strong>)</Typography.Text>                                                                       
+                                            <br /><br />
+                                            <Button block danger type="primary">Захиалга цуцлах</Button>
                                         </div>
                                     ) : order.state === "2" ? (
                                         <div>                                            
                                             <Result icon={<HourglassOutlined style={{ color: '#C2B280' }} />} title="ХҮЛЭЭЖ АВСАН" />                                    
+                                            <Button block danger type="primary">Захиалга цуцлах</Button>
                                         </div>
                                     ) : order.state === "3" ? (
                                         <div>                                            
                                             <Result icon={<CarOutlined style={{ color: '#2d3436' }} />} title="ХҮРГЭЛТЭНД ГАРСАН" />                                    
+                                            <Button block danger type="primary">Захиалга цуцлах</Button>
                                         </div>
                                     ) : order.state === "4" ? (
                                         <div>                                            

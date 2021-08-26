@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Checkbox, notification, Popconfirm, Row, Select, Typography, message, Spin } from "antd";
+import { Button, Col, Form, Input, Checkbox, notification, Popconfirm, Row, Select, Typography, message, Spin, InputNumber } from "antd";
 import ImageUpload from '../components/ImageUpload'
 import axios from "axios";
 import api from "../api";
@@ -17,6 +17,7 @@ function ProductEdit (props) {
     const [image2, setImage2] = useState()
     const [image3, setImage3] = useState()
     const [image4, setImage4] = useState()
+    const [poster, setPoster] = useState()
     const [loading, setLoading] = useState(false)
     const [selection, setSelection] = useState()
 
@@ -59,6 +60,8 @@ function ProductEdit (props) {
             storage: hit.storage !== null ? hit.storage : '',
             storage_en: hit.storage_en !== null ? hit.storage_en : '',
             price: hit.price !== null ? hit.price : '',
+            total: hit.total !== null ? hit.total : '',
+            video: hit.video !== null ? hit.video : '',
             company: hit.company !== null ? hit.company.id.toString() : undefined,
             category: hit.category !== null ? getIDs(hit.category) : undefined,
             tag: hit.tag !== null ? getIDs(hit.tag) : undefined,
@@ -68,6 +71,7 @@ function ProductEdit (props) {
         setImage2(hit.image2 !== null ? hit.image2 : undefined)
         setImage3(hit.image3 !== null ? hit.image3 : undefined)
         setImage4(hit.image4 !== null ? hit.image4 : undefined)
+        setPoster(hit.poster !== null ? hit.poster : undefined)
         setSelection(hit)
     }
 
@@ -180,6 +184,9 @@ function ProductEdit (props) {
         if (values.price && values.price !== selection.price) {
             formData.append('price', values.price);
         }
+        if (values.total && values.total !== selection.total) {
+            formData.append('total', values.total);
+        }
         if (values.company && values.company !== selection.company.id.toString()) {
             formData.append('company', values.company);
         }
@@ -203,6 +210,9 @@ function ProductEdit (props) {
         }    
         if (image4 && image4 !== selection.image4) {
             formData.append('image4', image4)
+        }   
+        if (poster && poster !== selection.poster) {
+            formData.append('poster', poster)
         }      
         formData.append('token', props.token)
         axios({
@@ -223,7 +233,8 @@ function ProductEdit (props) {
                 setImage1(undefined)                
                 setImage2(undefined)                
                 setImage3(undefined)                
-                setImage4(undefined)                                
+                setImage4(undefined)   
+                setPoster(undefined)                             
                 setSelection(undefined)
                 setLoading(false)
             }
@@ -290,12 +301,12 @@ function ProductEdit (props) {
                             style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
                         >
                             <Row gutter={[16, 0]}>
-                                <Col span={8}>
+                                <Col span={6}>
                                     <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                                         <Input />
                                     </Form.Item>
                                 </Col>
-                                <Col span={8}>
+                                <Col span={6}>
                                     <Form.Item name="name_en" label="Нэр (EN)">
                                         <Input />
                                     </Form.Item>
@@ -303,6 +314,11 @@ function ProductEdit (props) {
                                 <Col span={4}>
                                     <Form.Item name="price" label="Үнэ" rules={[{ required: true }]}>
                                         <Input suffix="₮" />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={4}>
+                                    <Form.Item name="total" label="Тоо ширхэг">
+                                        <InputNumber />
                                     </Form.Item>
                                 </Col>
                                 <Col span={4}>
@@ -409,7 +425,17 @@ function ProductEdit (props) {
                                     <Form.Item name="storage_en" label="Хадгалах нөхцөл (EN)">
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
-                                </Col>                             
+                                </Col>                  
+                                <Col span={12}>
+                                    <Form.Item name="video" label="Видео">
+                                        <Input.TextArea rows={10} />
+                                    </Form.Item>
+                                </Col>    
+                                <Col span={12}>
+                                    <Form.Item name="poster" label="Постер">
+                                        <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="225px" width="450px" st />     
+                                    </Form.Item>
+                                </Col>               
                                 <Col span={6}>
                                     <Form.Item name="image1" label="Зураг 1">
                                         <ImageUpload image={image1} onImageSelected={(path) => setImage1(path)} height="200px" width="200px" />     

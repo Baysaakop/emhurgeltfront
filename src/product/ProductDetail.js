@@ -277,20 +277,30 @@ function ProductDetail (props) {
                                     <Typography.Title level={5} style={{ margin: '0' }}>Үнэ:</Typography.Title>
                                     <Typography.Title level={2} style={{ margin: '0' }}>{formatNumber(item.price)}₮</Typography.Title>
                                 </div>                                                       
+                                <div style={{ textAlign: 'center' }}>
+                                    <Typography.Text style={{ margin: '0' }}>Үлдэгдэл</Typography.Text>                                    
+                                    <Typography.Title level={4} style={{ margin: '0' }}>{formatNumber(item.total)}</Typography.Title>
+                                </div>
                             </div>                            
                             <Divider style={{ margin: '16px 0' }} />  
                             <Space size={[8, 8]} wrap>
                                 <div>
                                     <Button size="large" type="ghost" icon={<MinusOutlined />} onClick={() => count > 1 ? setCount(count - 1) : setCount(count)} />            
-                                    <InputNumber readOnly value={count} size="large" min={1} max={50} style={{ width: '60px' }} />                                                                       
-                                    <Button size="large" type="ghost" icon={<PlusOutlined />} onClick={() => count < 200 ? setCount(count + 1) : setCount(count)} />            
+                                    <InputNumber readOnly value={count} size="large" min={1} max={item.total} style={{ width: '60px' }} />                                                                       
+                                    <Button size="large" type="ghost" icon={<PlusOutlined />} onClick={() => count < item.total ? setCount(count + 1) : setCount(count)} />            
                                 </div>    
                                 {cart && cart.find(x => x.item.id === item.id) ? (
                                     <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("delete")} >Сагснаас гаргах</Button>
-                                ) : (
+                                ) : item.total > 0 ? (
                                     <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >Сагсанд хийх</Button>
-                                )}       
-                                <Button type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>Захиалах</Button>
+                                ) : 
+                                    <Button disabled type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >Сагсанд хийх</Button>
+                                }       
+                                {item.total > 0 ? (
+                                    <Button type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>Захиалах</Button>
+                                ) : (
+                                    <Button disabled type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>Захиалах</Button>
+                                )}                        
                                 <Button danger type="primary" size="large" icon={<HeartOutlined />} onClick={addToSaved}>
                                     { favorite && favorite.find(x => x.id === item.id) ? 'Хадгалсан' : 'Хадгалах' }                                    
                                 </Button>
