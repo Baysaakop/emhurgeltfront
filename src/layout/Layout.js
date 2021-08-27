@@ -17,7 +17,7 @@ function CustomLayout (props) {
                 <CustomMenu {...props} />                
             </Header>
             <Content style={{ minHeight: '80vh' }}>                                     
-                <div className="content-item" style={ screens.lg ? { padding: '24px 10%' } : { padding: '24px 5%' }}>
+                <div className="content-item" style={ screens.xxl ? { padding: '24px 12%' } : screens.xl ? { padding: '24px 8%' } : screens.lg ? { padding: '24px' } : { padding: '16px' }}>
                     {props.children}                    
                 </div>                
                 <BackTop />

@@ -2,10 +2,10 @@ export const mn = {
     // Header
     header: {
         dseabi_llc: 'Ди Эс И Эй Би Ай ХХК',
-        irmuun_az_pharmacy: 'Ирмүүн Аз эмийн сан',
+        irmuun_az_pharmacy: 'Ирмүүн Аз Эмийн сан',
         search_with_dots: 'Хайх...',
         watchlist: 'Хадгалсан бүтээгдэхүүн',
-        cart: 'Сагс',
+        cart: 'Миний сагс',
         profile: 'Профайл',
         signin: 'Нэвтрэх',
         signout: 'Гарах',
@@ -21,7 +21,7 @@ export const mn = {
         all_rights_reserved: 'Зохиогчийн эрх хуулиар хамгаалагдсан',
         address: 'Хаяг',
         phone_number: 'Утасны дугаар',
-        address_pharmacy: 'Ирмүүн Аз эмийн сан, 46A Байр - 1-р давхар, Энхтайван хотхон, 1-р хороо, Хан-Уул Дүүрэг, Улаанбаатар, Монгол',
+        address_pharmacy: 'Ирмүүн Аз Эмийн сан, 46A Байр - 1-р давхар, Энхтайван хотхон, 1-р хороо, Хан-Уул Дүүрэг, Улаанбаатар, Монгол',
         main_menu: 'Үндсэн цэс',
         categories: 'Бүтээгдэхүүний төрлүүд',
         social_channels: 'Сошиал сувгууд',
@@ -59,10 +59,10 @@ export const mn = {
 export const en = {    
     header: {
         dseabi_llc: 'DSEABI LLC',
-        irmuun_az_pharmacy: 'Irmuun Az pharmacy',
+        irmuun_az_pharmacy: 'Irmuun Az Pharmacy',
         search_with_dots: 'Search...',
         watchlist: 'Watchlist',
-        cart: 'Cart',
+        cart: 'My cart',
         profile: 'Profile',
         signin: 'Sign In',
         signout: 'Sign Out',

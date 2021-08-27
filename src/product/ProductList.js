@@ -1,48 +1,72 @@
-import { Breadcrumb, Col, Input, List, Row, Typography, message, Tag, Radio, Space, Pagination, Select, Slider, Divider } from "antd";
+import { Breadcrumb, Col, List, Row, Typography, message, Tag, Radio, Space, Pagination, Select, Slider, Divider, Checkbox } from "antd";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as translations from '../translation';
-import Checkbox from "antd/lib/checkbox/Checkbox";
 
-const { Search } = Input
 const { CheckableTag } = Tag
 
 function ProductList (props) {
+    const history = useHistory()
     const [user, setUser] = useState()
     const [categories, setCategories] = useState()    
     const [tags, setTags] = useState()
-    const [items, setItems] = useState()
-    const [selectedTags, setSelectedTags] = useState([])
-    const [search, setSearch] = useState()
+    const [items, setItems] = useState()    
     const [isFeatured, setIsFeatured] = useState(false)
-    const [onSale, setOnSale] = useState(false)
     const [category, setCategory] = useState("0")
-    const [priceRange, setPriceRange] = useState()
+    const [selectedTags, setSelectedTags] = useState([])
+    const [priceLow, setPriceLow] = useState(0)
+    const [priceHigh, setPriceHigh] = useState(200000)
     const [page, setPage] = useState(1)    
     const [total, setTotal] = useState()
     const [order, setOrder] = useState("-created_at")
 
     useEffect(() => {        
-        if (props.location.search.length > 0) {
-            if (props.location.search.includes("name=")) {
-                let s = props.location.search.split("name=")[1]
-                if (s !== search) {
-                    setSearch(s)              
-                }            
-            } else if (props.location.search.includes("is_featured=true")) {
-                setIsFeatured(true)
-            } else if (props.location.search.includes("on_sale=true")) {
-                setOnSale(true)
-            } else if (props.location.search.includes("category=")) {
-                let c = props.location.search.split("category=")[1]
-                if (c !== category) {
-                    setCategory(c)              
-                }     
-            }            
+        const params = new URLSearchParams(props.location.search)                        
+        let param_is_featured = params.get('is_featured')
+        let param_category = params.get('category')       
+        let param_tags = params.get('tags')
+        let param_pricelow = params.get('pricelow')
+        let param_pricehigh = params.get('pricehigh')        
+        let param_page = params.get('page')
+        let param_order = params.get('order')
+        if (param_is_featured !== undefined && param_is_featured !== null && param_is_featured === 'true') {
+            setIsFeatured(true)
+        } else {
+            setIsFeatured(false)
+        }
+        if (param_category !== undefined && param_category !== null) {
+            setCategory(param_category)
+        } else {
+            setCategory("0")
+        }
+        if (param_tags !== undefined && param_tags !== null) {
+            setSelectedTags(param_tags.toString().split(","))
+        } else {
+            setSelectedTags([])
+        }
+        if (param_pricelow !== undefined && param_pricelow !== null) {
+            setPriceLow(param_pricelow)
+        } else {
+            setPriceLow(0)
+        }
+        if (param_pricehigh !== undefined && param_pricehigh !== null) {
+            setPriceHigh(param_pricehigh)
+        } else {
+            setPriceHigh(200000)
+        }
+        if (param_page !== undefined && param_page !== null) {
+            setPage(param_page)
+        } else {
+            setPage(1)
+        }
+        if (param_order !== undefined && param_order !== null) {
+            setOrder(param_order)
+        } else {
+            setOrder("-created_at")
         }
         if (props.token && !user) {
             getUser()
@@ -53,8 +77,8 @@ function ProductList (props) {
         if (!tags) {
             getTags()
         }
-        getProducts(search, isFeatured, onSale, category, selectedTags, priceRange, order, page)        
-    }, [props.token, search, isFeatured, onSale, category, selectedTags, priceRange, order, page]) // eslint-disable-line react-hooks/exhaustive-deps
+        getProducts(props.location.search)        
+    }, [props.token, props.location.search]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUser() {
         axios({
@@ -71,38 +95,19 @@ function ProductList (props) {
         })
     }
 
-    function getProducts (search, isFeatured, onSale, category, selectedTags, priceRange, order, page) {        
-        let url = `${api.items}/?`
-        if (search) {
-            url += `name=${search}`
-        }
-        if (isFeatured) {
-            url += `&is_featured=true`
-        }
-        if (onSale) {
-            url += `&on_sale=true`
-        }
-        if (category && category > 0) {
-            url += `&category=${category}`
-        }
-        if (selectedTags && selectedTags.length > 0) {
-            url += `&tags=${selectedTags}`
-        }
-        if (priceRange) {
-            url += `&pricelow=${priceRange[0]}&pricehigh=${priceRange[1]}`
-        }
-        if (order) {
-            url += `&order=${order}`
-        }
-        url += `&page=${page}`        
+    function getProducts (url) {                          
         axios({
             method: 'GET',
-            url: url           
+            url: api.items + url           
         }).then(res => {                        
             setItems(res.data.results)
             setTotal(res.data.count)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
+        }).catch(err => {            
+            if (err.message.endsWith("500")) {
+                message.error("Шүүх утга буруу байна.")
+            } else {
+                message.error("Алдаа гарлаа. Хуудсыг дахин ачааллана уу.")
+            }            
         })
     }
 
@@ -128,33 +133,63 @@ function ProductList (props) {
         })
     }
 
-    function selectTag (tag, checked) {
-        const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-        setSelectedTags(nextSelectedTags)
-    }
-
-    function onSearch (val) {
-        setSearch(val)
-    }
-
     function onCheckFeatured (e) {        
-        setIsFeatured(!isFeatured)
+        const params = new URLSearchParams(props.location.search)        
+        params.delete("is_featured")
+        if (!isFeatured) {
+            params.append("is_featured", "true")
+        }
+        history.push(`/products?${params.toString()}`)
     }
 
     function onSelectCategory (e) {
-        setCategory(e.target.value)
+        const params = new URLSearchParams(props.location.search)        
+        params.delete("category")
+        if (parseInt(e.target.value) > 0) {
+            params.append("category", e.target.value)
+        }
+        history.push(`/products?${params.toString()}`)        
+    }
+
+    function selectTag (tag, checked) {
+        const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
+        const params = new URLSearchParams(props.location.search)        
+        params.delete("tags")
+        if (nextSelectedTags.length > 0) {
+            params.append("tags", nextSelectedTags)
+        }
+        history.push(`/products?${params.toString()}`)        
+    }
+    
+    function onPriceChange (val) {        
+        const params = new URLSearchParams(props.location.search)        
+        params.delete("pricelow")
+        params.delete("pricehigh")
+        if (val[0] > 0) {
+            params.append("pricelow", val[0])
+        }
+        if (val[1] < 200000) {
+            params.append("pricehigh", val[1])
+        }
+        history.push(`/products?${params.toString()}`)        
     }
 
     function onPageChange (pageNum, pageSize) {        
-        setPage(pageNum)
+        const params = new URLSearchParams(props.location.search)        
+        params.delete("page")        
+        if (pageNum > 1) {
+            params.append("page", pageNum)
+        }
+        history.push(`/products?${params.toString()}`)      
     } 
 
     function onOrder (val) {
-        setOrder(val)        
-    }
-
-    function onPriceChange (val) {
-        setPriceRange(val)
+        const params = new URLSearchParams(props.location.search)        
+        params.delete("order")        
+        if (val !== "-created_at") {
+            params.append("order", val)
+        }
+        history.push(`/products?${params.toString()}`)        
     }
 
     return (
@@ -171,16 +206,13 @@ function ProductList (props) {
             </Breadcrumb>
             <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
                 <Col xs={24} sm={24} md={24} lg={6}>
-                    <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>
-                        <Typography.Title level={5}>{ props.language === "en" ? translations.en.product_list.search_products : translations.mn.product_list.search_products }:</Typography.Title>
-                        <Search placeholder={ props.language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } onSearch={onSearch} enterButton />
-                        <Divider />
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
+                    <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                        
+                        <Typography.Title level={5}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
                         <Checkbox checked={isFeatured} onChange={onCheckFeatured}>Тийм</Checkbox>
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>
                         <Radio.Group value={category} onChange={onSelectCategory}>
                             <Space direction="vertical">
-                                <Radio value={"0"}>
+                                <Radio value="0">
                                     Бүгд
                                 </Radio>
                                 {categories ? categories.map(cat => (
@@ -194,10 +226,10 @@ function ProductList (props) {
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.tags : translations.mn.product_list.tags }:</Typography.Title>
                         {tags ? tags.map(tag => (
                             <CheckableTag
-                                key={tag.id}
-                                checked={selectedTags ? selectedTags.indexOf(tag.id) > -1 : false}
+                                key={tag.id.toString()}
+                                checked={selectedTags ? selectedTags.indexOf(tag.id.toString()) > -1 : false}
                                 style={{ fontSize: '14px', marginTop: '8px' }}
-                                onChange={checked => selectTag(tag.id, checked)}
+                                onChange={checked => selectTag(tag.id.toString(), checked)}
                             >
                                 {tag.name}
                             </CheckableTag>
@@ -207,16 +239,21 @@ function ProductList (props) {
                         <Slider 
                             range 
                             min={0} 
-                            max={100000} 
-                            defaultValue={[0, 100000]} 
+                            max={200000} 
+                            defaultValue={[priceLow, priceHigh]} 
                             marks={
                                 { 
-                                    0: '0₮', 
-                                    100000: { 
+                                    0: {
+                                        style: { 
+                                            transform: 'translateX(0)' 
+                                        }, 
+                                        label: <span>{priceLow}₮</span>
+                                    },                                     
+                                    200000: { 
                                         style: { 
                                             transform: 'translateX(-100%)' 
                                         }, 
-                                        label: <span>100,000₮</span> 
+                                        label: <span>{priceHigh}₮</span> 
                                     } 
                                 }
                             } 

@@ -14,7 +14,7 @@ body {
   border-bottom: 1px solid #dedede;
   z-index: 99;
   padding: 0;
-  height: 160px;
+  height: 180px;
   width: 100%;
   line-height: unset;
 }
@@ -68,6 +68,11 @@ body {
   height: 12px;
   width: 12px;
   border-radius: 50px;
+}
+
+.ant-select-single.ant-select-open .ant-select-selection-item,
+.ant-select-arrow {
+  color: #fff;
 }
 
 /* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,

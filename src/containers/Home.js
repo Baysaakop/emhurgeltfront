@@ -1,4 +1,4 @@
-import { DoubleRightOutlined, MenuOutlined } from '@ant-design/icons';
+import { AlignLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import { Col, Row, Typography, Card, message, Button, Divider } from 'antd';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';  
@@ -45,15 +45,15 @@ function Home (props) {
     return (
         <div>
             <Row gutter={[24, 24]}>
-            <Col xs={24} sm={24} md={24} lg={18}>
+                <Col xs={24} sm={24} md={24} lg={18}>
                     <HomeSlider />
                 </Col>   
                 <Col xs={24} sm={24} md={24} lg={6}>
                     <div style={{ background: '#fff', borderRadius: '2px', padding: '16px', height: '100%' }}>
-                        <Typography.Title level={3}><MenuOutlined style={{ fontSize: '20px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>      
-                        <Divider style={{ margin: '8px 0' }} />   
+                        <Typography.Title level={3}><AlignLeftOutlined style={{ fontSize: '20px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>                               
                         {categories ? categories.map(item => (
-                            <div>
+                            <div key={item.id}>
+                                <Divider style={{ margin: '4px 0' }} />  
                                 <Button block size="large" type="text" href={`/products?category=${item.id}`} style={{ textAlign: 'left' }}>{item.name}</Button>
                             </div>
                         )) : []}
@@ -94,37 +94,35 @@ function Home (props) {
             <Row gutter={[24, 24]}>
                 { posts ? posts.slice(0, 3).map(post => {
                     return (
-                        <Col xs={24} sm={24} md={24} lg={8}>
-                            <Link to={`/posts/${post.id}`}>
-                                <Card 
-                                    hoverable
-                                    style={{ width: '100%' }}
-                                    cover={
-                                        <div style={{ position: 'relative', paddingTop: '50%' }}>                                            
-                                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-                                                <img alt="asd" src={post.thumbnail} style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'scale-down' }} />
-                                            </div>                                            
-                                        </div>
-                                    }
-                                >
-                                    <Card.Meta
-                                        title={post.title}
-                                        description={
-                                            <Typography.Paragraph ellipsis={{ rows: 3 }} style={{ fontSize: '16px' }}>
-                                                <div dangerouslySetInnerHTML={{__html: post.content }} />
-                                            </Typography.Paragraph>
-                                        }
-                                    />
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Link to={`/posts/${post.id}`}>
-                                            <Button type="primary">Дэлгэрэнгүй</Button>
-                                        </Link>
-                                        <div>
-                                            {moment(post.created_at).format("YYYY-MM-DD")}
-                                        </div>
+                        <Col xs={24} sm={24} md={24} lg={8} key={post.id}>                            
+                            <Card                                    
+                                hoverable
+                                style={{ width: '100%' }}
+                                cover={
+                                    <div style={{ position: 'relative', paddingTop: '50%' }}>                                            
+                                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                            <img alt="asd" src={post.thumbnail} style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'scale-down' }} />
+                                        </div>                                            
                                     </div>
-                                </Card>
-                            </Link>
+                                }
+                            >
+                                <Card.Meta
+                                    title={post.title}
+                                    description={
+                                        <Typography.Paragraph ellipsis={{ rows: 3 }} style={{ fontSize: '16px' }}>
+                                            <div dangerouslySetInnerHTML={{__html: post.content }} />
+                                        </Typography.Paragraph>
+                                    }
+                                />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Link to={`/posts/${post.id}`}>
+                                        <Button type="primary">Дэлгэрэнгүй...</Button>
+                                    </Link>
+                                    <div>
+                                        {moment(post.created_at).format("YYYY-MM-DD")}
+                                    </div>
+                                </div>
+                            </Card>                            
                         </Col>
                     )
                 }) : <></>}                

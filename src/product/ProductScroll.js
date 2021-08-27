@@ -55,7 +55,7 @@ function ProductScroll (props) {
                 >
                     {items.map(item => {
                         return (
-                            <ProductCard history={props.history} item={item} type="" />
+                            <ProductCard key={item.id} history={props.history} item={item} type="" />
                         )
                     })}
                 </InfiniteCarousel>

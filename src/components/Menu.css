@@ -1,0 +1,23 @@
+.menu-social-icons {
+  margin-right: 8px;
+}
+
+.menu-social-icons .ant-btn {
+  color: #fff;
+}
+
+.menu-social-icons .ant-btn.facebook:hover {
+  color: #000;
+}
+
+.menu-social-icons .ant-btn.instagram:hover {
+  color: #000;
+}
+
+.menu-social-icons .ant-btn.youtube:hover {
+  color: #000;
+}
+
+.menu-social-icons .ant-btn.google:hover {
+  color: #000;
+}

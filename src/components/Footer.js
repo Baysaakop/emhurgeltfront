@@ -64,7 +64,7 @@ function CustomFooter (props) {
                     <Col xs={24} sm={24} md={12} lg={6}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.categories : translations.mn.footer.categories }</Typography.Title>                            
                         {categories ? categories.map(category => (
-                            <Button href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? category.name_en : category.name }</Button>   
+                            <Button key={category.id} href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? category.name_en : category.name }</Button>   
                         )) : []}                        
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={4}>
@@ -79,7 +79,8 @@ function CustomFooter (props) {
                             <div style={{ marginTop: '8px' }}>
                                 <Button size="large" type="primary" style={{ background: '#bb0000', paddingTop: '4px' }} icon={<YoutubeOutlined />} /> 
                                 <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold', marginLeft: '8px' }}> YouTube</Typography.Text>
-                            </div>  
+                            </div>   
+                            
                         </a>          
                         <a href="/">
                             <div style={{ marginTop: '8px' }}>
