@@ -75,6 +75,10 @@ body {
   color: #fff;
 }
 
+.ant-rate-star-zero {
+  color: #888;
+}
+
 /* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,

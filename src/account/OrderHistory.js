@@ -52,6 +52,18 @@ function OrderHistory (props) {
         }
     }
 
+    function getBonus (order) {
+        let bonus = 0
+        order.items.forEach(order_item => {
+            if (order_item.item.is_featured === true) {
+                bonus += (order_item.item.price / 100) * order.user.profile.percent * 1.5 * order_item.count
+            } else {
+                bonus += (order_item.item.price / 100) * order.user.profile.percent * order_item.count
+            }
+        })
+        return bonus
+    }
+
     return (
         <div>
             <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>        
@@ -95,7 +107,7 @@ function OrderHistory (props) {
                                                 <Typography.Text>ҮНИЙН ДҮН: {formatNumber(order.total)}₮</Typography.Text>
                                             </Col>                                            
                                             <Col xs={24} sm={24} md={12}>
-                                                <Typography.Text style={{ fontWeight: 'bold', color: '#52c41a' }}>УРАМШУУЛАЛ: +{order.total / 100 * 2}₮</Typography.Text>
+                                                <Typography.Text style={{ fontWeight: 'bold', color: '#52c41a' }}>УРАМШУУЛАЛ: + {getBonus(order)}₮</Typography.Text>
                                             </Col>
                                             <Col xs={24} sm={24} md={12}>                                                
                                                 <Typography.Text>ХҮРГЭЛТИЙН ХАЯГ: {order.address}</Typography.Text>                                                                                                

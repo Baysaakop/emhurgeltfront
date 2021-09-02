@@ -13,6 +13,7 @@ import BrandProducts from './product/BrandProducts';
 import PostList from './posts/PostList';
 import PostDetail from './posts/PostDetail';
 import Staff from './account/Staff';
+import Bonus from './containers/Bonus';
 
 function BaseRouter () {
     return (
@@ -20,6 +21,7 @@ function BaseRouter () {
             <Route exact path="/" component={Home} />
             <Route exact path="/about" component={About} />            
             <Route exact path="/contact" component={Contact} />            
+            <Route exact path="/bonus" component={Bonus} />            
             {/* Product */}
             <Route exact path="/products" component={ProductList} />
             <Route exact path="/products/:id" component={ProductDetail} />

@@ -52,31 +52,35 @@ function ProductCard (props) {
     }
 
     function addToCart(mode) {        
-        if (props.user) {                          
-            axios({
-                method: 'PUT',
-                url: `${api.profiles}/${props.user.profile.id}/`,
-                headers: {
-                    'Content-Type': 'application/json',     
-                    'Authorization': `Token ${props.token}`                                              
-                },
-                data: {
-                    cart: true,
-                    mode: mode,
-                    item: props.item.id,
-                    count: 1                                               
-                }
-            })            
-            .then(res => {
-                if (res.status === 200 || res.status === 201) {                                  
-                    setCart(res.data.cart)            
-                    props.onUpdateCart(res.data.cart)                  
-                }                                                         
-            })
-            .catch(err => {                      
-                console.log(err.message)         
-                message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
-            })             
+        if (props.user) {               
+            if ((cart && cart.find(x => x.item.id === props.item.id)) || props.item.total > 0) {
+                axios({
+                    method: 'PUT',
+                    url: `${api.profiles}/${props.user.profile.id}/`,
+                    headers: {
+                        'Content-Type': 'application/json',     
+                        'Authorization': `Token ${props.token}`                                              
+                    },
+                    data: {
+                        cart: true,
+                        mode: mode,
+                        item: props.item.id,
+                        count: 1                                               
+                    }
+                })            
+                .then(res => {
+                    if (res.status === 200 || res.status === 201) {                                  
+                        setCart(res.data.cart)            
+                        props.onUpdateCart(res.data.cart)                  
+                    }                                                         
+                })
+                .catch(err => {                      
+                    console.log(err.message)         
+                    message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
+                })  
+            } else {
+                message.error("Уучлаарай. Бүтээгдэхүүн дууссан байна.")            
+            }                                 
         } else {
             props.history.push('/login')            
         }        

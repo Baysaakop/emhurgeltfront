@@ -9,8 +9,10 @@ import Saved from './Saved';
 import Logout from './Logout';
 import Cart from './Cart';
 import OrderHistory from './OrderHistory';
+import logo from '../components/logo.png'
+import CloverIcon from '../components/CloverIcon';
 
-const percentages = ['1%', '2%', '3%', '4%', '5%'];
+const percentages = ['3%', '4%', '5%', '6%'];
 
 function Profile (props) {    
     const [user, setUser] = useState()
@@ -72,8 +74,8 @@ function Profile (props) {
                                 </div>
                             </div>                             
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын хувь</Typography.Title>                                               
-                            <Rate disabled count={5} value={user.profile.point} tooltips={percentages} />                            
-                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- {user.profile.point}%</span>
+                            <Rate disabled count={4} value={user.profile.level} tooltips={percentages} />                            
+                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- {user.profile.percent}%</span>
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын оноо</Typography.Title>  
                             <Typography.Title level={4} style={{ margin: 0 }}>{formatNumber(user.profile.bonus)}₮</Typography.Title>                                                                         
                             <Menu mode="inline" selectedKeys={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0)', marginTop: '16px' }} onClick={onSelect}>

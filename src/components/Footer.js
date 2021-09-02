@@ -64,7 +64,7 @@ function CustomFooter (props) {
                     <Col xs={24} sm={24} md={12} lg={6}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.categories : translations.mn.footer.categories }</Typography.Title>                            
                         {categories ? categories.map(category => (
-                            <Button key={category.id} href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? category.name_en : category.name }</Button>   
+                            <Button key={category.id} href={`/products?category=${category.id}`} block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? category.name_en : category.name }</Button>   
                         )) : []}                        
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={4}>

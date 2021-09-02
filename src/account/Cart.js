@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"; 
 import api from "../api";
 import { Link, useHistory } from "react-router-dom";
-import { CarOutlined, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined, WarningOutlined } from "@ant-design/icons";
+import { CarOutlined, CloseCircleFilled, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import * as actions from '../store/actions/auth';
 import AddressForm from '../components/AddressForm';
@@ -35,7 +35,7 @@ function Cart (props) {
     }
 
     function onPlus (item) {              
-        if (item.count + 1 < 100) {              
+        if (item.count + 1 <= item.item.total) {              
             axios({
                 method: 'PUT',
                 url: `${api.profiles}/${props.user.profile.id}/`,
@@ -136,71 +136,85 @@ function Cart (props) {
         }        
     }
 
-    function onFinish (values) {        
-        console.log(values)
-        if (values.phone_number !== props.user.profile.phone_number) {
-            axios({
-                method: 'PUT',
-                url: `${api.profiles}/${props.user.profile.id}/`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${props.token}`                               
-                },
-                data: {
-                    phone_number: values.phone_number
-                }
-            })             
-        }
-        if (values.address !== props.user.profile.address) {
-            axios({
-                method: 'PUT',
-                url: `${api.profiles}/${props.user.profile.id}/`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${props.token}`                               
-                },
-                data: {
-                    address: values.address
-                }
-            })             
-        }
-        axios({
-            method: 'POST',
-            url: `${api.orders}/`,
-            headers: {
-                'Content-Type': 'application/json',     
-                'Authorization': `Token ${props.token}`                                         
-            },
-            data: {
-                token: props.token,
-                total: amount, 
-                bonus: bonus,
-                phone_number: values.phone_number,
-                address: values.address,
-                info: values.info ? values.info : ""                                           
+    function onFinish (values) {            
+        let stateOk = true
+        items.forEach(item => {
+            if (item.item.total === 0) {
+                message.error(`${item.item.name} бараа дууссан тул захиалга хийх боломжгүй байна.`)
+                stateOk = false
+                return
             }
-        })            
-        .then(res => {
-            if (res.status === 201) {                                                                      
-                props.onUpdateCart(res.data.user.profile.cart)                                    
-                notification['success']({
-                    message: 'Захиалга хүлээж авлаа.',
-                    description: `'${res.data.ref}' дугаартай захиалга үүслээ. Төлбөр төлөгдсөний дараа таны захиалга хүргэгдэх болно. Баярлалаа`,
-                    duration: 8
-                });
-                history.push(`profile?key=orders`)
-            } else if (res.status === 406) {
-                notification['error']({
-                    message: 'Захиалга амжилтгүй боллоо.',
-                    description: `Таны захиалга амжилтгүй боллоо. Та 7607-7722 дугаарт холбогдон лавлана уу. Баярлалаа,`,
-                    duration: 8
-                });
-            }                                                          
-        })
-        .catch(err => {                      
-            console.log(err.message)         
-            message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
-        }) 
+            if (item.count > item.item.total) {
+                message.error(`${item.item.name} бараа ${item.item.total} ширхэг үлдсэн тул захиалга хийх боломжгүй байна.`)
+                stateOk = false
+                return
+            }
+        })    
+        if (stateOk) {
+            if (values.phone_number !== props.user.profile.phone_number) {
+                axios({
+                    method: 'PUT',
+                    url: `${api.profiles}/${props.user.profile.id}/`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${props.token}`                               
+                    },
+                    data: {
+                        phone_number: values.phone_number
+                    }
+                })             
+            }
+            if (values.address !== props.user.profile.address) {
+                axios({
+                    method: 'PUT',
+                    url: `${api.profiles}/${props.user.profile.id}/`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${props.token}`                               
+                    },
+                    data: {
+                        address: values.address
+                    }
+                })             
+            }        
+            axios({
+                method: 'POST',
+                url: `${api.orders}/`,
+                headers: {
+                    'Content-Type': 'application/json',     
+                    'Authorization': `Token ${props.token}`                                         
+                },
+                data: {
+                    token: props.token,
+                    total: amount, 
+                    bonus: bonus,
+                    phone_number: values.phone_number,
+                    address: values.address,
+                    info: values.info ? values.info : ""                                           
+                }
+            })            
+            .then(res => {
+                if (res.status === 201) {                                                                      
+                    props.onUpdateCart(res.data.user.profile.cart)                                    
+                    notification['success']({
+                        message: 'Захиалга хүлээж авлаа.',
+                        description: `'${res.data.ref}' дугаартай захиалга үүслээ. Төлбөр төлөгдсөний дараа таны захиалга хүргэгдэх болно. Баярлалаа`,
+                        duration: 8
+                    });
+                    history.push(`profile?key=orders`)
+                } else if (res.status === 406) {
+                    notification['error']({
+                        message: 'Захиалга амжилтгүй боллоо.',
+                        description: `Таны захиалга амжилтгүй боллоо. Та 7607-7722 дугаарт холбогдон лавлана уу. Баярлалаа,`,
+                        duration: 8
+                    });
+                }                                                          
+            })
+            .catch(err => {                      
+                console.log(err.message)         
+                message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
+            }) 
+        }        
     }
 
     function formatNumber(num) {
@@ -247,6 +261,13 @@ function Cart (props) {
                                 <p>
                                 Үнэ: {formatNumber(item.item.price)}₮ X {item.count} = <span style={{ fontWeight: 'bold' }}>{formatNumber(item.item.price * item.count)}₮</span>
                                 </p>
+                                { item.item.total === 0 ? (
+                                    <Typography.Text type="danger"><WarningOutlined /> Дууссан</Typography.Text>
+                                ) : item.item.total < item.count ? (
+                                    <Typography.Text type="danger">(Үлдэгдэл: {item.item.total})</Typography.Text>
+                                ) : (
+                                    <Typography.Text>(Үлдэгдэл: {item.item.total})</Typography.Text>
+                                )}
                             </List.Item>
                         )}
                     />  
