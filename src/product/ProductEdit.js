@@ -60,7 +60,7 @@ function ProductEdit (props) {
             storage: hit.storage !== null ? hit.storage : '',
             storage_en: hit.storage_en !== null ? hit.storage_en : '',
             price: hit.price !== null ? hit.price : '',
-            total: hit.total !== null ? hit.total : '',
+            count: hit.count !== null ? hit.count : '',
             video: hit.video !== null ? hit.video : '',
             company: hit.company !== null ? hit.company.id.toString() : undefined,
             category: hit.category !== null ? getIDs(hit.category) : undefined,
@@ -184,8 +184,8 @@ function ProductEdit (props) {
         if (values.price && values.price !== selection.price) {
             formData.append('price', values.price);
         }
-        if (values.total && values.total !== selection.total) {
-            formData.append('total', values.total);
+        if (values.count && values.count !== selection.count) {
+            formData.append('count', values.count);
         }
         if (values.company && values.company !== selection.company.id.toString()) {
             formData.append('company', values.company);
@@ -317,7 +317,7 @@ function ProductEdit (props) {
                                     </Form.Item>
                                 </Col>
                                 <Col span={4}>
-                                    <Form.Item name="total" label="Тоо ширхэг">
+                                    <Form.Item name="count" label="Тоо ширхэг">
                                         <InputNumber />
                                     </Form.Item>
                                 </Col>

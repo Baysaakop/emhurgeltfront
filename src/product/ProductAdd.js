@@ -101,8 +101,8 @@ function ProductAdd (props) {
         if (values.name_en) {
             formData.append('name_en', values.name_en);
         }     
-        if (values.total) {
-            formData.append('total', values.total);
+        if (values.count) {
+            formData.append('count', values.count);
         }     
         if (values.description) {
             formData.append('description', values.description);
@@ -224,7 +224,7 @@ function ProductAdd (props) {
                                 </Form.Item>
                             </Col>
                             <Col span={4}>
-                                <Form.Item name="total" label="Тоо ширхэг">
+                                <Form.Item name="count" label="Тоо ширхэг">
                                     <InputNumber style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>  

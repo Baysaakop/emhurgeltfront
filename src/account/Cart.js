@@ -35,7 +35,7 @@ function Cart (props) {
     }
 
     function onPlus (item) {              
-        if (item.count + 1 <= item.item.total) {              
+        if (item.count + 1 <= item.item.count) {              
             axios({
                 method: 'PUT',
                 url: `${api.profiles}/${props.user.profile.id}/`,
@@ -139,13 +139,13 @@ function Cart (props) {
     function onFinish (values) {            
         let stateOk = true
         items.forEach(item => {
-            if (item.item.total === 0) {
+            if (item.item.count === 0) {
                 message.error(`${item.item.name} бараа дууссан тул захиалга хийх боломжгүй байна.`)
                 stateOk = false
                 return
             }
-            if (item.count > item.item.total) {
-                message.error(`${item.item.name} бараа ${item.item.total} ширхэг үлдсэн тул захиалга хийх боломжгүй байна.`)
+            if (item.count > item.item.count) {
+                message.error(`${item.item.name} бараа ${item.item.count} ширхэг үлдсэн тул захиалга хийх боломжгүй байна.`)
                 stateOk = false
                 return
             }
@@ -261,12 +261,12 @@ function Cart (props) {
                                 <p>
                                 Үнэ: {formatNumber(item.item.price)}₮ X {item.count} = <span style={{ fontWeight: 'bold' }}>{formatNumber(item.item.price * item.count)}₮</span>
                                 </p>
-                                { item.item.total === 0 ? (
+                                { item.item.count === 0 ? (
                                     <Typography.Text type="danger"><WarningOutlined /> Дууссан</Typography.Text>
-                                ) : item.item.total < item.count ? (
-                                    <Typography.Text type="danger">(Үлдэгдэл: {item.item.total})</Typography.Text>
+                                ) : item.item.count < item.count ? (
+                                    <Typography.Text type="danger">(Үлдэгдэл: {item.item.count})</Typography.Text>
                                 ) : (
-                                    <Typography.Text>(Үлдэгдэл: {item.item.total})</Typography.Text>
+                                    <Typography.Text>(Үлдэгдэл: {item.item.count})</Typography.Text>
                                 )}
                             </List.Item>
                         )}

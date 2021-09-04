@@ -53,7 +53,7 @@ function ProductCard (props) {
 
     function addToCart(mode) {        
         if (props.user) {               
-            if ((cart && cart.find(x => x.item.id === props.item.id)) || props.item.total > 0) {
+            if ((cart && cart.find(x => x.item.id === props.item.id)) || props.item.count > 0) {
                 axios({
                     method: 'PUT',
                     url: `${api.profiles}/${props.user.profile.id}/`,
