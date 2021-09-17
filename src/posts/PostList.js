@@ -14,7 +14,7 @@ function PostList (props) {
     const [posts, setPosts] = useState()    
     const [page, setPage] = useState(1)    
     const [total, setTotal] = useState()
-    const [search, setSearch] = useState()
+    //const [search, setSearch] = useState()
 
     useEffect(() => {
         getPosts(page)
@@ -39,7 +39,7 @@ function PostList (props) {
     }
 
     function onSearch (val) {
-        setSearch(val)
+        //setSearch(val)
     }
 
     return (

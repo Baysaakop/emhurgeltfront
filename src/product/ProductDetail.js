@@ -59,12 +59,15 @@ function ProductDetail (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    function getCategory (categories) {
+    function getType (types) {
         let res = []
-        categories.forEach(element => {
+        types.forEach(element => {
             res.push(element.name)
         })
-        return res.toString()
+        if (res.length > 0) {
+            return res.toString()
+        }
+        return "-Ангилал хийгдээгүй-"
     }
 
     function getSuggestedProducts() {
@@ -264,7 +267,7 @@ function ProductDetail (props) {
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div>
                                     <Typography.Title level={3} style={{ margin: 0 }}>{item.name}</Typography.Title>                            
-                                    <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{getCategory(item.category)}</Typography.Text>
+                                    <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{getType(item.types)}</Typography.Text>
                                 </div>
                                 <div>
                                     {/* <Typography.Title level={3}>{item.company ? item.company : undefined}</Typography.Title>  */}
@@ -339,7 +342,7 @@ function ProductDetail (props) {
                         </Typography.Paragraph>
                         <Typography.Title level={5} style={{ margin: 0 }}>Хадгалах нөхцөл:</Typography.Title>
                         <Typography.Paragraph>
-                            {item.caution}                                
+                            {item.storage}                                
                         </Typography.Paragraph>
                         <Typography.Title level={5} style={{ margin: 0 }}>Анхааруулга:</Typography.Title>
                         <Typography.Paragraph>

@@ -9,8 +9,6 @@ import Saved from './Saved';
 import Logout from './Logout';
 import Cart from './Cart';
 import OrderHistory from './OrderHistory';
-import logo from '../components/logo.png'
-import CloverIcon from '../components/CloverIcon';
 
 const percentages = ['3%', '4%', '5%', '6%'];
 

@@ -1,4 +1,4 @@
-import { Breadcrumb, Col, List, Row, Typography, message, Tag, Radio, Space, Pagination, Select, Slider, Divider, Checkbox } from "antd";
+import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Divider, Checkbox } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -7,17 +7,19 @@ import api from "../api";
 import { connect } from 'react-redux';
 import * as translations from '../translation';
 
-const { CheckableTag } = Tag
-
 function ProductList (props) {
     const history = useHistory()
     const [user, setUser] = useState()
+    const [types, setTypes] = useState()    
     const [categories, setCategories] = useState()    
-    const [tags, setTags] = useState()
+    const [subCategories, setSubCategories] = useState()    
+    // const [tags, setTags] = useState()
     const [items, setItems] = useState()    
     const [isFeatured, setIsFeatured] = useState(false)
+    const [type, setType] = useState("0")
     const [category, setCategory] = useState("0")
-    const [selectedTags, setSelectedTags] = useState([])
+    const [subCategory, setSubCategory] = useState("0")
+    // const [selectedTags, setSelectedTags] = useState([])
     const [priceLow, setPriceLow] = useState(0)
     const [priceHigh, setPriceHigh] = useState(200000)
     const [page, setPage] = useState(1)    
@@ -27,8 +29,10 @@ function ProductList (props) {
     useEffect(() => {        
         const params = new URLSearchParams(props.location.search)                        
         let param_is_featured = params.get('is_featured')
+        let param_type = params.get('type')       
         let param_category = params.get('category')       
-        let param_tags = params.get('tags')
+        let param_subcategory = params.get('subcategory')       
+        // let param_tags = params.get('tags')
         let param_pricelow = params.get('pricelow')
         let param_pricehigh = params.get('pricehigh')        
         let param_page = params.get('page')
@@ -38,16 +42,30 @@ function ProductList (props) {
         } else {
             setIsFeatured(false)
         }
+        if (param_type !== undefined && param_type !== null) {
+            setType(param_type)            
+            getCategories(param_type)
+        } else {
+            setType("0")
+            setCategories(undefined)
+        }
         if (param_category !== undefined && param_category !== null) {
-            setCategory(param_category)
+            setCategory(param_category)            
+            getSubCategories(param_category)
         } else {
             setCategory("0")
+            setSubCategories(undefined)
         }
-        if (param_tags !== undefined && param_tags !== null) {
-            setSelectedTags(param_tags.toString().split(","))
+        if (param_subcategory !== undefined && param_subcategory !== null) {
+            setSubCategory(param_subcategory)            
         } else {
-            setSelectedTags([])
+            setSubCategory("0")
         }
+        // if (param_tags !== undefined && param_tags !== null) {
+        //     setSelectedTags(param_tags.toString().split(","))
+        // } else {
+        //     setSelectedTags([])
+        // }
         if (param_pricelow !== undefined && param_pricelow !== null) {
             setPriceLow(param_pricelow)
         } else {
@@ -71,12 +89,12 @@ function ProductList (props) {
         if (props.token && !user) {
             getUser()
         }        
-        if (!categories) {
-            getCategories()
+        if (!types) {
+            getTypes()
         }
-        if (!tags) {
-            getTags()
-        }
+        // if (!tags) {
+        //     getTags()
+        // }
         getProducts(props.location.search)        
     }, [props.token, props.location.search]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -111,10 +129,21 @@ function ProductList (props) {
         })
     }
 
-    function getCategories () {
+    function getTypes () {
         axios({
             method: 'GET',
-            url: `${api.categories}/`            
+            url: `${api.types}/`            
+        }).then(res => {            
+            setTypes(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    }
+
+    function getCategories (type) {
+        axios({
+            method: 'GET',
+            url: `${api.categories}?type=${type}`            
         }).then(res => {            
             setCategories(res.data.results)
         }).catch(err => {
@@ -122,16 +151,27 @@ function ProductList (props) {
         })
     }
 
-    function getTags () {
+    function getSubCategories (category) {
         axios({
             method: 'GET',
-            url: `${api.tags}/`            
+            url: `${api.subcategories}?category=${category}`            
         }).then(res => {            
-            setTags(res.data.results)
+            setSubCategories(res.data.results)
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
     }
+
+    // function getTags () {
+    //     axios({
+    //         method: 'GET',
+    //         url: `${api.tags}/`            
+    //     }).then(res => {            
+    //         setTags(res.data.results)
+    //     }).catch(err => {
+    //         message.error("Хуудсыг дахин ачааллана уу")
+    //     })
+    // }
 
     function onCheckFeatured (e) {        
         const params = new URLSearchParams(props.location.search)        
@@ -142,24 +182,48 @@ function ProductList (props) {
         history.push(`/products?${params.toString()}`)
     }
 
-    function onSelectCategory (e) {
+    function onSelectType (e) {
         const params = new URLSearchParams(props.location.search)        
-        params.delete("category")
+        params.delete("type")
+        // params.delete("category")
+        // params.delete("subcategory")
         if (parseInt(e.target.value) > 0) {
-            params.append("category", e.target.value)
+            params.append("type", e.target.value)            
         }
-        history.push(`/products?${params.toString()}`)        
+        history.push(`/products?${params.toString()}`)                
     }
 
-    function selectTag (tag, checked) {
-        const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
+    function onSelectCategory (e) {
         const params = new URLSearchParams(props.location.search)        
-        params.delete("tags")
-        if (nextSelectedTags.length > 0) {
-            params.append("tags", nextSelectedTags)
+        // params.delete("type")
+        params.delete("category")
+        // params.delete("subcategory")
+        if (parseInt(e.target.value) > 0) {
+            params.append("category", e.target.value)            
         }
-        history.push(`/products?${params.toString()}`)        
+        history.push(`/products?${params.toString()}`)                
     }
+
+    function onSelectSubCategory (e) {
+        const params = new URLSearchParams(props.location.search)        
+        // params.delete("type")
+        // params.delete("category")
+        params.delete("subcategory")
+        if (parseInt(e.target.value) > 0) {
+            params.append("subcategory", e.target.value)            
+        }
+        history.push(`/products?${params.toString()}`)                
+    }
+
+    // function selectTag (tag, checked) {
+    //     const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
+    //     const params = new URLSearchParams(props.location.search)        
+    //     params.delete("tags")
+    //     if (nextSelectedTags.length > 0) {
+    //         params.append("tags", nextSelectedTags)
+    //     }
+    //     history.push(`/products?${params.toString()}`)        
+    // }
     
     function onPriceChange (val) {        
         const params = new URLSearchParams(props.location.search)        
@@ -209,20 +273,61 @@ function ProductList (props) {
                     <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                        
                         <Typography.Title level={5}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
                         <Checkbox checked={isFeatured} onChange={onCheckFeatured}>Тийм</Checkbox>
+                        <Divider />
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>
-                        <Radio.Group value={category} onChange={onSelectCategory}>
+                        <Radio.Group value={type} onChange={onSelectType}>
                             <Space direction="vertical">
                                 <Radio value="0">
                                     Бүгд
                                 </Radio>
-                                {categories ? categories.map(cat => (
-                                    <Radio key={cat.id} value={cat.id.toString()}>
-                                        { props.language === "en" ? cat.name_en : cat.name }
+                                {types ? types.map(t => (
+                                    <Radio key={t.id} value={t.id.toString()}>
+                                        { props.language === "en" ? t.name_en : t.name }
                                     </Radio>
                                 )) : <></>}
                             </Space>
                         </Radio.Group>
-                        <Divider />
+                        { categories ? (
+                            <>
+                                <Divider />
+                                <Typography.Title level={5} style={{ marginTop: '16px' }}>Ангилал:</Typography.Title>
+                                <Radio.Group value={category} onChange={onSelectCategory}>
+                                    <Space direction="vertical">
+                                        <Radio value="0">
+                                            Бүгд
+                                        </Radio>
+                                        {categories ? categories.map(c => (
+                                            <Radio key={c.id} value={c.id.toString()}>
+                                                { props.language === "en" ? c.name_en : c.name }
+                                            </Radio>
+                                        )) : <></>}
+                                    </Space>
+                                </Radio.Group>
+                            </>
+                        ) : (
+                            <></>
+                        )}                       
+                        { subCategories ? (
+                            <>
+                                <Divider />
+                                <Typography.Title level={5} style={{ marginTop: '16px' }}>Дэд ангилал:</Typography.Title>
+                                <Radio.Group value={subCategory} onChange={onSelectSubCategory}>
+                                    <Space direction="vertical">
+                                        <Radio value="0">
+                                            Бүгд
+                                        </Radio>
+                                        {subCategories ? subCategories.map(s => (
+                                            <Radio key={s.id} value={s.id.toString()}>
+                                                { props.language === "en" ? s.name_en : s.name }
+                                            </Radio>
+                                        )) : <></>}
+                                    </Space>
+                                </Radio.Group>
+                            </>
+                        ) : (
+                            <></>
+                        )}                        
+                        {/* <Divider />
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.tags : translations.mn.product_list.tags }:</Typography.Title>
                         {tags ? tags.map(tag => (
                             <CheckableTag
@@ -233,7 +338,7 @@ function ProductList (props) {
                             >
                                 {tag.name}
                             </CheckableTag>
-                        )) : <></>}                     
+                        )) : <></>}  */}
                         <Divider />
                         <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.price : translations.mn.product_list.price }:</Typography.Title>   
                         <Slider 

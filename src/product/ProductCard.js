@@ -116,9 +116,9 @@ function ProductCard (props) {
         }
     }
 
-    function getCategory (categories) {
+    function getType (types) {
         let res = []
-        categories.forEach(element => {
+        types.forEach(element => {
             res.push(element.name)
         })
         if (res.length > 0) {
@@ -188,7 +188,7 @@ function ProductCard (props) {
                         title={
                             <Tooltip title={props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
                         }    
-                        description={getCategory(props.item.category)}                    
+                        description={getType(props.item.types)}                    
                     />
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>                        
                         <div>
@@ -215,7 +215,7 @@ function ProductCard (props) {
                     </Typography.Paragraph>
                     <Typography.Title level={5} style={{ margin: 0 }}>Хадгалах нөхцөл:</Typography.Title>
                     <Typography.Paragraph>
-                        {props.item.caution}                                
+                        {props.item.storage}                                
                     </Typography.Paragraph>
                     <Typography.Title level={5} style={{ margin: 0 }}>Анхааруулга:</Typography.Title>
                     <Typography.Paragraph>

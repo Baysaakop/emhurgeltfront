@@ -1,30 +1,32 @@
 import { AlignLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { Col, Row, Typography, Card, message, Button, Divider } from 'antd';
+import { Col, Row, Typography, Card, message, Button } from 'antd';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';  
 import api from '../api';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import ProductScroll from '../product/ProductScroll';
 import moment from 'moment'
 import HomeSlider from './HomeSlider';
 import HomeTimeline from './HomeTimeline';
+// import * as translations from '../translation';
+import { connect } from 'react-redux';
 
 function Home (props) {        
-    const [categories, setCategories] = useState()  
+    const [types, setTypes] = useState()  
     const [posts, setPosts] = useState()  
 
     useEffect(() => {
-        getCategories()
+        getTypes()
         getPosts()       
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    function getCategories() {
-        let url = `${api.categories}/`         
+    function getTypes() {
+        let url = `${api.types}/`         
         axios({
             method: 'GET',
             url: url           
         }).then(res => {                        
-            setCategories(res.data.results)                      
+            setTypes(res.data.results)                      
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
@@ -49,12 +51,16 @@ function Home (props) {
                     <HomeSlider />
                 </Col>   
                 <Col xs={24} sm={24} md={24} lg={6}>
-                    <div style={{ background: '#fff', borderRadius: '2px', padding: '16px', height: '100%' }}>
+                    <div style={{ background: '#fff', borderRadius: '2px', padding: '4px 8px', height: '100%' }}>
                         <Typography.Title level={3}><AlignLeftOutlined style={{ fontSize: '20px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>                               
-                        {categories ? categories.map(item => (
+                        {types ? types.map(item => (
                             <div key={item.id}>
-                                <Divider style={{ margin: '4px 0' }} />  
-                                <Button block size="large" type="text" href={`/products?category=${item.id}`} style={{ textAlign: 'left' }}>{item.name}</Button>
+                                {/* <Divider style={{ margin: '4px 0' }} />   */}
+                                <Button block size="large" type="text" href={`/products?category=${item.id}`} style={{ textAlign: 'left', margin: 0 }}>
+                                    <Typography.Paragraph ellipsis={true} style={{ margin: 0 }}>
+                                    { props.language === "en" ? item.name_en : item.name }
+                                    </Typography.Paragraph>
+                                </Button>
                             </div>
                         )) : []}
                     </div>
@@ -132,4 +138,10 @@ function Home (props) {
     )
 }
 
-export default Home;
+const mapStateToProps = state => {
+    return {
+        language: state.language
+    }
+}
+
+export default withRouter(connect(mapStateToProps, null)(Home));

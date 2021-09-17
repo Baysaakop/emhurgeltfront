@@ -13,19 +13,19 @@ const { useBreakpoint } = Grid;
 function CustomFooter (props) {
 
     const screens = useBreakpoint()
-    const [categories, setCategories] = useState()  
+    const [types, setTypes] = useState()  
 
     useEffect(() => {
-        getCategories()        
+        getTypes()        
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    function getCategories() {
-        let url = `${api.categories}/`         
+    function getTypes() {
+        let url = `${api.types}/`         
         axios({
             method: 'GET',
             url: url           
         }).then(res => {                        
-            setCategories(res.data.results)                      
+            setTypes(res.data.results)                      
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
@@ -54,17 +54,45 @@ function CustomFooter (props) {
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={6}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.main_menu : translations.mn.footer.main_menu }</Typography.Title>                            
-                        <Button href="/" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.footer.home_page : translations.mn.footer.home_page }</Button>
-                        <Button href="/brandproducts" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Button>
-                        <Button href="/about" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }</Button>
-                        <Button href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }</Button>
-                        <Button href="/posts" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.blog : translations.mn.header.blog }</Button>
-                        <Button href="/contact" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Button>
+                        <Button href="/" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                            { props.language === "en" ? translations.en.footer.home_page : translations.mn.footer.home_page }
+                            </Typography.Paragraph>
+                        </Button>
+                        <Button href="/brandproducts" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                            { props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }
+                            </Typography.Paragraph>
+                        </Button>
+                        <Button href="/about" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                                { props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }
+                            </Typography.Paragraph>
+                        </Button>
+                        <Button href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                                { props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }
+                            </Typography.Paragraph>
+                        </Button>
+                        <Button href="/posts" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                                { props.language === "en" ? translations.en.header.blog : translations.mn.header.blog }
+                            </Typography.Paragraph>
+                        </Button>
+                        <Button href="/contact" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                                { props.language === "en" ? translations.en.header.contact : translations.mn.header.contact }
+                            </Typography.Paragraph>
+                        </Button>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={6}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.categories : translations.mn.footer.categories }</Typography.Title>                            
-                        {categories ? categories.map(category => (
-                            <Button key={category.id} href={`/products?category=${category.id}`} block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>{ props.language === "en" ? category.name_en : category.name }</Button>   
+                        {types ? types.map(t => (
+                            <Button key={t.id} href={`/products?type=${t.id}`} block type="text" style={{ color: '#4c4c4c', textAlign: 'left', margin: 0 }}>
+                                <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                                    { props.language === "en" ? t.name_en : t.name }
+                                </Typography.Paragraph>
+                            </Button>   
                         )) : []}                        
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={4}>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"; 
 import api from "../api";
 import { Link, useHistory } from "react-router-dom";
-import { CarOutlined, CloseCircleFilled, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
+import { CarOutlined, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined, WarningOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import * as actions from '../store/actions/auth';
 import AddressForm from '../components/AddressForm';
