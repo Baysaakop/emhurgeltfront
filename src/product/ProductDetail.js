@@ -312,7 +312,7 @@ function ProductDetail (props) {
                                 </Link>
                             </Space>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                             <Divider style={{ margin: '16px 0' }} />
-                            {item.tag.map(tag => {
+                            {item.tags.map(tag => {
                                 return (
                                     <Tag key={tag.id}>{tag.name}</Tag>
                                 )                                

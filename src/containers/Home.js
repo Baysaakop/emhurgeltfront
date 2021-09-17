@@ -56,7 +56,7 @@ function Home (props) {
                         {types ? types.map(item => (
                             <div key={item.id}>
                                 {/* <Divider style={{ margin: '4px 0' }} />   */}
-                                <Button block size="large" type="text" href={`/products?category=${item.id}`} style={{ textAlign: 'left', margin: 0 }}>
+                                <Button block size="large" type="text" href={`/products?type=${item.id}`} style={{ textAlign: 'left', margin: 0 }}>
                                     <Typography.Paragraph ellipsis={true} style={{ margin: 0 }}>
                                     { props.language === "en" ? item.name_en : item.name }
                                     </Typography.Paragraph>
