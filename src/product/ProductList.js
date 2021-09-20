@@ -1,4 +1,4 @@
-import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Divider, Checkbox } from "antd";
+import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Divider, Checkbox, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -9,6 +9,7 @@ import * as translations from '../translation';
 
 function ProductList (props) {
     const history = useHistory()
+    const [loading, setLoading] = useState(false)
     const [user, setUser] = useState()
     const [types, setTypes] = useState()    
     const [categories, setCategories] = useState()    
@@ -27,6 +28,7 @@ function ProductList (props) {
     const [order, setOrder] = useState("-created_at")
 
     useEffect(() => {        
+        setLoading(true)
         const params = new URLSearchParams(props.location.search)                        
         let param_is_featured = params.get('is_featured')
         let param_type = params.get('type')       
@@ -95,10 +97,11 @@ function ProductList (props) {
         // if (!tags) {
         //     getTags()
         // }
-        getProducts(props.location.search)        
+        getProducts(props.location.search)  
+        setLoading(false)      
     }, [props.token, props.location.search]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    function getUser() {
+    function getUser() {        
         axios({
             method: 'GET',
             url: api.profile,
@@ -182,22 +185,21 @@ function ProductList (props) {
         history.push(`/products?${params.toString()}`)
     }
 
-    function onSelectType (e) {
+    function onSelectType (e) {                
         const params = new URLSearchParams(props.location.search)        
         params.delete("type")
-        // params.delete("category")
-        // params.delete("subcategory")
+        params.delete("category")
+        params.delete("subcategory")
         if (parseInt(e.target.value) > 0) {
             params.append("type", e.target.value)            
         }
         history.push(`/products?${params.toString()}`)                
     }
 
-    function onSelectCategory (e) {
+    function onSelectCategory (e) {        
         const params = new URLSearchParams(props.location.search)        
-        // params.delete("type")
         params.delete("category")
-        // params.delete("subcategory")
+        params.delete("subcategory")
         if (parseInt(e.target.value) > 0) {
             params.append("category", e.target.value)            
         }
@@ -206,8 +208,6 @@ function ProductList (props) {
 
     function onSelectSubCategory (e) {
         const params = new URLSearchParams(props.location.search)        
-        // params.delete("type")
-        // params.delete("category")
         params.delete("subcategory")
         if (parseInt(e.target.value) > 0) {
             params.append("subcategory", e.target.value)            
@@ -268,143 +268,141 @@ function ProductList (props) {
                     { props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }
                 </Breadcrumb.Item>
             </Breadcrumb>
-            <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
-                <Col xs={24} sm={24} md={24} lg={6}>
-                    <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                        
-                        <Typography.Title level={5}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
-                        <Checkbox checked={isFeatured} onChange={onCheckFeatured}>Тийм</Checkbox>
-                        <Divider />
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>
-                        <Radio.Group value={type} onChange={onSelectType}>
-                            <Space direction="vertical">
-                                <Radio value="0">
-                                    Бүгд
-                                </Radio>
-                                {types ? types.map(t => (
-                                    <Radio key={t.id} value={t.id.toString()}>
-                                        { props.language === "en" ? t.name_en : t.name }
+            { loading ? (
+                <div style={{ width: '100%', height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spin tip="Ачааллаж байна..." />
+                </div>
+            ) : (            
+                <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
+                    <Col xs={24} sm={24} md={24} lg={6}>
+                        <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                        
+                            <Typography.Title level={5}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
+                            <Checkbox checked={isFeatured} onChange={onCheckFeatured}>Тийм</Checkbox>
+                            <Divider />
+                            <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>                            
+                            <Radio.Group value={type} onChange={onSelectType}>
+                                <Space direction="vertical">
+                                    <Radio value="0">
+                                        Бүгд
                                     </Radio>
-                                )) : <></>}
-                            </Space>
-                        </Radio.Group>
-                        { categories ? (
-                            <>
-                                <Divider />
-                                <Typography.Title level={5} style={{ marginTop: '16px' }}>Ангилал:</Typography.Title>
-                                <Radio.Group value={category} onChange={onSelectCategory}>
-                                    <Space direction="vertical">
-                                        <Radio value="0">
-                                            Бүгд
-                                        </Radio>
-                                        {categories ? categories.map(c => (
-                                            <Radio key={c.id} value={c.id.toString()}>
-                                                { props.language === "en" ? c.name_en : c.name }
+                                    {types ? types.map(t => (
+                                        <>
+                                            <Radio key={t.id} value={t.id.toString()}>
+                                                { props.language === "en" ? t.name_en : t.name }
                                             </Radio>
-                                        )) : <></>}
-                                    </Space>
-                                </Radio.Group>
-                            </>
-                        ) : (
-                            <></>
-                        )}                       
-                        { subCategories ? (
-                            <>
-                                <Divider />
-                                <Typography.Title level={5} style={{ marginTop: '16px' }}>Дэд ангилал:</Typography.Title>
-                                <Radio.Group value={subCategory} onChange={onSelectSubCategory}>
-                                    <Space direction="vertical">
-                                        <Radio value="0">
-                                            Бүгд
-                                        </Radio>
-                                        {subCategories ? subCategories.map(s => (
-                                            <Radio key={s.id} value={s.id.toString()}>
-                                                { props.language === "en" ? s.name_en : s.name }
-                                            </Radio>
-                                        )) : <></>}
-                                    </Space>
-                                </Radio.Group>
-                            </>
-                        ) : (
-                            <></>
-                        )}                        
-                        {/* <Divider />
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.tags : translations.mn.product_list.tags }:</Typography.Title>
-                        {tags ? tags.map(tag => (
-                            <CheckableTag
-                                key={tag.id.toString()}
-                                checked={selectedTags ? selectedTags.indexOf(tag.id.toString()) > -1 : false}
-                                style={{ fontSize: '14px', marginTop: '8px' }}
-                                onChange={checked => selectTag(tag.id.toString(), checked)}
-                            >
-                                {tag.name}
-                            </CheckableTag>
-                        )) : <></>}  */}
-                        <Divider />
-                        <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.price : translations.mn.product_list.price }:</Typography.Title>   
-                        <Slider 
-                            range 
-                            min={0} 
-                            max={200000} 
-                            defaultValue={[priceLow, priceHigh]} 
-                            marks={
-                                { 
-                                    0: {
-                                        style: { 
-                                            transform: 'translateX(0)' 
-                                        }, 
-                                        label: <span>{priceLow}₮</span>
-                                    },                                     
-                                    200000: { 
-                                        style: { 
-                                            transform: 'translateX(-100%)' 
-                                        }, 
-                                        label: <span>{priceHigh}₮</span> 
-                                    } 
-                                }
-                            } 
-                            onAfterChange={onPriceChange}
-                        />
-                    </div>                    
-                </Col>
-                <Col xs={24} sm={24} md={24} lg={18}>
-                    <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderRadius: '2px' }}>
-                        <Typography.Title level={5} style={{ margin: 0 }}>{ props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total }: {total} { props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products }</Typography.Title>
-                        <div>
-                            <Select defaultValue={order} style={{ width: '180px' }} onChange={onOrder}>
-                                <Select.Option value="-created_at">{ props.language === "en" ? translations.en.product_list.newest : translations.mn.product_list.newest }</Select.Option>
-                                <Select.Option value="created_at">{ props.language === "en" ? translations.en.product_list.oldest : translations.mn.product_list.oldest }</Select.Option>
-                                <Select.Option value="price">{ props.language === "en" ? translations.en.product_list.lowtohigh : translations.mn.product_list.lowtohigh }</Select.Option>
-                                <Select.Option value="-price">{ props.language === "en" ? translations.en.product_list.hightolow : translations.mn.product_list.hightolow }</Select.Option>
-                            </Select>                            
+                                            {type === t.id.toString() && categories && categories.length > 0 ? (
+                                                <Radio.Group value={category} onChange={onSelectCategory} style={{ marginLeft: '24px' }}>                                                    
+                                                    <Space direction="vertical">                                                        
+                                                        <Radio value="0">
+                                                            Бүгд
+                                                        </Radio>
+                                                        {categories ? categories.map(c => (
+                                                            <>
+                                                                <Radio key={c.id} value={c.id.toString()}>
+                                                                    { props.language === "en" ? c.name_en : c.name }
+                                                                </Radio>
+                                                                {category === c.id.toString() && subCategories && subCategories.length > 0 ? (
+                                                                    <Radio.Group value={subCategory} onChange={onSelectSubCategory} style={{ marginLeft: '24px' }}>
+                                                                        <Space direction="vertical">
+                                                                            <Radio value="0">
+                                                                                Бүгд
+                                                                            </Radio>
+                                                                            {subCategories ? subCategories.map(s => (
+                                                                                <Radio key={s.id} value={s.id.toString()}>
+                                                                                    { props.language === "en" ? s.name_en : s.name }
+                                                                                </Radio>
+                                                                            )) : <></>}
+                                                                        </Space>
+                                                                    </Radio.Group>
+                                                                ) : []}
+                                                            </>
+                                                        )) : <></>}
+                                                    </Space>
+                                                </Radio.Group>
+                                            ) : []}
+                                        </>
+                                    )) : <></>}
+                                </Space>
+                            </Radio.Group>                            
+                            {/* <Divider />
+                            <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.tags : translations.mn.product_list.tags }:</Typography.Title>
+                            {tags ? tags.map(tag => (
+                                <CheckableTag
+                                    key={tag.id.toString()}
+                                    checked={selectedTags ? selectedTags.indexOf(tag.id.toString()) > -1 : false}
+                                    style={{ fontSize: '14px', marginTop: '8px' }}
+                                    onChange={checked => selectTag(tag.id.toString(), checked)}
+                                >
+                                    {tag.name}
+                                </CheckableTag>
+                            )) : <></>}  */}
+                            <Divider />
+                            <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.price : translations.mn.product_list.price }:</Typography.Title>   
+                            <Slider 
+                                range 
+                                min={0} 
+                                max={200000} 
+                                defaultValue={[priceLow, priceHigh]} 
+                                marks={
+                                    { 
+                                        0: {
+                                            style: { 
+                                                transform: 'translateX(0)' 
+                                            }, 
+                                            label: <span>{priceLow}₮</span>
+                                        },                                     
+                                        200000: { 
+                                            style: { 
+                                                transform: 'translateX(-100%)' 
+                                            }, 
+                                            label: <span>{priceHigh}₮</span> 
+                                        } 
+                                    }
+                                } 
+                                onAfterChange={onPriceChange}
+                            />
+                        </div>                    
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={18}>
+                        <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderRadius: '2px' }}>
+                            <Typography.Title level={5} style={{ margin: 0 }}>{ props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total }: {total} { props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products }</Typography.Title>
+                            <div>
+                                <Select defaultValue={order} style={{ width: '180px' }} onChange={onOrder}>
+                                    <Select.Option value="-created_at">{ props.language === "en" ? translations.en.product_list.newest : translations.mn.product_list.newest }</Select.Option>
+                                    <Select.Option value="created_at">{ props.language === "en" ? translations.en.product_list.oldest : translations.mn.product_list.oldest }</Select.Option>
+                                    <Select.Option value="price">{ props.language === "en" ? translations.en.product_list.lowtohigh : translations.mn.product_list.lowtohigh }</Select.Option>
+                                    <Select.Option value="-price">{ props.language === "en" ? translations.en.product_list.hightolow : translations.mn.product_list.hightolow }</Select.Option>
+                                </Select>                            
+                            </div>
                         </div>
-                    </div>
-                    <List
-                        grid={{
-                            gutter: 24,
-                            xs: 1,
-                            sm: 2,
-                            md: 3,
-                            lg: 3,
-                            xl: 4,
-                            xxl: 4,
-                        }}
-                        dataSource={items ? items : undefined}
-                        renderItem={item => (
-                            <List.Item key={item.id}>
-                                <ProductCard history={props.history} item={item} user={user} token={props.token} type="list" />
-                            </List.Item>
-                        )}
-                    />
-                    <Pagination
-                        current={page}
-                        total={total}
-                        pageSize={24}
-                        showSizeChanger={false}
-                        showTotal={false}                        
-                        onChange={onPageChange}
-                    />
-                </Col>
-            </Row>
+                        <List
+                            grid={{
+                                gutter: 24,
+                                xs: 1,
+                                sm: 2,
+                                md: 3,
+                                lg: 3,
+                                xl: 4,
+                                xxl: 4,
+                            }}
+                            dataSource={items ? items : undefined}
+                            renderItem={item => (
+                                <List.Item key={item.id}>
+                                    <ProductCard history={props.history} item={item} user={user} token={props.token} type="list" />
+                                </List.Item>
+                            )}
+                        />
+                        <Pagination
+                            current={page}
+                            total={total}
+                            pageSize={24}
+                            showSizeChanger={false}
+                            showTotal={false}                        
+                            onChange={onPageChange}
+                        />
+                    </Col>
+                </Row>
+            )}
         </div>
     )
 }
