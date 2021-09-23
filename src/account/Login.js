@@ -56,41 +56,41 @@ const Login = (props) => {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ marginTop: '24px', height: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>            
-            {props.loading ? (
-                <Spin indicator={loadingIcon} />
-            ) : (
-                <div style={{ width: '500px', background: '#fff', padding: '24px' }}>            
-                    <Typography.Title level={3} style={{ textAlign: 'center' }}>
-                        Нэвтрэх
-                    </Typography.Title>                                      
-                    <Typography.Text>
-                        Та өөрийн ашигладаг Facebook хаягаа ашиглан нэвтэрнэ үү.
-                    </Typography.Text>                        
-                    <FacebookLogin
-                        cssClass="login-facebook"
-                        icon={<FacebookFilled />}
-                        textButton=" Facebook ашиглан нэвтрэх"
-                        // appId="158154739545222"
-                        appId="358552112401509"
-                        fields="name,email"                                    
-                        callback={authFacebook}                                    
-                    />                                    
-                    <GoogleLogin                                                                                                            
-                        clientId="334510141695-a9leelseahje4g0a5tlg6diptlq8ffre.apps.googleusercontent.com"
-                        buttonText=" Google ашиглан нэвтрэх"                        
-                        render={renderProps => (
-                            <Button size="large" danger type="primary" onClick={renderProps.onClick} icon={<GoogleOutlined style={{ fontSize: '18px' }} />} style={{ width: '100%', marginTop: '16px' }}>
-                                Google ашиглан нэвтрэх
-                            </Button>
-                        )}                        
-                        // onSuccess={authGoogle}                                    
-                        // onFailure={authGoogleFail}        
-                        // isSignedIn={true}
-                        // cookiePolicy={'single_host_origin'}                            
-                    /> 
-                </div>
-            )}  
-        </div>   
+                {props.loading ? (
+                    <Spin indicator={loadingIcon} />
+                ) : (
+                    <div style={{ width: '500px', background: '#fff', padding: '24px' }}>            
+                        <Typography.Title level={3} style={{ textAlign: 'center' }}>
+                            Нэвтрэх
+                        </Typography.Title>                                      
+                        <Typography.Text>
+                            Та өөрийн ашигладаг Facebook хаягаа ашиглан нэвтэрнэ үү.
+                        </Typography.Text>                        
+                        <FacebookLogin
+                            cssClass="login-facebook"
+                            icon={<FacebookFilled />}
+                            textButton=" Facebook ашиглан нэвтрэх"
+                            // appId="158154739545222"
+                            appId="358552112401509"
+                            fields="name,email"                                    
+                            callback={authFacebook}                                    
+                        />                                    
+                        <GoogleLogin                                                                                                            
+                            clientId="334510141695-a9leelseahje4g0a5tlg6diptlq8ffre.apps.googleusercontent.com"
+                            buttonText=" Google ашиглан нэвтрэх"                        
+                            render={renderProps => (
+                                <Button size="large" danger type="primary" onClick={renderProps.onClick} icon={<GoogleOutlined style={{ fontSize: '18px' }} />} style={{ width: '100%', marginTop: '16px' }}>
+                                    Google ашиглан нэвтрэх
+                                </Button>
+                            )}                        
+                            // onSuccess={authGoogle}                                    
+                            // onFailure={authGoogleFail}        
+                            // isSignedIn={true}
+                            // cookiePolicy={'single_host_origin'}                            
+                        /> 
+                    </div>
+                )}  
+            </div>   
         </div>                 
     );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider, Result, Typography } from 'antd';
+import { Button, Result, Typography } from 'antd';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import { CloseOutlined } from '@ant-design/icons';
@@ -15,9 +15,8 @@ const Logout = (props) => {
     };
 
     return (
-        <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>
-            <Typography.Title level={4}>Гарах</Typography.Title>
-            <Divider />
+        <div>
+            <Typography.Title level={4}>Гарах</Typography.Title>            
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '350px' }}>
                 <Result
                         status="warning"

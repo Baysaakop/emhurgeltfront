@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Typography, Affix, Select, Space } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { GlobalOutlined, GiftOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, StarOutlined, FacebookFilled, InstagramOutlined, YoutubeFilled, GoogleOutlined } from '@ant-design/icons';
+import { GlobalOutlined, GiftOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, StarOutlined, FacebookFilled, InstagramOutlined, YoutubeFilled, GoogleOutlined, SettingOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import axios from 'axios';
@@ -133,39 +133,42 @@ function CustomMenu (props) {
                                 </div>
                             </Link>
                             <div className="user" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                <Input.Search size="default" placeholder={ language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } style={{ width: '400px' }} onSearch={onSearch} />                                                                                     
-                                <Link to="/profile?key=saved">
-                                    <Badge count={user && user.profile.favorite.length ? user.profile.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
-                                        <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }>                                               
-                                            <Button size="default" icon={<HeartOutlined />} style={{ marginLeft: '12px' }} />                                                                    
-                                        </Tooltip>
-                                    </Badge>
-                                </Link>                                               
-                                <Link to="/profile?key=cart">
-                                    <Badge count={user && user.profile.cart.length ? user.profile.cart.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
-                                        <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.cart : translations.mn.header.cart }>
-                                            <Button size="default" icon={<ShoppingCartOutlined />} style={{ marginLeft: '12px' }} />                                        
-                                        </Tooltip>
-                                    </Badge>
-                                </Link>                        
+                                <Input.Search size="default" placeholder={ language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } style={{ width: '400px' }} onSearch={onSearch} />                                                                                                                                             
                                 { user ? (
                                     <>
-                                        {/* {parseInt(user.profile.role) < 3 ? (
+                                        {parseInt(user.profile.role) < 3 ? (
                                             <Link to="/staff">
                                                 <Tooltip placement="bottom" title="Ажилтан">                                           
                                                     <Button size="middle" icon={<SettingOutlined />} style={{ marginLeft: '12px' }} />
                                                 </Tooltip>
                                             </Link>
-                                        ) : (<></>)} */}
-                                        <Link to="/profile">
-                                            <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
-                                                <Button type="primary" size="default" icon={<UserOutlined />} style={{ marginLeft: '12px' }} />
-                                            </Tooltip>
-                                        </Link> 
-                                        <div style={{ marginLeft: '8px' }}>
-                                            <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>{ language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }</div>      
-                                            <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
-                                        </div>                                                   
+                                        ) : (
+                                            <div>
+                                                <Link to="/profile?key=saved">
+                                                    <Badge count={user && user.profile.favorite.length ? user.profile.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
+                                                        <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }>                                               
+                                                            <Button size="default" icon={<HeartOutlined />} style={{ marginLeft: '12px' }} />                                                                    
+                                                        </Tooltip>
+                                                    </Badge>
+                                                </Link>                                               
+                                                <Link to="/profile?key=cart">
+                                                    <Badge count={user && user.profile.cart.length ? user.profile.cart.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
+                                                        <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.cart : translations.mn.header.cart }>
+                                                            <Button size="default" icon={<ShoppingCartOutlined />} style={{ marginLeft: '12px' }} />                                        
+                                                        </Tooltip>
+                                                    </Badge>
+                                                </Link>
+                                                <Link to="/profile">
+                                                    <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
+                                                        <Button type="primary" size="default" icon={<UserOutlined />} style={{ marginLeft: '12px' }} />
+                                                    </Tooltip>
+                                                </Link> 
+                                                <div style={{ marginLeft: '8px' }}>
+                                                    <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>{ language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }</div>      
+                                                    <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
+                                                </div>   
+                                            </div>
+                                        )}                                                                                        
                                     </>
                                 ) : (
                                     <Link to="/login">
@@ -266,6 +269,7 @@ function CustomMenu (props) {
                             hidden={collapsed} 
                             onClick={handleMenuClick}
                             selectedKeys={[current]}
+                            style={{ height: '100vh' }}
                         >                
                             <Menu.Item key="about" style={{ fontSize: '16px' }} icon={<InfoCircleOutlined />} >
                                 <Link to="/about">{ language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }</Link>
@@ -282,26 +286,36 @@ function CustomMenu (props) {
                             <Menu.Item key="bonus" style={{ fontSize: '16px' }} icon={<GiftOutlined />}>
                                 <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
                             </Menu.Item>      
-                            <Menu.Item key="saved" style={{ fontSize: '16px' }} icon={<HeartOutlined />}>
-                                <Link to="/profile?key=saved" style={{ width: '100%' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <div>{ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }</div>
-                                        <Avatar shape="square" style={{ background: '#2ed573', color: 'white' }}>
-                                        {user && user.profile.favorite.length ? user.profile.favorite.length : 0}
-                                        </Avatar>
-                                    </div>
-                                </Link>
-                            </Menu.Item>      
-                            <Menu.Item key="cart" style={{ fontSize: '16px' }} icon={<ShoppingCartOutlined />}>
-                                <Link to="/profile?key=cart" style={{ width: '100%' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <div>{ language === "en" ? translations.en.header.cart : translations.mn.header.cart }</div>
-                                        <Avatar shape="square" style={{ background: '#2ed573', color: 'white' }}>
-                                        {user && user.profile.cart.length ? user.profile.cart.length : 0}
-                                        </Avatar>
-                                    </div>
-                                </Link>
-                            </Menu.Item>      
+                            { user ? (
+                                <>
+                                    { parseInt(user.profile.role) === 3 ? (                                        
+                                        <Menu.Item key="saved" style={{ fontSize: '16px' }} icon={<HeartOutlined />}>
+                                            <Link to="/profile?key=saved" style={{ width: '100%' }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                    <div>{ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }</div>
+                                                    <Avatar shape="square" style={{ background: '#2ed573', color: 'white' }}>
+                                                    {user && user.profile.favorite.length ? user.profile.favorite.length : 0}
+                                                    </Avatar>
+                                                </div>
+                                            </Link>
+                                        </Menu.Item>,      
+                                        <Menu.Item key="cart" style={{ fontSize: '16px' }} icon={<ShoppingCartOutlined />}>
+                                            <Link to="/profile?key=cart" style={{ width: '100%' }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                    <div>{ language === "en" ? translations.en.header.cart : translations.mn.header.cart }</div>
+                                                    <Avatar shape="square" style={{ background: '#2ed573', color: 'white' }}>
+                                                    {user && user.profile.cart.length ? user.profile.cart.length : 0}
+                                                    </Avatar>
+                                                </div>
+                                            </Link>
+                                        </Menu.Item>                                        
+                                    ) : (
+                                        <></>
+                                    )}
+                                </>
+                            ) : (
+                                <></>
+                            )}                                                         
                             <Menu.Item key="brandproducts" style={{ fontSize: '16px', background: '#2ed573', color: '#fff' }} icon={<FlowerIcon />}>
                                 <Link to="/brandproducts" style={{ color: '#fff' }}>{ language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Link>
                             </Menu.Item>                          
@@ -313,18 +327,26 @@ function CustomMenu (props) {
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>                                                                                        
                             { user ? (
-                                <>                               
-                                    <Link to="/profile">
-                                        <Tooltip title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
-                                            <Button type="primary" size="middle" icon={<UserOutlined />} style={{ border: 0 }} />
-                                        </Tooltip>
-                                    </Link> 
-                                    <div style={{ marginLeft: '8px' }}>
-                                        <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>
-                                        { language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }
-                                        </div>      
-                                        <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
-                                    </div>                                                   
+                                <>          
+                                    { parseInt(user.profile.role) < 3 ? (
+                                        <Link to="/staff">
+                                            <Tooltip placement="bottom" title="Ажилтан">                                           
+                                                <Button size="middle" icon={<SettingOutlined />}>Ажилтан</Button>
+                                            </Tooltip>
+                                        </Link>
+                                    ) : (                     
+                                        <Link to="/profile">
+                                            <Tooltip title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
+                                                <Button type="primary" size="middle" icon={<UserOutlined />} style={{ border: 0 }} />
+                                            </Tooltip>
+                                        </Link>, 
+                                        <div style={{ marginLeft: '8px' }}>
+                                            <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>
+                                            { language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }
+                                            </div>      
+                                            <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
+                                        </div>
+                                    )}                                                   
                                 </>
                             ) : (
                                 <Link to="/login">

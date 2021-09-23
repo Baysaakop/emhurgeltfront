@@ -20,6 +20,8 @@ const api = {
     authFacebook: baseUrl + 'rest-auth/facebook/',
     authGoogle: baseUrl + 'rest-auth/google/',
     profile: baseUrl + 'rest-auth/user/',    
+    staffsignin: baseUrl + 'rest-auth/login/',
+    staffsignup: baseUrl + 'rest-auth/registration/',    
     ckeditor: baseUrl + 'ckeditor/',
 }
 
