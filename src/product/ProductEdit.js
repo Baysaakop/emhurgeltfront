@@ -8,7 +8,9 @@ function ProductEdit (props) {
 
     const [form] = Form.useForm()    
     const [items, setItems] = useState([])
+    const [types, setTypes] = useState([])
     const [categories, setCategories] = useState([])
+    const [subCategories, setSubCategories] = useState([])
     const [companies, setCompanies] = useState([])
     const [tags, setTags] = useState([])
     const [shops, setShops] = useState([])
@@ -22,7 +24,7 @@ function ProductEdit (props) {
     const [selection, setSelection] = useState()
 
     useEffect(() => {
-        getCategories()
+        getTypes()
         getCompanies()
         getTags()
         getShops()
@@ -45,6 +47,12 @@ function ProductEdit (props) {
 
     function onSelect (id) {
         let hit = items.find(x => x.id.toString() === id)
+        if (hit.types && hit.types.length > 0) {
+            getCategories(getIDs(hit.types))
+        }
+        if (hit.categories && hit.categories.length > 0) {
+            getSubCategories(getIDs(hit.categories))
+        }
         console.log(hit)
         form.setFieldsValue({
             name: hit.name,            
@@ -63,8 +71,10 @@ function ProductEdit (props) {
             count: hit.count !== null ? hit.count : '',
             video: hit.video !== null ? hit.video : '',
             company: hit.company !== null ? hit.company.id.toString() : undefined,
-            category: hit.category !== null ? getIDs(hit.category) : undefined,
-            tag: hit.tag !== null ? getIDs(hit.tag) : undefined,
+            type: hit.types !== null ? getIDs(hit.types) : undefined,
+            category: hit.categories !== null ? getIDs(hit.categories) : undefined,
+            subcategory: hit.subcategories !== null ? getIDs(hit.subcategories) : undefined,
+            tag: hit.tags !== null ? getIDs(hit.tags) : undefined,
             shops: hit.shops !== null ? getIDs(hit.shops) : undefined,
         })
         setImage1(hit.image1 !== null ? hit.image1 : undefined)
@@ -83,10 +93,40 @@ function ProductEdit (props) {
         return res
     }
 
-    function getCategories () {
+    function compareM2M (arr1, arr2) {
+        console.log(arr1)
+        console.log(arr2)
+        if (arr1.length !== arr2.length) {
+            return false
+        } else {
+            for (var i = 0; i < arr1.length; i++) {
+                if (arr1[i] !== arr2[i]) {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+
+    function getTypes () {
         axios({
             method: 'GET',
-            url: `${api.categories}/`,
+            url: `${api.types}/`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setTypes(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    }
+
+    function getCategories (ids) {
+        axios({
+            method: 'GET',
+            url: `${api.categories}?types=${ids}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
@@ -96,7 +136,39 @@ function ProductEdit (props) {
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
+    }       
+
+    function getSubCategories (ids) {
+        axios({
+            method: 'GET',
+            url: `${api.subcategories}?categories=${ids}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setSubCategories(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    } 
+
+    function onSelectType (ids) {        
+        if (ids.length > 0) {
+            getCategories(ids)                
+        } else {
+            setCategories(undefined)
+        }       
     }
+
+    function onSelectCategory (ids) {                
+        if (ids.length > 0) {
+            getSubCategories(ids)            
+        } else {
+            setSubCategories(undefined)
+        }                    
+    }
+
     function getCompanies () {
         axios({
             method: 'GET',
@@ -190,14 +262,22 @@ function ProductEdit (props) {
         if (values.company && values.company !== selection.company.id.toString()) {
             formData.append('company', values.company);
         }
-        if (values.category && values.category !== getIDs(selection.category)) {
+        if (values.type && !compareM2M(values.type, getIDs(selection.types))) {            
+            formData.append('type', values.type);
+        }
+        if (values.category && !compareM2M(values.category, getIDs(selection.categories))) {
+            console.log("category")
             formData.append('category', values.category);
         }
-        if (values.tag && values.tag !== getIDs(selection.tag)) {
-            formData.append('tag', values.tag);
+        if (values.subcategory && !compareM2M(values.subcategory, getIDs(selection.subcategories))) {
+            console.log("subcategory")
+            formData.append('subcategory', values.subcategory);
         }
-        if (values.shops && values.shops !== getIDs(selection.shops)) {
-            formData.append('shops', values.shops);
+        if (values.tag && !compareM2M(values.tag, getIDs(selection.tags))) {
+            formData.append('tags', values.tag);
+        }
+        if (values.shops && !compareM2M(values.shops, getIDs(selection.shops))) {
+            formData.append('shop', values.shops);
         }
         if (image1 && image1 !== selection.image1) {
             formData.append('image1', image1)
@@ -326,20 +406,48 @@ function ProductEdit (props) {
                                         <Checkbox onChange={() => setBrand(!brand)}>Тийм</Checkbox>
                                     </Form.Item>
                                 </Col>       
-                                <Col span={12}>
-                                    <Form.Item name="category" label="Төрөл">
-                                        <Select          
-                                            mode="multiple"                      
+                                <Col span={8}>
+                                    <Form.Item name="type" label="Төрөл">
+                                        <Select       
+                                            mode="multiple"                                                              
                                             placeholder="Төрөл сонгох"
-                                            optionFilterProp="children"                                
+                                            optionFilterProp="children"    
+                                            onChange={onSelectType}                            
                                         >
-                                            { categories ? categories.map(cat => (
-                                                <Select.Option key={cat.id}>{cat.name}</Select.Option>
+                                            { types ? types.map(t => (
+                                                <Select.Option key={t.id}>{t.name}</Select.Option>
                                             )) : <></>}
                                         </Select>           
                                     </Form.Item>
-                                </Col>                    
-                                <Col span={12}>
+                                </Col>        
+                                <Col span={8}>
+                                    <Form.Item name="category" label="Ангилал">
+                                        <Select                   
+                                            mode="multiple"                                                                   
+                                            placeholder="Ангилал сонгох"
+                                            optionFilterProp="children"                                
+                                            onChange={onSelectCategory}
+                                        >
+                                            { categories ? categories.map(c => (
+                                                <Select.Option key={c.id}>{c.name}</Select.Option>
+                                            )) : <></>}
+                                        </Select>           
+                                    </Form.Item>
+                                </Col>       
+                                <Col span={8}>
+                                    <Form.Item name="subcategory" label="Дэд ангилал">
+                                        <Select          
+                                            mode="multiple"                      
+                                            placeholder="Дэд ангилал сонгох"
+                                            optionFilterProp="children"                                
+                                        >
+                                            { subCategories ? subCategories.map(s => (
+                                                <Select.Option key={s.id}>{s.name}</Select.Option>
+                                            )) : <></>}
+                                        </Select>           
+                                    </Form.Item>
+                                </Col>               
+                                <Col span={8}>
                                     <Form.Item name="tag" label="Таг">
                                         <Select                      
                                             mode="multiple"          
@@ -352,7 +460,7 @@ function ProductEdit (props) {
                                         </Select>     
                                     </Form.Item>        
                                 </Col>           
-                                <Col span={12}>
+                                <Col span={8}>
                                     <Form.Item name="company" label="Компани">
                                         <Select                                
                                             placeholder="Компани сонгох"
@@ -364,7 +472,7 @@ function ProductEdit (props) {
                                         </Select>          
                                     </Form.Item>
                                 </Col>
-                                <Col span={12}>
+                                <Col span={8}>
                                     <Form.Item name="shops" label="Салбарууд">
                                         <Select                                
                                             placeholder="Салбар сонгох"
@@ -461,7 +569,7 @@ function ProductEdit (props) {
                                 <Button type="primary" style={{ marginRight: '8px' }}>Хадгалах</Button>
                             </Popconfirm>           
                             <Popconfirm title="Устгах уу?" onConfirm={onDelete} okText="Тийм" cancelText="Үгүй">
-                                <Button danger type="primary">Устгах</Button>
+                                <Button danger type="text">Устгах</Button>
                             </Popconfirm>     
                         </Form>
                     ) : (

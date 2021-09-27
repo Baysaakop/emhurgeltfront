@@ -3,12 +3,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../api";
 
-function CategoryEdit (props) {
+function SubCategoryEdit (props) {
 
     const [form] = Form.useForm()
     const [types, setTypes] = useState([])
     const [type, setType] = useState()
     const [categories, setCategories] = useState([])
+    const [category, setCategory] = useState()
+    const [subCategories, setSubCategories] = useState([])
     const [selection, setSelection] = useState()
 
     useEffect(() => {
@@ -49,12 +51,33 @@ function CategoryEdit (props) {
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
-    }        
+    }    
 
-    function onSelectCategory (id) {
+    function onSelectCategory (id) {                
         let hit = categories.find(x => x.id.toString() === id)
+        setCategory(hit)
+        getSubCategories(id)      
+    }
+
+    function getSubCategories (id) {
+        axios({
+            method: 'GET',
+            url: `${api.subcategories}?category=${id}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setSubCategories(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    } 
+
+    function onSelectSubCategory (id) {
+        let hit = subCategories.find(x => x.id.toString() === id)
         form.setFieldsValue({
-            type: hit.type.toString(),
+            category: hit.category.toString(),
             name: hit.name,
             name_en: hit.name_en,
             description: hit.description
@@ -65,8 +88,8 @@ function CategoryEdit (props) {
     function onFinish (values) {        
         var formData = new FormData();
         formData.append('token', props.token)
-        if (values.type && values.type.toString() !== selection.type.toString()) {
-            formData.append('type', values.type)
+        if (values.category && values.category.toString() !== selection.category.toString()) {
+            formData.append('category', values.category)
         }
         if (values.name && values.name !== selection.name) {
             formData.append('name', values.name)
@@ -79,7 +102,7 @@ function CategoryEdit (props) {
         }
         axios({
             method: 'PUT',
-            url: `${api.categories}/${selection.id}/`,        
+            url: `${api.subcategories}/${selection.id}/`,        
             data: formData,
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -89,15 +112,16 @@ function CategoryEdit (props) {
             if (res.status === 200) {
                 notification['success']({
                     message: 'Амжилттай',
-                    description: `${selection.name} ангилал амжилттай засагдлаа.`
+                    description: `${selection.name} дэд ангилал амжилттай засагдлаа.`
                 })
                 form.resetFields()        
                 getCategories(type.id)
+                getSubCategories(category.id)
             }
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
-                description: `${selection.name} ангилал засагдсангүй. Дахин оролдоно уу.`
+                description: `${selection.name} дэд ангилал засагдсангүй. Дахин оролдоно уу.`
             })
         })
     }
@@ -105,32 +129,32 @@ function CategoryEdit (props) {
     function onDelete () {
         axios({
             method: 'DELETE',
-            url: `${api.categories}/${selection.id}/`,
+            url: `${api.subcategories}/${selection.id}/`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
             }
-        }).then(res => {
-            console.log(res)
+        }).then(res => {            
             if (res.status === 200 || res.status === 204) {
                 notification['info']({
                     message: 'Амжилттай',
-                    description: `${selection.name} ангилал амжилттай устлаа.`
+                    description: `${selection.name} дэд ангилал амжилттай устлаа.`
                 })
             }
             form.resetFields()
             getCategories(type.id)
+            getSubCategories(category.id)
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
-                description: `${selection.name} ангилал устсангүй. Дахин оролдоно уу.`
+                description: `${selection.name} дэд ангилал устсангүй. Дахин оролдоно уу.`
             })
         })
     }
 
     return (
         <div>
-            <Typography.Title level={5}>Ангилал засах / устгах</Typography.Title>
+            <Typography.Title level={5}>Дэд ангилал засах / устгах</Typography.Title>
             <Typography.Text style={{ display: 'block' }}>Төрөл сонгох</Typography.Text>
             <Select                                
                 placeholder="Төрөл сонгох"
@@ -152,6 +176,17 @@ function CategoryEdit (props) {
                 { categories ? categories.map(c => (
                     <Select.Option key={c.id}>{c.name}</Select.Option>
                 )) : <></>}
+            </Select>             
+            <Typography.Text style={{ display: 'block', marginTop: '16px' }}>Дэд ангилал сонгох</Typography.Text>     
+            <Select                                
+                placeholder="Дэд ангилал сонгох"
+                optionFilterProp="children"
+                onSelect={onSelectSubCategory}
+                style={{ width: '100%' }}
+            >
+                { subCategories ? subCategories.map(s => (
+                    <Select.Option key={s.id}>{s.name}</Select.Option>
+                )) : <></>}
             </Select>                  
             { selection ? (
                 <Form 
@@ -160,14 +195,14 @@ function CategoryEdit (props) {
                     onFinish={onFinish}                    
                     style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '100%' }}
                 >
-                    <Form.Item name="type" label="Төрөл" rules={[{ required: true }]}>
+                    <Form.Item name="category" label="Ангилал" rules={[{ required: true }]}>
                         <Select                                
-                            placeholder="Төрөл сонгох"
+                            placeholder="Ангилал сонгох"
                             optionFilterProp="children"                        
                             style={{ width: '100%' }}
                         >
-                            { types ? types.map(t => (
-                                <Select.Option key={t.id}>{t.name}</Select.Option>
+                            { categories ? categories.map(c => (
+                                <Select.Option key={c.id}>{c.name}</Select.Option>
                             )) : <></>}
                         </Select>  
                     </Form.Item>
@@ -192,4 +227,4 @@ function CategoryEdit (props) {
     )
 }
 
-export default CategoryEdit
+export default SubCategoryEdit

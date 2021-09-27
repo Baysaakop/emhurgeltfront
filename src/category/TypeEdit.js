@@ -3,12 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../api";
 
-function CategoryEdit (props) {
+function TypeEdit (props) {
 
     const [form] = Form.useForm()
     const [types, setTypes] = useState([])
-    const [type, setType] = useState()
-    const [categories, setCategories] = useState([])
     const [selection, setSelection] = useState()
 
     useEffect(() => {
@@ -30,31 +28,9 @@ function CategoryEdit (props) {
         })
     }
 
-    function onSelectType (id) {
+    function onSelect (id) {
         let hit = types.find(x => x.id.toString() === id)
-        setType(hit)
-        getCategories(id)                
-    }
-
-    function getCategories (id) {
-        axios({
-            method: 'GET',
-            url: `${api.categories}?type=${id}`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setCategories(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }        
-
-    function onSelectCategory (id) {
-        let hit = categories.find(x => x.id.toString() === id)
         form.setFieldsValue({
-            type: hit.type.toString(),
             name: hit.name,
             name_en: hit.name_en,
             description: hit.description
@@ -63,41 +39,32 @@ function CategoryEdit (props) {
     }
 
     function onFinish (values) {        
-        var formData = new FormData();
-        formData.append('token', props.token)
-        if (values.type && values.type.toString() !== selection.type.toString()) {
-            formData.append('type', values.type)
-        }
-        if (values.name && values.name !== selection.name) {
-            formData.append('name', values.name)
-        }
-        if (values.name_en && values.name_en !== selection.name_en) {
-            formData.append('name_en', values.name_en)
-        }
-        if (values.description && values.description !== selection.description) {
-            formData.append('description', values.description)
-        }
         axios({
             method: 'PUT',
-            url: `${api.categories}/${selection.id}/`,        
-            data: formData,
+            url: `${api.types}/${selection.id}/`,
+            data: {
+                name: values.name ? values.name : selection.name,
+                name_en: values.name_en ? values.name_en : selection.name_en,
+                description: values.description ? values.description : selection.description,
+                token: props.token
+            },
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
             }
         }).then(res => {
             if (res.status === 200) {
                 notification['success']({
                     message: 'Амжилттай',
-                    description: `${selection.name} ангилал амжилттай засагдлаа.`
+                    description: `${selection.name} төрөл амжилттай засагдлаа.`
                 })
-                form.resetFields()        
-                getCategories(type.id)
+                form.resetFields()
+                getTypes()
             }
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
-                description: `${selection.name} ангилал засагдсангүй. Дахин оролдоно уу.`
+                description: `${selection.name} төрөл засагдсангүй. Дахин оролдоно уу.`
             })
         })
     }
@@ -105,7 +72,7 @@ function CategoryEdit (props) {
     function onDelete () {
         axios({
             method: 'DELETE',
-            url: `${api.categories}/${selection.id}/`,
+            url: `${api.types}/${selection.id}/`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
@@ -115,42 +82,30 @@ function CategoryEdit (props) {
             if (res.status === 200 || res.status === 204) {
                 notification['info']({
                     message: 'Амжилттай',
-                    description: `${selection.name} ангилал амжилттай устлаа.`
+                    description: `${selection.name} төрөл амжилттай устлаа.`
                 })
             }
             form.resetFields()
-            getCategories(type.id)
+            getTypes()
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
-                description: `${selection.name} ангилал устсангүй. Дахин оролдоно уу.`
+                description: `${selection.name} төрөл устсангүй. Дахин оролдоно уу.`
             })
         })
     }
 
     return (
         <div>
-            <Typography.Title level={5}>Ангилал засах / устгах</Typography.Title>
-            <Typography.Text style={{ display: 'block' }}>Төрөл сонгох</Typography.Text>
+            <Typography.Title level={5}>Төрөл засах / устгах</Typography.Title>
             <Select                                
                 placeholder="Төрөл сонгох"
                 optionFilterProp="children"
-                onSelect={onSelectType}
+                onSelect={onSelect}
                 style={{ width: '100%' }}
             >
                 { types ? types.map(t => (
                     <Select.Option key={t.id}>{t.name}</Select.Option>
-                )) : <></>}
-            </Select>                
-            <Typography.Text style={{ display: 'block', marginTop: '16px' }}>Ангилал сонгох</Typography.Text>
-            <Select                                
-                placeholder="Ангилал сонгох"
-                optionFilterProp="children"
-                onSelect={onSelectCategory}
-                style={{ width: '100%' }}
-            >
-                { categories ? categories.map(c => (
-                    <Select.Option key={c.id}>{c.name}</Select.Option>
                 )) : <></>}
             </Select>                  
             { selection ? (
@@ -160,17 +115,6 @@ function CategoryEdit (props) {
                     onFinish={onFinish}                    
                     style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '100%' }}
                 >
-                    <Form.Item name="type" label="Төрөл" rules={[{ required: true }]}>
-                        <Select                                
-                            placeholder="Төрөл сонгох"
-                            optionFilterProp="children"                        
-                            style={{ width: '100%' }}
-                        >
-                            { types ? types.map(t => (
-                                <Select.Option key={t.id}>{t.name}</Select.Option>
-                            )) : <></>}
-                        </Select>  
-                    </Form.Item>
                     <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
@@ -192,4 +136,4 @@ function CategoryEdit (props) {
     )
 }
 
-export default CategoryEdit
+export default TypeEdit

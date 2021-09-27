@@ -9,7 +9,9 @@ import Checkbox from "antd/lib/checkbox/Checkbox";
 function ProductAdd (props) {
 
     const [form] = Form.useForm()    
+    const [types, setTypes] = useState([])
     const [categories, setCategories] = useState([])
+    const [subCategories, setSubCategories] = useState([])
     const [companies, setCompanies] = useState([])
     const [shops, setShops] = useState([])
     const [tags, setTags] = useState([])
@@ -22,16 +24,31 @@ function ProductAdd (props) {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        getCategories()
+        getTypes()
         getCompanies()
         getShops()
         getTags()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    function getCategories () {
+    function getTypes () {
         axios({
             method: 'GET',
-            url: `${api.categories}/`,
+            url: `${api.types}/`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setTypes(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    }
+
+    function getCategories (ids) {
+        axios({
+            method: 'GET',
+            url: `${api.categories}?types=${ids}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
@@ -41,6 +58,37 @@ function ProductAdd (props) {
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
+    }       
+
+    function getSubCategories (ids) {
+        axios({
+            method: 'GET',
+            url: `${api.subcategories}?categories=${ids}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setSubCategories(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    } 
+
+    function onSelectType (ids) {        
+        if (ids.length > 0) {
+            getCategories(ids)                
+        } else {
+            setCategories(undefined)
+        }       
+    }
+
+    function onSelectCategory (ids) {                
+        if (ids.length > 0) {
+            getSubCategories(ids)            
+        } else {
+            setSubCategories(undefined)
+        }                    
     }
 
     function getCompanies () {
@@ -89,7 +137,7 @@ function ProductAdd (props) {
     }
 
     function onFinish (values) {
-        // console.log(values)
+        console.log(values)
         // console.log(images)
         // console.log(poster)
         setLoading(true)
@@ -137,8 +185,14 @@ function ProductAdd (props) {
         if (values.company) {
             formData.append('company', values.company);
         }
+        if (values.type) {
+            formData.append('type', values.type);
+        }
         if (values.category) {
             formData.append('category', values.category);
+        }
+        if (values.subcategory) {
+            formData.append('subcategory', values.subcategory);
         }
         if (values.tag) {
             formData.append('tag', values.tag);
@@ -233,20 +287,48 @@ function ProductAdd (props) {
                                     <Checkbox onChange={() => setBrand(!brand)}>Тийм</Checkbox>
                                 </Form.Item>
                             </Col>                                     
-                            <Col span={12}>
-                                <Form.Item name="category" label="Төрөл">
+                            <Col span={8}>
+                                <Form.Item name="type" label="Төрөл">
+                                    <Select           
+                                        mode="multiple"                                                               
+                                        placeholder="Төрөл сонгох"
+                                        optionFilterProp="children"    
+                                        onChange={onSelectType}                            
+                                    >
+                                        { types ? types.map(t => (
+                                            <Select.Option key={t.id}>{t.name}</Select.Option>
+                                        )) : <></>}
+                                    </Select>           
+                                </Form.Item>
+                            </Col>        
+                            <Col span={8}>
+                                <Form.Item name="category" label="Ангилал">
+                                    <Select       
+                                        mode="multiple"                                                                               
+                                        placeholder="Ангилал сонгох"
+                                        optionFilterProp="children"                                
+                                        onChange={onSelectCategory}
+                                    >
+                                        { categories ? categories.map(c => (
+                                            <Select.Option key={c.id}>{c.name}</Select.Option>
+                                        )) : <></>}
+                                    </Select>           
+                                </Form.Item>
+                            </Col>       
+                            <Col span={8}>
+                                <Form.Item name="subcategory" label="Дэд ангилал">
                                     <Select          
                                         mode="multiple"                      
-                                        placeholder="Төрөл сонгох"
+                                        placeholder="Дэд ангилал сонгох"
                                         optionFilterProp="children"                                
                                     >
-                                        { categories ? categories.map(cat => (
-                                            <Select.Option key={cat.id}>{cat.name}</Select.Option>
+                                        { subCategories ? subCategories.map(s => (
+                                            <Select.Option key={s.id}>{s.name}</Select.Option>
                                         )) : <></>}
                                     </Select>           
                                 </Form.Item>
                             </Col>                    
-                            <Col span={12}>
+                            <Col span={8}>
                                 <Form.Item name="tag" label="Таг">
                                     <Select                      
                                         mode="multiple"          
@@ -259,7 +341,7 @@ function ProductAdd (props) {
                                     </Select>     
                                 </Form.Item>        
                             </Col>           
-                            <Col span={12}>
+                            <Col span={8}>
                                 <Form.Item name="company" label="Компани">
                                     <Select                                
                                         placeholder="Компани сонгох"
@@ -271,7 +353,7 @@ function ProductAdd (props) {
                                     </Select>          
                                 </Form.Item>
                             </Col>
-                            <Col span={12}>
+                            <Col span={8}>
                                 <Form.Item name="shops" label="Салбарууд">
                                     <Select                                
                                         placeholder="Салбар сонгох"

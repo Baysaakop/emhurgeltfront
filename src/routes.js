@@ -12,7 +12,7 @@ import ProductShop from './product/ProductShop';
 import BrandProducts from './product/BrandProducts';
 import PostList from './posts/PostList';
 import PostDetail from './posts/PostDetail';
-import Staff from './account/Staff';
+import Staff from './staff/Staff';
 import Bonus from './containers/Bonus';
 import StaffLogIn from './staff/StaffLogin';
 

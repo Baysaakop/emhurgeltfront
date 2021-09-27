@@ -4,10 +4,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../api";
 
-function CategoryAdd (props) {
+function SubCategoryAdd (props) {
 
     const [form] = Form.useForm()
     const [types, setTypes] = useState([])
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
         getTypes()
@@ -28,12 +29,31 @@ function CategoryAdd (props) {
         })
     }
 
+    function onSelectType (id) {
+        getCategories(id)
+    }
+
+    function getCategories (type) {
+        axios({
+            method: 'GET',
+            url: `${api.categories}?type=${type}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setCategories(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    }    
+
     function onFinish (values) {        
         axios({
             method: 'POST',
-            url: `${api.categories}/`,
+            url: `${api.subcategories}/`,
             data: {
-                type: values.type,
+                category: values.category,
                 name: values.name,
                 name_en: values.name_en ? values.name_en: '',
                 description: values.description ? values.description: '',
@@ -47,22 +67,22 @@ function CategoryAdd (props) {
             if (res.status === 201) {
                 notification['success']({
                     message: 'Амжилттай',
-                    description: `${values.name} ангилал амжилттай нэмэгдлээ.`
+                    description: `${values.name} дэд ангилал амжилттай нэмэгдлээ.`
                 })
-                form.resetFields()
+                form.resetFields()                
             }
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
-                description: `${values.name} ангилал нэмэгдсэнгүй. Дахин оролдоно уу.`
+                description: `${values.name} дэд ангилал нэмэгдсэнгүй. Дахин оролдоно уу.`
             })
         })
     }
 
     return (
         <div>
-            <Typography.Title level={5}>Ангилал нэмэх</Typography.Title>
-            <Typography.Text type="warning"><WarningOutlined /> Ангилал нэмэхийн өмнө тухайн ангилал бүртгэгдсэн эсэхийг шалгана уу!</Typography.Text>
+            <Typography.Title level={5}>Дэд ангилал нэмэх</Typography.Title>
+            <Typography.Text type="warning"><WarningOutlined /> Дэд ангилал нэмэхийн өмнө тухайн дэд ангилал бүртгэгдсэн эсэхийг шалгана уу!</Typography.Text>
             <Form 
                 form={form} 
                 layout="vertical" 
@@ -72,11 +92,23 @@ function CategoryAdd (props) {
                 <Form.Item name="type" label="Төрөл" rules={[{ required: true }]}>
                     <Select                                
                         placeholder="Төрөл сонгох"
-                        optionFilterProp="children"                        
+                        optionFilterProp="children"        
+                        onSelect={onSelectType}                
                         style={{ width: '100%' }}
                     >
                         { types ? types.map(t => (
                             <Select.Option key={t.id}>{t.name}</Select.Option>
+                        )) : <></>}
+                    </Select>  
+                </Form.Item>
+                <Form.Item name="category" label="Ангилал" rules={[{ required: true }]}>
+                    <Select                                
+                        placeholder="Ангилал сонгох"
+                        optionFilterProp="children"                                             
+                        style={{ width: '100%' }}
+                    >
+                        { categories ? categories.map(c => (
+                            <Select.Option key={c.id}>{c.name}</Select.Option>
                         )) : <></>}
                     </Select>  
                 </Form.Item>
@@ -95,4 +127,4 @@ function CategoryAdd (props) {
     )
 }
 
-export default CategoryAdd
+export default SubCategoryAdd

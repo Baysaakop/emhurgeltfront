@@ -11,9 +11,13 @@ import TagEdit from "../tag/TagEdit";
 import ProductAdd from "../product/ProductAdd";
 import ProductEdit from "../product/ProductEdit";
 import { BranchesOutlined, CloseCircleOutlined, ExperimentOutlined, HistoryOutlined, ReadOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
-import Orders from "./Orders";
-import Logout from "./Logout";
-import StaffSignUp from "../staff/StaffSignup";
+import Orders from "../account/Orders";
+import Logout from "../account/Logout";
+import StaffSignUp from "./StaffSignup";
+import TypeAdd from "../category/TypeAdd";
+import TypeEdit from "../category/TypeEdit";
+import SubCategoryAdd from "../category/SubCategoryAdd";
+import SubCategoryEdit from "../category/SubCategoryEdit";
 
 const { SubMenu } = Menu;
 
@@ -91,31 +95,39 @@ function Staff (props) {
                                             <Menu.Item key="8">Нэмэх</Menu.Item>
                                             <Menu.Item key="9">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        <SubMenu key="sub4" icon={<TagsOutlined />} title="Таг">
+                                        <SubMenu key="sub4" icon={<TagOutlined />} title="Ангилал">
                                             <Menu.Item key="10">Нэмэх</Menu.Item>
-                                            <Menu.Item key="11">Засах / Устгах</Menu.Item> 
+                                            <Menu.Item key="11">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        <SubMenu key="sub5" icon={<ShopOutlined />} title="Компани">
+                                        <SubMenu key="sub5" icon={<TagOutlined />} title="Дэд ангилал">
                                             <Menu.Item key="12">Нэмэх</Menu.Item>
-                                            <Menu.Item key="13">Засах / Устгах</Menu.Item> 
+                                            <Menu.Item key="13">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        <SubMenu key="sub6" icon={<BranchesOutlined />} title="Салбар">
+                                        <SubMenu key="sub6" icon={<TagsOutlined />} title="Таг">
                                             <Menu.Item key="14">Нэмэх</Menu.Item>
                                             <Menu.Item key="15">Засах / Устгах</Menu.Item> 
                                         </SubMenu>
-                                        <SubMenu key="sub7" icon={<ReadOutlined />} title="Мэдээлэл">
+                                        <SubMenu key="sub7" icon={<ShopOutlined />} title="Компани">
                                             <Menu.Item key="16">Нэмэх</Menu.Item>
                                             <Menu.Item key="17">Засах / Устгах</Menu.Item> 
                                         </SubMenu>
+                                        <SubMenu key="sub8" icon={<BranchesOutlined />} title="Салбар">
+                                            <Menu.Item key="18">Нэмэх</Menu.Item>
+                                            <Menu.Item key="19">Засах / Устгах</Menu.Item> 
+                                        </SubMenu>
+                                        <SubMenu key="sub9" icon={<ReadOutlined />} title="Мэдээлэл">
+                                            <Menu.Item key="20">Нэмэх</Menu.Item>
+                                            <Menu.Item key="21">Засах / Устгах</Menu.Item> 
+                                        </SubMenu>
                                         { parseInt(user.profile.role) === 1 ? (
-                                            <SubMenu key="sub8" icon={<UserOutlined />} title="Ажилтан">
-                                                <Menu.Item key="18">Бүртгэх</Menu.Item>                                                
+                                            <SubMenu key="sub10" icon={<UserOutlined />} title="Ажилтан">
+                                                <Menu.Item key="22">Бүртгэх</Menu.Item>                                                
                                             </SubMenu>
                                         ) : (
                                             <></>
                                         )}                                        
-                                        <SubMenu key="sub9" icon={<CloseCircleOutlined />} title="Гарах">
-                                            <Menu.Item key="20">Гарах</Menu.Item>                                            
+                                        <SubMenu key="sub11" icon={<CloseCircleOutlined />} title="Гарах">
+                                            <Menu.Item key="23">Гарах</Menu.Item>                                            
                                         </SubMenu>
                                     </Menu>
                                 </Col>
@@ -136,16 +148,30 @@ function Staff (props) {
                                     ) : key === "7" ? (
                                         <ProductEdit token={props.token} />
                                     ) : key === "8" ? (
-                                        <CategoryAdd token={props.token} />
+                                        // Type Add                                        
+                                        <TypeAdd token={props.token} />
                                     ) : key === "9" ? (
-                                        <CategoryEdit token={props.token} />
+                                        // Type Edit
+                                        <TypeEdit token={props.token} />
                                     ) : key === "10" ? (
-                                        <TagAdd token={props.token} />
+                                        // Category Add
+                                        <CategoryAdd token={props.token} />
                                     ) : key === "11" ? (
+                                        // Category Edit
+                                        <CategoryEdit token={props.token} />
+                                    ) : key === "12" ? (
+                                        // Sub-category Add
+                                        <SubCategoryAdd token={props.token} />
+                                    ) : key === "13" ? (
+                                        // Sub-category Edit
+                                        <SubCategoryEdit token={props.token} />
+                                    ) : key === "14" ? (
+                                        <TagAdd token={props.token} />
+                                    ) : key === "15" ? (
                                         <TagEdit token={props.token} />
-                                    ) : key === "18" ? (
+                                    ) : key === "22" ? (
                                         <StaffSignUp />
-                                    ) : key === "20" ? (
+                                    ) : key === "23" ? (
                                         <Logout />
                                     ) : <></>}
                                 </Col>
