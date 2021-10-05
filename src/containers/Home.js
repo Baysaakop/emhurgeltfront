@@ -52,7 +52,7 @@ function Home (props) {
                 </Col>   
                 <Col xs={24} sm={24} md={24} lg={6}>
                     <div style={{ background: '#fff', borderRadius: '2px', padding: '4px 8px', height: '100%' }}>
-                        <Typography.Title level={3}><AlignLeftOutlined style={{ fontSize: '20px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>                               
+                        <Typography.Title level={3} style={{ marginBottom: '4px' }}><AlignLeftOutlined style={{ fontSize: '20px', marginLeft: '12px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>                               
                         {types ? types.map(item => (
                             <div key={item.id}>
                                 {/* <Divider style={{ margin: '4px 0' }} />   */}
