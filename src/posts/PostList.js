@@ -84,6 +84,7 @@ function PostList (props) {
                             current={page}
                             total={total}
                             pageSize={24}
+                            hideOnSinglePage={true}
                             showSizeChanger={false}
                             showTotal={false}                            
                             onChange={onPageChange}

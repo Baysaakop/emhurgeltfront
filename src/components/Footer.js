@@ -33,7 +33,7 @@ function CustomFooter (props) {
 
     return (
         <div>
-            <div style={ screens.lg ? { padding: '24px 10%' } : { padding: '24px 5%' }}>
+            <div style={ screens.xxl ? { padding: '24px 12%' } : screens.xl ? { padding: '24px 8%' } : { padding: '24px' }}>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={12} lg={8}>
                         <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center', marginBottom: '8px' }}>                            
@@ -58,15 +58,15 @@ function CustomFooter (props) {
                             <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
                             { props.language === "en" ? translations.en.footer.home_page : translations.mn.footer.home_page }
                             </Typography.Paragraph>
+                        </Button>                        
+                        <Button href="/about" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                                { props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }
+                            </Typography.Paragraph>
                         </Button>
                         <Button href="/brandproducts" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
                             <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
                             { props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }
-                            </Typography.Paragraph>
-                        </Button>
-                        <Button href="/about" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
-                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
-                                { props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }
                             </Typography.Paragraph>
                         </Button>
                         <Button href="/products" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
@@ -82,6 +82,11 @@ function CustomFooter (props) {
                         <Button href="/contact" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
                             <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
                                 { props.language === "en" ? translations.en.header.contact : translations.mn.header.contact }
+                            </Typography.Paragraph>
+                        </Button>
+                        <Button href="/bonus" block type="text" style={{ color: '#4c4c4c', textAlign: 'left' }}>
+                            <Typography.Paragraph ellipsis={true} style={{ margin: 0, padding: 0 }}>
+                                { props.language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }
                             </Typography.Paragraph>
                         </Button>
                     </Col>
@@ -125,9 +130,10 @@ function CustomFooter (props) {
                     </Col>
                 </Row>                                                   
             </div>                         
-            <div style={ screens.lg ? { padding: '8px 10%', borderTop: '1px solid #dedede', background: '#f0f2f5' } : { padding: '8px 5%', borderTop: '1px solid #dedede', background: '#f0f2f5' }}>
+            <div style={ screens.xxl ? { padding: '8px 12%', borderTop: '1px solid #dedede', background: '#f0f2f5' } : screens.xl ? { padding: '8px 8%', borderTop: '1px solid #dedede', background: '#f0f2f5' } : { padding: '8px', borderTop: '1px solid #dedede', background: '#f0f2f5' }}>
                 <Typography.Text style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                    © 2021 { props.language === "en" ? translations.en.header.dseabi_llc : translations.mn.header.dseabi_llc }. { props.language === "en" ? translations.en.footer.all_rights_reserved : translations.mn.footer.all_rights_reserved }.</Typography.Text>                            
+                    © 2021 { props.language === "en" ? translations.en.header.dseabi_llc : translations.mn.header.dseabi_llc }. { props.language === "en" ? translations.en.footer.all_rights_reserved : translations.mn.footer.all_rights_reserved }.
+                </Typography.Text>                            
             </div> 
         </div>
     )
