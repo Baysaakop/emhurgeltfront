@@ -62,7 +62,12 @@ function ProductDetail (props) {
     function getType (types) {
         let res = []
         types.forEach(element => {
-            res.push(element.name)
+            if (props.language === "en") {
+                res.push(element.name_en)
+            } else {
+                res.push(element.name)
+            }
+            
         })
         if (res.length > 0) {
             return res.toString()
@@ -266,7 +271,7 @@ function ProductDetail (props) {
                         <Col xs={24} sm={24} md={24} lg={14} style={{ padding: 0 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div>
-                                    <Typography.Title level={3} style={{ margin: 0 }}>{item.name}</Typography.Title>                            
+                                    <Typography.Title level={3} style={{ margin: 0 }}>{ props.language === "en" && item.name_en ? item.name_en : item.name }</Typography.Title>                            
                                     <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{getType(item.types)}</Typography.Text>
                                 </div>
                                 <div>
@@ -330,23 +335,23 @@ function ProductDetail (props) {
                     <div style={{ marginTop: '24px', padding: '24px', background: '#fff', borderRadius: '2px' }}>
                         <Typography.Title level={5} style={{ margin: 0 }}>Бүтээгдэхүүний мэдээлэл:</Typography.Title>
                         <Typography.Paragraph>
-                            {item.description}                                
+                        { props.language === "en" && item.description_en ? item.description_en : item.description }                           
                         </Typography.Paragraph>
                         <Typography.Title level={5} style={{ margin: 0 }}>Найрлага:</Typography.Title>
                         <Typography.Paragraph>
-                            {item.ingredients}                                
+                        { props.language === "en" && item.ingredients_en ? item.ingredients_en : item.ingredients}                                
                         </Typography.Paragraph>
                         <Typography.Title level={5} style={{ margin: 0 }}>Хэрэглэх заавар:</Typography.Title>
                         <Typography.Paragraph>
-                            {item.usage}                                
+                        { props.language === "en" && item.usage_en ? item.usage_en : item.usage}                                                             
                         </Typography.Paragraph>
                         <Typography.Title level={5} style={{ margin: 0 }}>Хадгалах нөхцөл:</Typography.Title>
                         <Typography.Paragraph>
-                            {item.storage}                                
+                        { props.language === "en" && item.storage_en ? item.storage_en : item.storage}                                               
                         </Typography.Paragraph>
                         <Typography.Title level={5} style={{ margin: 0 }}>Анхааруулга:</Typography.Title>
                         <Typography.Paragraph>
-                            {item.caution}                                
+                        { props.language === "en" && item.caution_en ? item.caution_en : item.caution}                                                   
                         </Typography.Paragraph>
                     </div>           
                     <Typography.Title level={4} style={{ marginTop: '24px' }}>Төстэй бүтээгдэхүүнүүд:</Typography.Title>
@@ -381,7 +386,8 @@ function ProductDetail (props) {
 
 const mapStateToProps = state => {
     return {
-        token: state.token
+        token: state.token,
+        language: state.language
     }
 }
 
