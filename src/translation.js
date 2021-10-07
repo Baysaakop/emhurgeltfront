@@ -53,6 +53,27 @@ export const mn = {
         oldest: 'Хуучин нь эхэндээ',
         lowtohigh: 'Үнэ өсөхөөр',
         hightolow: 'Үнэ буурахаар',
+        all: 'Бүгд',
+        yes: 'Тийм'
+    },
+    product_card: {
+        watchlist: 'Хадгалах',
+        removewatchlist: 'Хадгалснаа болиулах',
+        cart: 'Сагсанд нэмэх',
+        removecart: 'Сагснаас гаргах',
+        more: 'Дэлгэрэнгүй',
+        remove: 'Хасах',
+        description: 'Тайлбар',
+        ingredients: 'Найрлага',
+        usage: 'Хэрэглэх заавар',
+        storage: 'Хадгалах нөхцөл',
+        caution: 'Анхааруулга'
+    },
+    product_detail: {
+        price: 'Үнэ',        
+        stock: 'Үлдэгдэл',
+        order: 'Захиалах',
+        shops: 'Зарагдаж буй салбарууд',
     }
 }
 
@@ -110,5 +131,26 @@ export const en = {
         oldest: 'Date: Old to New',
         lowtohigh: 'Price: Low to High',
         hightolow: 'Price: High to Low',
+        all: 'All',
+        yes: 'Yes'
+    },
+    product_card: {
+        watchlist: 'Add to watchlist',
+        removewatchlist: 'Remove from watchlist',
+        cart: 'Add to cart',
+        removecart: 'Remove from cart',
+        more: 'More',
+        remove: 'Remove',
+        description: 'Description',
+        ingredients: 'Ingredients',
+        usage: 'Usage',
+        storage: 'Storage',
+        caution: 'Caution'
+    },
+    product_detail: {
+        price: 'Price',        
+        stock: 'Stock',
+        order: 'Buy now',
+        shops: 'Locations',
     }
 }

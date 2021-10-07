@@ -9,6 +9,7 @@ import api from "../api";
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import logo from '../components/logo.png'
+import * as translations from '../translation';
 
 const { useBreakpoint } = Grid
 
@@ -200,16 +201,16 @@ function ProductDetail (props) {
                     <Breadcrumb>
                         <Breadcrumb.Item>
                             <Link to="/">
-                                Нүүр хуудас
+                                {props.language === "en" ? translations.en.footer.home_page : translations.mn.footer.home_page}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
                             <Link to="/products">
-                                Эмийн сан
+                                {props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>                   
-                            {item.name}
+                            {props.language === "en" && item.name_en ? item.name_en : item.name}
                         </Breadcrumb.Item>
                     </Breadcrumb>
                     <Row gutter={ screens.xs ? [8, 8] : [60, 16]} style={{ marginTop: '24px', marginLeft: 0, marginRight: 0, padding: '24px', background: '#fff', borderRadius: '2px' }}>
@@ -282,11 +283,15 @@ function ProductDetail (props) {
                             <Divider style={{ margin: '16px 0' }} />
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>                        
                                 <div>                                    
-                                    <Typography.Title level={5} style={{ margin: '0' }}>Үнэ:</Typography.Title>
+                                    <Typography.Title level={5} style={{ margin: '0' }}>
+                                        {props.language === "en" ? translations.en.product_detail.price : translations.mn.product_detail.price}
+                                    </Typography.Title>
                                     <Typography.Title level={2} style={{ margin: '0' }}>{formatNumber(item.price)}₮</Typography.Title>
                                 </div>                                                       
                                 <div style={{ textAlign: 'center' }}>
-                                    <Typography.Text style={{ margin: '0' }}>Үлдэгдэл</Typography.Text>                                    
+                                    <Typography.Text style={{ margin: '0' }}>
+                                        {props.language === "en" ? translations.en.product_detail.stock : translations.mn.product_detail.stock}
+                                    </Typography.Text>                                    
                                     <Typography.Title level={4} style={{ margin: '0' }}>{formatNumber(item.count)}</Typography.Title>
                                 </div>
                             </div>                            
@@ -298,23 +303,39 @@ function ProductDetail (props) {
                                     <Button size="large" type="ghost" icon={<PlusOutlined />} onClick={() => count < item.count ? setCount(count + 1) : setCount(count)} />            
                                 </div>    
                                 {cart && cart.find(x => x.item.id === item.id) ? (
-                                    <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("delete")} >Сагснаас гаргах</Button>
+                                    <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("delete")} >
+                                        {props.language === "en" ? translations.en.product_card.removecart : translations.mn.product_card.removecart}
+                                    </Button>
                                 ) : item.count > 0 ? (
-                                    <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >Сагсанд хийх</Button>
+                                    <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >
+                                        {props.language === "en" ? translations.en.product_card.cart : translations.mn.product_card.cart}
+                                    </Button>
                                 ) : 
-                                    <Button disabled type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >Сагсанд хийх</Button>
+                                    <Button disabled type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >
+                                        {props.language === "en" ? translations.en.product_card.cart : translations.mn.product_card.cart}
+                                    </Button>
                                 }       
-                                {item.count > 0 ? (
-                                    <Button type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>Захиалах</Button>
+                                { item.count > 0 ? (
+                                    <Button type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>
+                                        {props.language === "en" ? translations.en.product_detail.order : translations.mn.product_detail.order}
+                                    </Button>
                                 ) : (
-                                    <Button disabled type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>Захиалах</Button>
+                                    <Button disabled type="primary" size="large" icon={<ShoppingOutlined />} onClick={order}>
+                                        {props.language === "en" ? translations.en.product_detail.order : translations.mn.product_detail.order}
+                                    </Button>
                                 )}                        
                                 <Button danger type="primary" size="large" icon={<HeartOutlined />} onClick={addToSaved}>
-                                    { favorite && favorite.find(x => x.id === item.id) ? 'Хадгалсан' : 'Хадгалах' }                                    
+                                    { favorite && favorite.find(x => x.id === item.id) ? props.language === "en" ? translations.en.product_card.removewatchlist : translations.mn.product_card.removewatchlist :  props.language === "en" ? translations.en.product_card.watchlist : translations.mn.product_card.watchlist }                                    
                                 </Button>
-                                <Link to={`/productshop/${item.id}`}>
-                                    <Button type="ghost" size="large" icon={<ShopOutlined />}>Зарагдаж буй салбарууд</Button>                            
-                                </Link>
+                                { item.is_brand ? (
+                                    <Link to={`/productshop/${item.id}`}>
+                                        <Button type="ghost" size="large" icon={<ShopOutlined />}>
+                                            { props.language === "en" ? translations.en.product_detail.shops : translations.mn.product_detail.shops }
+                                        </Button>                            
+                                    </Link>
+                                ) : (
+                                    <></>
+                                )}                                
                             </Space>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                             <Divider style={{ margin: '16px 0' }} />
                             {item.tags.map(tag => {
@@ -333,23 +354,23 @@ function ProductDetail (props) {
                         </Col>
                     </Row>
                     <div style={{ marginTop: '24px', padding: '24px', background: '#fff', borderRadius: '2px' }}>
-                        <Typography.Title level={5} style={{ margin: 0 }}>Бүтээгдэхүүний мэдээлэл:</Typography.Title>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.description : translations.mn.product_card.description}:</Typography.Title>
                         <Typography.Paragraph>
                         { props.language === "en" && item.description_en ? item.description_en : item.description }                           
                         </Typography.Paragraph>
-                        <Typography.Title level={5} style={{ margin: 0 }}>Найрлага:</Typography.Title>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.ingredients : translations.mn.product_card.ingredients}:</Typography.Title>
                         <Typography.Paragraph>
                         { props.language === "en" && item.ingredients_en ? item.ingredients_en : item.ingredients}                                
                         </Typography.Paragraph>
-                        <Typography.Title level={5} style={{ margin: 0 }}>Хэрэглэх заавар:</Typography.Title>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.usage : translations.mn.product_card.usage}:</Typography.Title>
                         <Typography.Paragraph>
                         { props.language === "en" && item.usage_en ? item.usage_en : item.usage}                                                             
                         </Typography.Paragraph>
-                        <Typography.Title level={5} style={{ margin: 0 }}>Хадгалах нөхцөл:</Typography.Title>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.storage : translations.mn.product_card.storage}:</Typography.Title>
                         <Typography.Paragraph>
                         { props.language === "en" && item.storage_en ? item.storage_en : item.storage}                                               
                         </Typography.Paragraph>
-                        <Typography.Title level={5} style={{ margin: 0 }}>Анхааруулга:</Typography.Title>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.caution : translations.mn.product_card.caution}:</Typography.Title>
                         <Typography.Paragraph>
                         { props.language === "en" && item.caution_en ? item.caution_en : item.caution}                                                   
                         </Typography.Paragraph>

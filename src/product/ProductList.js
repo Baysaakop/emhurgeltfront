@@ -277,24 +277,26 @@ function ProductList (props) {
                     <Col xs={24} sm={24} md={24} lg={6}>
                         <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                        
                             <Typography.Title level={5}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
-                            <Checkbox checked={isFeatured} onChange={onCheckFeatured}>Тийм</Checkbox>
+                            <Checkbox checked={isFeatured} onChange={onCheckFeatured}>
+                            { props.language === "en" ? translations.en.product_list.yes : translations.mn.product_list.yes }
+                            </Checkbox>
                             <Divider />
                             <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>                            
                             <Radio.Group value={type} onChange={onSelectType}>
                                 <Space direction="vertical">
                                     <Radio value="0">
-                                        Бүгд
+                                        { props.language === "en" ? translations.en.product_list.all : translations.mn.product_list.all }
                                     </Radio>
                                     {types ? types.map(t => (
                                         <>
                                             <Radio key={t.id} value={t.id.toString()}>
-                                                { props.language === "en" ? t.name_en : t.name }
+                                            { props.language === "en" ? t.name_en : t.name }
                                             </Radio>
                                             {type === t.id.toString() && categories && categories.length > 0 ? (
                                                 <Radio.Group value={category} onChange={onSelectCategory} style={{ marginLeft: '24px' }}>                                                    
                                                     <Space direction="vertical">                                                        
                                                         <Radio value="0">
-                                                            Бүгд
+                                                        { props.language === "en" ? translations.en.product_list.all : translations.mn.product_list.all }
                                                         </Radio>
                                                         {categories ? categories.map(c => (
                                                             <>
@@ -305,7 +307,7 @@ function ProductList (props) {
                                                                     <Radio.Group value={subCategory} onChange={onSelectSubCategory} style={{ marginLeft: '24px' }}>
                                                                         <Space direction="vertical">
                                                                             <Radio value="0">
-                                                                                Бүгд
+                                                                            { props.language === "en" ? translations.en.product_list.all : translations.mn.product_list.all }
                                                                             </Radio>
                                                                             {subCategories ? subCategories.map(s => (
                                                                                 <Radio key={s.id} value={s.id.toString()}>
