@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import logo from '../components/logo.png';
 import './ProductCard.css'
+import * as translations from '../translation';
 
 function ProductCard (props) {
     const [visible, setVisible] = useState(false)
@@ -119,12 +120,16 @@ function ProductCard (props) {
     function getType (types) {
         let res = []
         types.forEach(element => {
-            res.push(element.name)
+            if (props.language === "en") {
+                res.push(element.name_en)
+            } else {
+                res.push(element.name)
+            }            
         })
         if (res.length > 0) {
             return res.toString()
-        }
-        return "-Ангилал хийгдээгүй-"
+        }        
+        return "---"    
     }
 
     function formatNumber(num) {
@@ -159,34 +164,36 @@ function ProductCard (props) {
                 }                
                 actions={ props.type === "list" ? [
                     favorite && favorite.find(x => x.id === props.item.id) ? (
-                        <Tooltip title="Хадгалсан">
+                        <Tooltip title={props.language === "en" ? translations.en.product_card.removewatchlist : translations.mn.product_card.removewatchlist}>
                             <HeartOutlined style={{ color: '#FF0000' }} key="save" onClick={addToSaved} />
                         </Tooltip>
                     ) : (
-                        <Tooltip title="Хадгалах">
+                        <Tooltip title={props.language === "en" ? translations.en.product_card.watchlist : translations.mn.product_card.watchlist}>
                             <HeartOutlined key="save" onClick={addToSaved} />
                         </Tooltip>
                     ),               
                     cart && cart.find(x => x.item.id === props.item.id) ? (                        
-                        <Tooltip title="Сагсанд байгаа">
+                        <Tooltip title={props.language === "en" ? translations.en.product_card.removecart : translations.mn.product_card.removecart}>
                             <ShoppingCartOutlined style={{ color: '#000' }} key="cart" onClick={() => addToCart("delete")} />
                         </Tooltip>                        
                     ) : (
-                        <Tooltip title="Сагслах">
+                        <Tooltip title={props.language === "en" ? translations.en.product_card.cart : translations.mn.product_card.cart}>
                             <ShoppingCartOutlined key="cart" onClick={() => addToCart("create")} />
                         </Tooltip>
                     ),                         
-                    <Tooltip title="Дэлгэрэнгүй">
+                    <Tooltip title={props.language === "en" ? translations.en.product_card.more : translations.mn.product_card.more}>
                         <EllipsisOutlined key="ellip" onClick={() => setVisible(true)} />
                     </Tooltip>,                                        
                 ] : props.type === "favorite" ? [
-                    <Button danger icon={<MinusCircleOutlined />} type="text" onClick={onRemove}>Хасах</Button>
+                    <Button danger icon={<MinusCircleOutlined />} type="text" onClick={onRemove}>
+                        {props.language === "en" ? translations.en.product_card.remove : translations.mn.product_card.remove}
+                    </Button>
                 ] : <></>}
             >
                 <Link to={`/products/${props.item.id}`}>
                     <Card.Meta 
                         title={
-                            <Tooltip title={props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
+                            <Tooltip title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
                         }    
                         description={getType(props.item.types)}                    
                     />
@@ -200,26 +207,26 @@ function ProductCard (props) {
                         </div>
                     </div>
                 </Link>
-                <Modal title={props.item.name} visible={visible} footer={false} onCancel={() => setVisible(false)}>
-                    <Typography.Title level={5}>Тайлбар:</Typography.Title>
+                <Modal title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name} visible={visible} footer={false} onCancel={() => setVisible(false)}>
+                    <Typography.Title level={5}>{props.language === "en" ? translations.en.product_card.description : translations.mn.product_card.description}:</Typography.Title>
                     <Typography.Paragraph>
-                        {props.item.description}
+                    {props.language === "en" && props.item.description_en ? props.item.description_en : props.item.description}
                     </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>Найрлага:</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.ingredients : translations.mn.product_card.ingredients}:</Typography.Title>
                     <Typography.Paragraph>
-                        {props.item.ingredients}                                
+                    {props.language === "en" && props.item.ingredients_en ? props.item.ingredients_en : props.item.ingredients}                                              
                     </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>Хэрэглэх заавар:</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.usage : translations.mn.product_card.usage}:</Typography.Title>
                     <Typography.Paragraph>
-                        {props.item.usage}                                
+                    {props.language === "en" && props.item.usage_en ? props.item.usage_en : props.item.usage}                                           
                     </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>Хадгалах нөхцөл:</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.storage : translations.mn.product_card.storage}:</Typography.Title>
                     <Typography.Paragraph>
-                        {props.item.storage}                                
+                    {props.language === "en" && props.item.storage_en ? props.item.storage_en : props.item.storage}                                                           
                     </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>Анхааруулга:</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.caution : translations.mn.product_card.caution}:</Typography.Title>
                     <Typography.Paragraph>
-                        {props.item.caution}                                
+                    {props.language === "en" && props.item.caution_en ? props.item.caution_en : props.item.caution}                                                                       
                     </Typography.Paragraph>
                 </Modal>
             </Card>            
