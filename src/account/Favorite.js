@@ -2,7 +2,7 @@ import { Divider, Typography, List } from "antd"
 import { useState } from "react";
 import ProductCard from "../product/ProductCard";
 
-function Saved (props) {    
+function Favorite (props) {    
 
     const [items, setItems] = useState(props.items)
 
@@ -35,4 +35,4 @@ function Saved (props) {
     )
 }
 
-export default Saved
+export default Favorite

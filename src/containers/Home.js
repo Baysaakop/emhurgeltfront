@@ -1,71 +1,17 @@
-import { AlignLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { Col, Row, Typography, Card, message, Button } from 'antd';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';  
-import api from '../api';
-import { Link, withRouter } from 'react-router-dom';
-import ProductScroll from '../product/ProductScroll';
-import moment from 'moment'
+import { DoubleRightOutlined } from '@ant-design/icons';
+import { Col, Row, Typography, Button } from 'antd';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import HomeSlider from './HomeSlider';
 import HomeTimeline from './HomeTimeline';
 // import * as translations from '../translation';
 import { connect } from 'react-redux';
 
 function Home (props) {        
-    const [types, setTypes] = useState()  
-    const [posts, setPosts] = useState()  
-
-    useEffect(() => {
-        getTypes()
-        getPosts()       
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-    function getTypes() {
-        let url = `${api.types}/`         
-        axios({
-            method: 'GET',
-            url: url           
-        }).then(res => {                        
-            setTypes(res.data.results)                      
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
-
-    function getPosts() {
-        let url = `${api.posts}/`         
-        axios({
-            method: 'GET',
-            url: url           
-        }).then(res => {                        
-            setPosts(res.data.results)                      
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
 
     return (
         <div>
-            <Row gutter={[24, 24]}>
-                <Col xs={24} sm={24} md={24} lg={18}>
-                    <HomeSlider />
-                </Col>   
-                <Col xs={24} sm={24} md={24} lg={6}>
-                    <div style={{ background: '#fff', borderRadius: '2px', padding: '4px 8px', height: '100%' }}>
-                        <Typography.Title level={3} style={{ marginBottom: '4px' }}><AlignLeftOutlined style={{ fontSize: '20px', marginLeft: '12px', marginRight: '8px' }} />Бүх ангилал</Typography.Title>                               
-                        {types ? types.map(item => (
-                            <div key={item.id}>
-                                {/* <Divider style={{ margin: '4px 0' }} />   */}
-                                <Button block size="large" type="text" href={`/products?type=${item.id}`} style={{ textAlign: 'left', margin: 0 }}>
-                                    <Typography.Paragraph ellipsis={true} style={{ margin: 0 }}>
-                                    { props.language === "en" ? item.name_en : item.name }
-                                    </Typography.Paragraph>
-                                </Button>
-                            </div>
-                        )) : []}
-                    </div>
-                </Col>                             
-            </Row>                       
+            <HomeSlider />                 
             <Row gutter={[32, 32]} style={{ marginTop: '32px' }}>
                 <Col xs={24} sm={24} md={24} lg={8}>
                     <div style={{ background: '#eb4d4b', height: '200px', width: '100%', borderRadius: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -86,53 +32,7 @@ function Home (props) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px' }}>
                 <Typography.Title level={3}>Онцлох бүтээгдэхүүн</Typography.Title>
                 <Button type="primary" icon={<DoubleRightOutlined />} href="/products?is_featured=true">Бүгд</Button>
-            </div>
-            <ProductScroll type="brand" />            
-            {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px' }}>
-                <Typography.Title level={3}>Хямдралтай бүтээгдэхүүн</Typography.Title>            
-                <Button type="primary" icon={<DoubleRightOutlined />} href="/products?on_sale=true">Бүгд</Button>
-            </div>            
-            <ProductScroll type="brand" />  */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px' }}>
-                <Typography.Title level={3}>Шинэ мэдээлэл</Typography.Title>        
-                <Button type="primary" icon={<DoubleRightOutlined />} href="/posts">Бүгд</Button>
-            </div>            
-            <Row gutter={[24, 24]}>
-                { posts ? posts.slice(0, 3).map(post => {
-                    return (
-                        <Col xs={24} sm={24} md={24} lg={8} key={post.id}>                            
-                            <Card                                    
-                                hoverable
-                                style={{ width: '100%' }}
-                                cover={
-                                    <div style={{ position: 'relative', paddingTop: '50%' }}>                                            
-                                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-                                            <img alt="asd" src={post.thumbnail} style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'scale-down' }} />
-                                        </div>                                            
-                                    </div>
-                                }
-                            >
-                                <Card.Meta
-                                    title={post.title}
-                                    description={
-                                        <Typography.Paragraph ellipsis={{ rows: 3 }} style={{ fontSize: '16px' }}>
-                                            <div dangerouslySetInnerHTML={{__html: post.content }} />
-                                        </Typography.Paragraph>
-                                    }
-                                />
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Link to={`/posts/${post.id}`}>
-                                        <Button type="primary">Дэлгэрэнгүй...</Button>
-                                    </Link>
-                                    <div>
-                                        {moment(post.created_at).format("YYYY-MM-DD")}
-                                    </div>
-                                </div>
-                            </Card>                            
-                        </Col>
-                    )
-                }) : <></>}                
-            </Row>            
+            </div>                                
             <HomeTimeline />
         </div>
     )

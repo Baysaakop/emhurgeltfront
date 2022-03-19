@@ -13,9 +13,7 @@ function ProductAdd (props) {
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [companies, setCompanies] = useState([])
-    const [shops, setShops] = useState([])
-    const [tags, setTags] = useState([])
-    const [brand, setBrand] = useState(false)
+    const [featured, setFeatured] = useState(false)
     const [image1, setImage1] = useState()
     const [image2, setImage2] = useState()
     const [image3, setImage3] = useState()
@@ -26,8 +24,6 @@ function ProductAdd (props) {
     useEffect(() => {
         getTypes()
         getCompanies()
-        getShops()
-        getTags()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getTypes () {
@@ -106,52 +102,31 @@ function ProductAdd (props) {
         })
     }   
 
-    function getShops () {
-        axios({
-            method: 'GET',
-            url: `${api.shops}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setShops(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }   
-
-    function getTags () {
-        axios({
-            method: 'GET',
-            url: `${api.tags}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setTags(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
+    // function getTags () {
+    //     axios({
+    //         method: 'GET',
+    //         url: `${api.tags}/`,
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Token ${props.token}`            
+    //         }        
+    //     }).then(res => {
+    //         setTags(res.data.results)
+    //     }).catch(err => {
+    //         message.error("Хуудсыг дахин ачааллана уу")
+    //     })
+    // }
 
     function onFinish (values) {
-        console.log(values)
-        // console.log(images)
-        // console.log(poster)
         setLoading(true)
         var formData = new FormData();
         formData.append('name', values.name) 
         formData.append('price', values.price)  
-        formData.append('is_brand', brand)           
-        formData.append('token', props.token)
+        formData.append('count', values.count)  
+        formData.append('is_featured', featured)                   
         if (values.name_en) {
             formData.append('name_en', values.name_en);
-        }     
-        if (values.count) {
-            formData.append('count', values.count);
-        }     
+        }        
         if (values.description) {
             formData.append('description', values.description);
         }
@@ -194,11 +169,8 @@ function ProductAdd (props) {
         if (values.subcategory) {
             formData.append('subcategory', values.subcategory);
         }
-        if (values.tag) {
-            formData.append('tag', values.tag);
-        }
-        if (values.shops) {
-            formData.append('shops', values.shops);
+        if (values.video) {
+            formData.append('video', values.video);
         }
         if (image1) {
             formData.append('image1', image1)
@@ -214,7 +186,8 @@ function ProductAdd (props) {
         }                
         if (poster) {
             formData.append('poster', poster)
-        }                
+        } 
+
         axios({
             method: 'POST',
             url: `${api.items}/`,
@@ -262,31 +235,43 @@ function ProductAdd (props) {
                         style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
                     >
                         <Row gutter={[16, 0]}>
-                            <Col span={6}>
+                            <Col span={10}>
                                 <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                                     <Input />
                                 </Form.Item>
                             </Col>
-                            <Col span={6}>
+                            <Col span={10}>
                                 <Form.Item name="name_en" label="Нэр (EN)">
                                     <Input />
                                 </Form.Item>
                             </Col>
                             <Col span={4}>
-                                <Form.Item name="price" label="Үнэ" rules={[{ required: true }]}>
-                                    <Input suffix="₮" />
+                                <Form.Item name="is_featured" label="Онцлох бүтээгдэхүүн">
+                                    <Checkbox onChange={() => setFeatured(!featured)}>Тийм</Checkbox>
                                 </Form.Item>
-                            </Col>
-                            <Col span={4}>
-                                <Form.Item name="count" label="Тоо ширхэг">
+                            </Col>                                
+                            <Col span={6}>
+                                <Form.Item name="price" label="Үнэ" rules={[{ required: true }]}>
+                                    <InputNumber style={{ width: '100%' }} formatter={value => `₮ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} />
+                                </Form.Item>
+                            </Col>   
+                            <Col span={6}>
+                                <Form.Item name="count" label="Тоо ширхэг" rules={[{ required: true }]}>
                                     <InputNumber style={{ width: '100%' }} />
                                 </Form.Item>
-                            </Col>  
-                            <Col span={4}>
-                                <Form.Item name="is_brand" label="Онцлох бүтээгдэхүүн">
-                                    <Checkbox onChange={() => setBrand(!brand)}>Тийм</Checkbox>
+                            </Col>            
+                            <Col span={12}>
+                                <Form.Item name="company" label="Компани">
+                                    <Select                                
+                                        placeholder="Компани сонгох"
+                                        optionFilterProp="children"
+                                    >
+                                        { companies ? companies.map(com => (
+                                            <Select.Option key={com.id}>{com.name}</Select.Option>
+                                        )) : <></> }
+                                    </Select>          
                                 </Form.Item>
-                            </Col>                                     
+                            </Col>                                                         
                             <Col span={8}>
                                 <Form.Item name="type" label="Төрөл">
                                     <Select           
@@ -300,7 +285,7 @@ function ProductAdd (props) {
                                         )) : <></>}
                                     </Select>           
                                 </Form.Item>
-                            </Col>        
+                            </Col>                                                                         
                             <Col span={8}>
                                 <Form.Item name="category" label="Ангилал">
                                     <Select       
@@ -328,7 +313,7 @@ function ProductAdd (props) {
                                     </Select>           
                                 </Form.Item>
                             </Col>                    
-                            <Col span={8}>
+                            {/* <Col span={8}>
                                 <Form.Item name="tag" label="Таг">
                                     <Select                      
                                         mode="multiple"          
@@ -340,31 +325,7 @@ function ProductAdd (props) {
                                         )) : <></>}
                                     </Select>     
                                 </Form.Item>        
-                            </Col>           
-                            <Col span={8}>
-                                <Form.Item name="company" label="Компани">
-                                    <Select                                
-                                        placeholder="Компани сонгох"
-                                        optionFilterProp="children"
-                                    >
-                                        { companies ? companies.map(com => (
-                                            <Select.Option key={com.id}>{com.name}</Select.Option>
-                                        )) : <></> }
-                                    </Select>          
-                                </Form.Item>
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item name="shops" label="Салбарууд">
-                                    <Select                                
-                                        placeholder="Салбар сонгох"
-                                        optionFilterProp="children"
-                                    >
-                                        { shops ? shops.map(shop => (
-                                            <Select.Option key={shop.id}>{shop.name}</Select.Option>
-                                        )) : <></> }
-                                    </Select>          
-                                </Form.Item>
-                            </Col>                    
+                            </Col>                                        */}
                             <Col span={12}>
                                 <Form.Item name="description" label="Тайлбар">
                                     <Input.TextArea rows={3} />
@@ -417,12 +378,12 @@ function ProductAdd (props) {
                             </Col>                                                                  
                             <Col span={12}>
                                 <Form.Item name="video" label="Видео">
-                                    <Input.TextArea rows={10} />
+                                    <Input.TextArea rows={6} />
                                 </Form.Item>
                             </Col>    
                             <Col span={12}>
-                                <Form.Item name="poster" label="Постер">
-                                    <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="225px" width="450px" st />     
+                                <Form.Item name="poster" label="Постер (Онцлох бүтээгдэхүүн)">
+                                    <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="140px" width="420px" st />     
                                 </Form.Item>
                             </Col>    
                             <Col span={6}>

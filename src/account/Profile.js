@@ -5,7 +5,7 @@ import axios from 'axios';
 import api from '../api';
 import AccountDetail from './AccountDetail';
 import { CloseCircleOutlined, HeartOutlined, ScheduleOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
-import Saved from './Saved';
+import Favorite from './Favorite';
 import Logout from './Logout';
 import Cart from './Cart';
 import OrderHistory from './OrderHistory';
@@ -18,7 +18,7 @@ function Profile (props) {
 
     useEffect(() => {        
         let key = props.location.search.split("=")[1]
-        if (key === "saved") {
+        if (key === "favorite") {
             setKey("2")
         } else if (key === "cart") {
             setKey("3")
@@ -67,15 +67,14 @@ function Profile (props) {
                             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '24px' }}>                                
                                 <Avatar size={48} shape="square" icon={<UserOutlined />} style={{ background: '#009432' }} />
                                 <div style={{ marginLeft: '16px' }}>
-                                    <Typography.Title level={4} style={{ margin: 0 }}>{user.username}</Typography.Title>
-                                    <Typography.Text>{user.email}</Typography.Text>
+                                    <Typography.Title level={4} style={{ margin: 0 }}>{user.username}</Typography.Title>                                    
                                 </div>
                             </div>                             
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын хувь</Typography.Title>                                               
-                            <Rate disabled count={4} value={user.profile.level} tooltips={percentages} />                            
-                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- {user.profile.percent}%</span>
+                            <Rate disabled count={3} value={user.level} tooltips={percentages} />                            
+                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- {user.percent}%</span>
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын оноо</Typography.Title>  
-                            <Typography.Title level={4} style={{ margin: 0 }}>{formatNumber(user.profile.bonus)}₮</Typography.Title>                                                                         
+                            <Typography.Title level={4} style={{ margin: 0 }}>{formatNumber(user.bonus)}₮</Typography.Title>                                                                         
                             <Menu mode="inline" selectedKeys={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0)', marginTop: '16px' }} onClick={onSelect}>
                                 <Menu.Item icon={<UserOutlined style={{ fontSize: '18px' }} />} key="1">Хувийн мэдээлэл</Menu.Item>
                                 <Menu.Item icon={<HeartOutlined style={{ fontSize: '18px' }} />} key="2">Хадгалсан</Menu.Item>
@@ -87,11 +86,11 @@ function Profile (props) {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={18}>
                         { key === "1" ?
-                            <AccountDetail user={user} token={props.token} />
+                            <AccountDetail user={user} token={props.token} />                            
                         : key === "2" ?
-                            <Saved items={user.profile.favorite} user={user} token={props.token} />
+                            <Favorite items={user.favorite} user={user} token={props.token} />
                         : key === "3" ? 
-                            <Cart items={user.profile.cart} user={user} token={props.token} />                            
+                            <Cart items={user.cart} user={user} token={props.token} />                            
                         : key === "4" ?
                             <OrderHistory user={user} />
                         : key === "5" ? 

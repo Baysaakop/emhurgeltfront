@@ -1,9 +1,9 @@
-import { CarOutlined, HeartOutlined, MinusOutlined, PlusOutlined, ShopOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
-import { Grid, Typography, Breadcrumb, Row, Col, Button, InputNumber, message, Divider, Tag, notification, Avatar, Space } from "antd";
+import { CarOutlined, HeartOutlined, MinusOutlined, PlusOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { Grid, Typography, Breadcrumb, Row, Col, Button, InputNumber, message, Divider, Tag, notification, Avatar, Space, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
-import InfiniteCarousel from 'react-leaf-carousel';
+// import ProductCard from "./ProductCard";
+// import InfiniteCarousel from 'react-leaf-carousel';
 import axios from "axios"; 
 import api from "../api";
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ function ProductDetail (props) {
     const [user, setUser] = useState()
     const [favorite, setFavorite] = useState()
     const [cart, setCart] = useState()
-    const [suggestedItems, setSuggestedItems] = useState()
+    // const [suggestedItems, setSuggestedItems] = useState()
     const [image, setImage] = useState()
 
     useEffect(() => {
@@ -36,7 +36,7 @@ function ProductDetail (props) {
         if (props.token) {
             getUser()
         }
-        getSuggestedProducts()
+        // getSuggestedProducts()
     }, [props.match.params.id]) // eslint-disable-line react-hooks/exhaustive-deps    
 
     function getUser() {
@@ -49,8 +49,8 @@ function ProductDetail (props) {
             }
         }).then(res => {                           
             setUser(res.data)
-            setFavorite(res.data.profile.favorite)
-            setCart(res.data.profile.cart)
+            setFavorite(res.data.favorite)
+            setCart(res.data.cart)
         }).catch(err => {
             console.log(err)
         })
@@ -76,16 +76,16 @@ function ProductDetail (props) {
         return "-Ангилал хийгдээгүй-"
     }
 
-    function getSuggestedProducts() {
-        axios({
-            method: 'GET',
-            url: api.items           
-        }).then(res => {                        
-            setSuggestedItems(res.data.results)            
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
+    // function getSuggestedProducts() {
+    //     axios({
+    //         method: 'GET',
+    //         url: api.items           
+    //     }).then(res => {                        
+    //         setSuggestedItems(res.data.results)            
+    //     }).catch(err => {
+    //         message.error("Хуудсыг дахин ачааллана уу")
+    //     })
+    // }
 
     function addToSaved () {
         if (user) {  
@@ -178,21 +178,21 @@ function ProductDetail (props) {
         }
     }
 
-    function getSliderCount() {
-        if (screens.xxl) {
-            return 6
-        } else if (screens.xl) {
-            return 5
-        } else if (screens.lg) {
-            return 4
-        } else if (screens.md) {
-            return 3
-        } else if (screens.sm) {
-            return 2
-        } else if (screens.xs) {
-            return 1
-        }
-    }
+    // function getSliderCount() {
+    //     if (screens.xxl) {
+    //         return 6
+    //     } else if (screens.xl) {
+    //         return 5
+    //     } else if (screens.lg) {
+    //         return 4
+    //     } else if (screens.md) {
+    //         return 3
+    //     } else if (screens.sm) {
+    //         return 2
+    //     } else if (screens.xs) {
+    //         return 1
+    //     }
+    // }
 
     return (
         <div>    
@@ -206,7 +206,7 @@ function ProductDetail (props) {
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
                             <Link to="/products">
-                                {props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy}
+                                {props.language === "en" ? translations.en.header.products : translations.mn.header.products}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>                   
@@ -276,8 +276,9 @@ function ProductDetail (props) {
                                     <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{getType(item.types)}</Typography.Text>
                                 </div>
                                 <div>
-                                    {/* <Typography.Title level={3}>{item.company ? item.company : undefined}</Typography.Title>  */}
-                                    { item.is_brand ? <Avatar src={logo} alt="brand" style={{ height: '40px', width: '40px' }} /> : <></> }                
+                                    <Tooltip title="Онцлох бүтээгдэхүүн">                                   
+                                        { item.is_featured ? <Avatar src={logo} alt="brand" style={{ height: '40px', width: '40px' }} /> : <></> }                
+                                    </Tooltip>
                                 </div>
                             </div>                            
                             <Divider style={{ margin: '16px 0' }} />
@@ -302,11 +303,7 @@ function ProductDetail (props) {
                                     <InputNumber readOnly value={count} size="large" min={1} max={item.count} style={{ width: '60px' }} />                                                                       
                                     <Button size="large" type="ghost" icon={<PlusOutlined />} onClick={() => count < item.count ? setCount(count + 1) : setCount(count)} />            
                                 </div>    
-                                {cart && cart.find(x => x.item.id === item.id) ? (
-                                    <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("delete")} >
-                                        {props.language === "en" ? translations.en.product_card.removecart : translations.mn.product_card.removecart}
-                                    </Button>
-                                ) : item.count > 0 ? (
+                                { item.count > 0 ? (
                                     <Button type="ghost" size="large" icon={<ShoppingCartOutlined />} onClick={() => addToCart("create")} >
                                         {props.language === "en" ? translations.en.product_card.cart : translations.mn.product_card.cart}
                                     </Button>
@@ -326,16 +323,7 @@ function ProductDetail (props) {
                                 )}                        
                                 <Button danger type="primary" size="large" icon={<HeartOutlined />} onClick={addToSaved}>
                                     { favorite && favorite.find(x => x.id === item.id) ? props.language === "en" ? translations.en.product_card.removewatchlist : translations.mn.product_card.removewatchlist :  props.language === "en" ? translations.en.product_card.watchlist : translations.mn.product_card.watchlist }                                    
-                                </Button>
-                                { item.is_brand ? (
-                                    <Link to={`/productshop/${item.id}`}>
-                                        <Button type="ghost" size="large" icon={<ShopOutlined />}>
-                                            { props.language === "en" ? translations.en.product_detail.shops : translations.mn.product_detail.shops }
-                                        </Button>                            
-                                    </Link>
-                                ) : (
-                                    <></>
-                                )}                                
+                                </Button>                                                              
                             </Space>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                             <Divider style={{ margin: '16px 0' }} />
                             {item.tags.map(tag => {
@@ -347,10 +335,6 @@ function ProductDetail (props) {
                                 <div><Avatar size={64} icon={<CarOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
                                 <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
                             </div>
-                            {/* <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
-                                <div><Avatar size={64} icon={<CreditCardOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
-                                <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
-                            </div>                             */}
                         </Col>
                     </Row>
                     <div style={{ marginTop: '24px', padding: '24px', background: '#fff', borderRadius: '2px' }}>
@@ -375,7 +359,7 @@ function ProductDetail (props) {
                         { props.language === "en" && item.caution_en ? item.caution_en : item.caution}                                                   
                         </Typography.Paragraph>
                     </div>           
-                    <Typography.Title level={4} style={{ marginTop: '24px' }}>Төстэй бүтээгдэхүүнүүд:</Typography.Title>
+                    {/* <Typography.Title level={4} style={{ marginTop: '24px' }}>Төстэй бүтээгдэхүүнүүд:</Typography.Title>
                     <div>                        
                         {suggestedItems ? (
                             <InfiniteCarousel                    
@@ -396,7 +380,7 @@ function ProductDetail (props) {
                         ) : (
                             <></>
                         )}            
-                    </div>         
+                    </div>          */}
                 </>
             ) : (
                 <></>

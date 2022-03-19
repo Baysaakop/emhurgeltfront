@@ -29,7 +29,7 @@ function Contact (props) {
                         <div style={{ padding: '16px', border: '2px solid black', borderRadius: '2px' }}>
                             <Typography.Title level={3}>{ props.language === "en" ? translations.en.contact.contact_us : translations.mn.contact.contact_us }</Typography.Title>
                             <Typography.Text>
-                                Та доор байрлах манай утасны дугаар болон цахим хаягуудад зурвас илгээн бидэнтэй холбогдох боломжтой бөгөөд мөн манай хаягаар ирж үйлчлүүлэх болон мэдээлэл авах боломжтой юм.
+                                Та доор байрлах манай утасны дугаар болон цахим хаягуудад зурвас илгээн бидэнтэй холбогдох боломжтой.
                             </Typography.Text>                        
                             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'start', marginTop: '16px' }}>
                                 <div>
@@ -46,7 +46,7 @@ function Contact (props) {
                                 </div>
                                 <div style={{ marginLeft: '16px' }}>
                                     <Typography.Title level={5}>{ props.language === "en" ? translations.en.footer.phone_number : translations.mn.footer.phone_number }</Typography.Title>
-                                    <Typography.Text style={{ fontSize: '16px' }}>7607-7722, 8080-2594</Typography.Text>
+                                    <Typography.Text style={{ fontSize: '16px' }}>1132-2817</Typography.Text>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'start', marginTop: '16px' }}>
@@ -75,7 +75,7 @@ function Contact (props) {
                     <Col xs={24} sm={24} md={24} lg={16}>         
                         <div style={{ padding: '16px', border: '2px solid black', borderRadius: '2px' }}>
                             <Typography.Title level={3}>{ props.language === "en" ? translations.en.contact.location : translations.mn.contact.location }</Typography.Title>
-                            <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1337.3252686079093!2d106.9093577552439!3d47.90444883155231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d9693b49ec74379%3A0xe56d5403e78b37b1!2sKhoroo%201%2C%20Ulaanbaatar!5e0!3m2!1sen!2smn!4v1624883166995!5m2!1sen!2smn" allowfullscreen="" loading="lazy" style={{ width: '100%', height: 'auto', minHeight: '400px', border: 0, marginTop: '8px' }}></iframe>
+                            <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d167.11517930905669!2d106.90271453211926!3d47.9200777454466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2smn!4v1647676106245!5m2!1sen!2smn" allowfullscreen="" loading="lazy" style={{ width: '100%', height: 'auto', minHeight: '400px', border: 0, marginTop: '8px' }}></iframe>                            
                         </div>           
                     </Col>
                 </Row>      

@@ -1,4 +1,4 @@
-import { Divider, Typography, List, Button, message, Row, Col, Form, Input, Checkbox, Avatar, InputNumber, Modal, notification } from "antd"
+import { Divider, Typography, List, Button, message, Row, Col, Form, Input, Checkbox, Avatar, InputNumber, notification } from "antd"
 import React, { useEffect, useState } from "react"
 import axios from "axios"; 
 import api from "../api";
@@ -6,7 +6,6 @@ import { Link, useHistory } from "react-router-dom";
 import { CarOutlined, DeleteOutlined, MinusOutlined, MobileOutlined, PlusOutlined, ShoppingOutlined, WarningOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import * as actions from '../store/actions/auth';
-import AddressForm from '../components/AddressForm';
 
 function Cart (props) {
     let history = useHistory()
@@ -15,14 +14,13 @@ function Cart (props) {
     const [items, setItems] = useState()
     const [useBonus, setUseBonus] = useState(false)
     const [bonus, setBonus] = useState(0)
-    const [visible, setVisible] = useState(false)
 
     useEffect(() => {   
         setItems(props.items)   
         getAmount(props.items)          
         form.setFieldsValue({
-            phone_number: props.user.profile.phone_number,
-            address: props.user.profile.address
+            username: props.user.username,
+            address: props.user.address
         })        
     }, [props.items, props.user]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -221,13 +219,6 @@ function Cart (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    function changeAddress (address) {                
-        form.setFieldsValue({
-            address: address
-        })
-        setVisible(false)
-    }
-
     return (
         <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>        
             <Typography.Title level={4} style={{ margin: 0 }}>Таны сагс</Typography.Title>            
@@ -300,21 +291,12 @@ function Cart (props) {
                                 </Form.Item>            
                             </>
                         : <></> }
-                        <Form.Item name="phone_number" label="Утасны дугаар:" rules={[{ required: true, message: 'Утасны дугаараа оруулна уу!' }]}>                                             
+                        <Form.Item name="username" label="Утасны дугаар:" rules={[{ required: true, message: 'Утасны дугаараа оруулна уу!' }]}>                                             
                             <Input maxLength={8} prefix={<MobileOutlined style={{ color: '#a1a1a1' }} />} style={{ width: '100%' }} />
                         </Form.Item>
                         <Form.Item name="address" label="Хүргүүлэх хаяг:" rules={[{ required: true, message: 'Хүргүүлэх хаягаа оруулна уу!' }]} style={{ marginBottom: '8px' }}>                                             
                             <Input.TextArea rows={4} disabled />       
                         </Form.Item>
-                        <Button type="primary" style={{ width: '100%', marginBottom: '16px' }} onClick={() => setVisible(true)}>Хаяг сонгох</Button>
-                        <Modal
-                            title="Хаяг оруулах"
-                            visible={visible}
-                            footer={false}                                        
-                            onCancel={() => setVisible(false)}
-                        >
-                            <AddressForm token={props.token} user={props.user} changeAddress={changeAddress} />
-                        </Modal>    
                         <Form.Item name="info" label="Нэмэлт мэдээлэл:">                                             
                             <Input.TextArea rows={4} placeholder="Жич: Нялх хүүхэдтэй тул хонх дарахгүй байх" />       
                         </Form.Item>                        

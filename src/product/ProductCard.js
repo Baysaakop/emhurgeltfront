@@ -1,4 +1,4 @@
-import { EllipsisOutlined, HeartOutlined, MinusCircleOutlined, ShoppingCartOutlined, StarFilled } from "@ant-design/icons";
+import { EllipsisOutlined, HeartOutlined, MinusCircleOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Card, Tooltip, Typography, Modal, message, Button } from "antd";
 import { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
@@ -18,8 +18,8 @@ function ProductCard (props) {
 
     useEffect(() => {
         if (props.user) {
-            setFavorite(props.user.profile.favorite)
-            setCart(props.user.profile.cart)
+            setFavorite(props.user.favorite)
+            setCart(props.user.cart)
         }        
     }, [props.user])
 
@@ -27,7 +27,7 @@ function ProductCard (props) {
         if (props.user) {  
             axios({
                 method: 'PUT',
-                url: `${api.profiles}/${props.user.profile.id}/`,
+                url: `${api.users}/${props.user.id}/`,
                 headers: {
                     'Content-Type': 'application/json', 
                     'Authorization': `Token ${props.token}`                                                
@@ -57,7 +57,7 @@ function ProductCard (props) {
             if ((cart && cart.find(x => x.item.id === props.item.id)) || props.item.count > 0) {
                 axios({
                     method: 'PUT',
-                    url: `${api.profiles}/${props.user.profile.id}/`,
+                    url: `${api.users}/${props.user.id}/`,
                     headers: {
                         'Content-Type': 'application/json',     
                         'Authorization': `Token ${props.token}`                                              
@@ -91,7 +91,7 @@ function ProductCard (props) {
         if (props.user) {  
             axios({
                 method: 'PUT',
-                url: `${api.profiles}/${props.user.profile.id}/`,
+                url: `${api.users}/${props.user.id}/`,
                 headers: {
                     'Content-Type': 'application/json',     
                     'Authorization': `Token ${props.token}`                                                    
@@ -155,8 +155,7 @@ function ProductCard (props) {
                                 { props.item.is_featured === true ?                                    
                                     <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
                                         <img alt="featured" src={logo} style={{ width: '100%', height: 'auto' }} />                                        
-                                    </div>
-                                    // <Tag color="geekblue" style={{ position: 'absolute', top: '8px', right: '0px' }}>Онцлох</Tag>
+                                    </div>                                    
                                 : <></>}    
                             </div>                            
                         </div>
@@ -200,10 +199,6 @@ function ProductCard (props) {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>                        
                         <div>
                             <Typography.Title level={5} style={{ margin: '0', color: '#000' }}>{formatNumber(props.item.price)}₮</Typography.Title>
-                        </div>
-                        <div>
-                            <StarFilled style={{ color: '#f9ca24' }} />
-                            {/* <Typography.Text> 4.7</Typography.Text> */}
                         </div>
                     </div>
                 </Link>

@@ -12,9 +12,7 @@ function ProductEdit (props) {
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [companies, setCompanies] = useState([])
-    const [tags, setTags] = useState([])
-    const [shops, setShops] = useState([])
-    const [brand, setBrand] = useState(false)
+    const [featured, setFeatured] = useState(false)
     const [image1, setImage1] = useState()
     const [image2, setImage2] = useState()
     const [image3, setImage3] = useState()
@@ -26,8 +24,6 @@ function ProductEdit (props) {
     useEffect(() => {
         getTypes()
         getCompanies()
-        getTags()
-        getShops()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function onSearch (val) {        
@@ -56,7 +52,7 @@ function ProductEdit (props) {
         console.log(hit)
         form.setFieldsValue({
             name: hit.name,            
-            name_en: hit.name_en,            
+            name_en: hit.name_en,                                 
             description: hit.description !== null ? hit.description : '',
             description_en: hit.description_en !== null ? hit.description_en : '',
             ingredients: hit.ingredients !== null ? hit.ingredients : '',
@@ -74,9 +70,8 @@ function ProductEdit (props) {
             type: hit.types !== null ? getIDs(hit.types) : undefined,
             category: hit.categories !== null ? getIDs(hit.categories) : undefined,
             subcategory: hit.subcategories !== null ? getIDs(hit.subcategories) : undefined,
-            tag: hit.tags !== null ? getIDs(hit.tags) : undefined,
-            shops: hit.shops !== null ? getIDs(hit.shops) : undefined,
-        })
+        })        
+        setFeatured(hit.is_featured)
         setImage1(hit.image1 !== null ? hit.image1 : undefined)
         setImage2(hit.image2 !== null ? hit.image2 : undefined)
         setImage3(hit.image3 !== null ? hit.image3 : undefined)
@@ -94,8 +89,6 @@ function ProductEdit (props) {
     }
 
     function compareM2M (arr1, arr2) {
-        console.log(arr1)
-        console.log(arr2)
         if (arr1.length !== arr2.length) {
             return false
         } else {
@@ -184,36 +177,6 @@ function ProductEdit (props) {
         })
     }   
 
-    function getTags () {
-        axios({
-            method: 'GET',
-            url: `${api.tags}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setTags(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
-
-    function getShops () {
-        axios({
-            method: 'GET',
-            url: `${api.shops}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setShops(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }   
-
     function onFinish (values) {
         setLoading(true)
         var formData = new FormData();
@@ -222,6 +185,9 @@ function ProductEdit (props) {
         }
         if (values.name_en && values.name_en !== selection.name_en) {
             formData.append('name_en', values.name_en);
+        }
+        if (featured && featured !== selection.is_featured) {
+            formData.append('is_featured', featured);
         }
         if (values.description && values.description !== selection.description) {
             formData.append('description', values.description);
@@ -259,6 +225,9 @@ function ProductEdit (props) {
         if (values.count && values.count !== selection.count) {
             formData.append('count', values.count);
         }
+        if (values.video && values.video !== selection.video) {
+            formData.append('video', values.video);
+        }
         if (values.company && values.company !== selection.company.id.toString()) {
             formData.append('company', values.company);
         }
@@ -272,12 +241,6 @@ function ProductEdit (props) {
         if (values.subcategory && !compareM2M(values.subcategory, getIDs(selection.subcategories))) {
             console.log("subcategory")
             formData.append('subcategory', values.subcategory);
-        }
-        if (values.tag && !compareM2M(values.tag, getIDs(selection.tags))) {
-            formData.append('tags', values.tag);
-        }
-        if (values.shops && !compareM2M(values.shops, getIDs(selection.shops))) {
-            formData.append('shop', values.shops);
         }
         if (image1 && image1 !== selection.image1) {
             formData.append('image1', image1)
@@ -294,7 +257,6 @@ function ProductEdit (props) {
         if (poster && poster !== selection.poster) {
             formData.append('poster', poster)
         }      
-        formData.append('token', props.token)
         axios({
             method: 'PUT',
             url: `${api.items}/${selection.id}/`,
@@ -381,31 +343,43 @@ function ProductEdit (props) {
                             style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
                         >
                             <Row gutter={[16, 0]}>
-                                <Col span={6}>
+                                <Col span={10}>
                                     <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                                         <Input />
                                     </Form.Item>
                                 </Col>
-                                <Col span={6}>
+                                <Col span={10}>
                                     <Form.Item name="name_en" label="Нэр (EN)">
                                         <Input />
                                     </Form.Item>
                                 </Col>
                                 <Col span={4}>
-                                    <Form.Item name="price" label="Үнэ" rules={[{ required: true }]}>
-                                        <Input suffix="₮" />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={4}>
-                                    <Form.Item name="count" label="Тоо ширхэг">
-                                        <InputNumber />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={4}>
-                                    <Form.Item name="is_brand" label="Онцлох бүтээгдэхүүн">
-                                        <Checkbox onChange={() => setBrand(!brand)}>Тийм</Checkbox>
+                                    <Form.Item name="is_featured" label="Онцлох бүтээгдэхүүн">
+                                        <Checkbox checked={featured} onChange={() => setFeatured(!featured)}>Тийм</Checkbox>
                                     </Form.Item>
                                 </Col>       
+                                <Col span={6}>
+                                    <Form.Item name="price" label="Үнэ" rules={[{ required: true }]}>
+                                        <InputNumber style={{ width: '100%' }} formatter={value => `₮ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={6}>
+                                    <Form.Item name="count" label="Тоо ширхэг">
+                                        <InputNumber style={{ width: '100%' }} />
+                                    </Form.Item>
+                                </Col>          
+                                <Col span={12}>
+                                    <Form.Item name="company" label="Компани">
+                                        <Select                                
+                                            placeholder="Компани сонгох"
+                                            optionFilterProp="children"
+                                        >
+                                            { companies ? companies.map(com => (
+                                                <Select.Option key={com.id}>{com.name}</Select.Option>
+                                            )) : <></> }
+                                        </Select>          
+                                    </Form.Item>
+                                </Col>                      
                                 <Col span={8}>
                                     <Form.Item name="type" label="Төрөл">
                                         <Select       
@@ -447,7 +421,7 @@ function ProductEdit (props) {
                                         </Select>           
                                     </Form.Item>
                                 </Col>               
-                                <Col span={8}>
+                                {/* <Col span={8}>
                                     <Form.Item name="tag" label="Таг">
                                         <Select                      
                                             mode="multiple"          
@@ -459,20 +433,8 @@ function ProductEdit (props) {
                                             )) : <></>}
                                         </Select>     
                                     </Form.Item>        
-                                </Col>           
-                                <Col span={8}>
-                                    <Form.Item name="company" label="Компани">
-                                        <Select                                
-                                            placeholder="Компани сонгох"
-                                            optionFilterProp="children"
-                                        >
-                                            { companies ? companies.map(com => (
-                                                <Select.Option key={com.id}>{com.name}</Select.Option>
-                                            )) : <></> }
-                                        </Select>          
-                                    </Form.Item>
-                                </Col>
-                                <Col span={8}>
+                                </Col>            */}                               
+                                {/* <Col span={8}>
                                     <Form.Item name="shops" label="Салбарууд">
                                         <Select                                
                                             placeholder="Салбар сонгох"
@@ -483,7 +445,7 @@ function ProductEdit (props) {
                                             )) : <></> }
                                         </Select>          
                                     </Form.Item>
-                                </Col>                    
+                                </Col>                     */}
                                 <Col span={12}>
                                     <Form.Item name="description" label="Тайлбар">
                                         <Input.TextArea rows={3} />

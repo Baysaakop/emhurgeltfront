@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Typography, Affix, Select, Space } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { GlobalOutlined, GiftOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ReadOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, StarOutlined, FacebookFilled, InstagramOutlined, YoutubeFilled, GoogleOutlined, SettingOutlined } from '@ant-design/icons';
+import { GlobalOutlined, GiftOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, StarOutlined, FacebookFilled, GoogleOutlined, SettingOutlined, AppstoreAddOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import axios from 'axios';
@@ -53,6 +53,7 @@ function CustomMenu (props) {
             }
         }).then(res => {                                
             setUser(res.data)
+            console.log(res.data)
         }).catch(err => {
             console.log(err.message)
         })
@@ -76,10 +77,6 @@ function CustomMenu (props) {
         props.onChangeLanguage(val)
     }
 
-    function formatNumber(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-    }
-
     return (
         <div className="menu">              
             {screens.xxl || screens.xl ||screens.lg ? (
@@ -95,16 +92,12 @@ function CustomMenu (props) {
                                 <Select.Option value="mn">Монгол</Select.Option>
                                 <Select.Option value="en">English</Select.Option>
                             </Select>                            
-                            {/* <Divider type="vertical" style={{ background: '#fff' }} />
-                            <Typography.Text style={{ color: '#fff', marginLeft: '8px', marginRight: '8px' }}><PhoneOutlined /> 7607-7722</Typography.Text>           
-                            <Divider type="vertical" style={{ background: '#fff' }} />
-                            <Typography.Text style={{ color: '#fff', marginLeft: '12px' }}><MailOutlined /> info@dseabi.mn</Typography.Text>                  */}
                         </div>
                         <div>
                             <Space className="menu-social-icons" size={[0, 0]} wrap>
                                 <Button className="facebook" shape="circle" type="link" href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542" icon={<FacebookFilled />} />
-                                <Button className="instagram" shape="circle" type="link" icon={<InstagramOutlined />} />
-                                <Button className="youtube" shape="circle" type="link" icon={<YoutubeFilled />} />
+                                {/* <Button className="instagram" shape="circle" type="link" icon={<InstagramOutlined />} />
+                                <Button className="youtube" shape="circle" type="link" icon={<YoutubeFilled />} /> */}
                                 <Button className="google" shape="circle" type="link" icon={<GoogleOutlined />} />
                             </Space>
                             <Typography.Text style={{ fontWeight: 'bold', color: '#fff' }}>
@@ -125,34 +118,50 @@ function CustomMenu (props) {
                                         <Avatar size={48} src={logo} style={{ marginRight: '4px', marginTop: '4px' }} />
                                     </div>
                                     <div>                                    
-                                        <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>emhurgelt.mn</div>                       
+                                        <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>DSEABI LLC</div>                       
                                         <div style={{ margin: 0, color: '#4c4c4c', fontSize: '14px', marginTop: '-8px' }}>
-                                        { language === "en" ? translations.en.header.irmuun_az_pharmacy : translations.mn.header.irmuun_az_pharmacy }
+                                        {/* { language === "en" ? translations.en.header.irmuun_az_pharmacy : translations.mn.header.irmuun_az_pharmacy } */}
+                                        Эм ханган нийлүүлэх төв
                                         </div>       
                                     </div>                                                                                                                                   
                                 </div>
                             </Link>
-                            <div className="user" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                <Input.Search size="default" placeholder={ language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } style={{ width: '400px' }} onSearch={onSearch} />                                                                                                                                             
+                            <div className="user" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>                                
                                 { user ? (
                                     <>
-                                        {parseInt(user.profile.role) < 3 ? (
+                                        <Input.Search size="default" placeholder={ language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } style={{ width: '300px' }} onSearch={onSearch} />                                                                                                                                             
+                                        {user.role === "1" ? (
+                                            <>
+                                                <Link to="/admin">
+                                                    <Button danger type="primary" size="middle" icon={<SettingOutlined />} style={{ marginLeft: '12px' }}>
+                                                        Админ
+                                                    </Button>
+                                                </Link>
+                                                <Link to="/staff">
+                                                    <Button type="primary" size="middle" icon={<AppstoreAddOutlined />} style={{ marginLeft: '12px' }}>
+                                                        Ажилтан
+                                                    </Button>
+                                                </Link>
+                                            </>
+                                        ) : user.role === "2" ? (
                                             <Link to="/staff">
                                                 <Tooltip placement="bottom" title="Ажилтан">                                           
-                                                    <Button size="middle" icon={<SettingOutlined />} style={{ marginLeft: '12px' }} />
+                                                    <Button type="primary" size="middle" icon={<AppstoreAddOutlined />} style={{ marginLeft: '12px' }}>
+                                                        Ажилтан
+                                                    </Button>
                                                 </Tooltip>
                                             </Link>
                                         ) : (
-                                            <div>
-                                                <Link to="/profile?key=saved">
-                                                    <Badge count={user && user.profile.favorite.length ? user.profile.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
+                                            <>
+                                                <Link to="/profile?key=favorite">
+                                                    <Badge count={user && user.favorite.length ? user.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
                                                         <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }>                                               
                                                             <Button size="default" icon={<HeartOutlined />} style={{ marginLeft: '12px' }} />                                                                    
                                                         </Tooltip>
                                                     </Badge>
                                                 </Link>                                               
                                                 <Link to="/profile?key=cart">
-                                                    <Badge count={user && user.profile.cart.length ? user.profile.cart.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
+                                                    <Badge count={user && user.cart.length ? user.cart.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
                                                         <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.cart : translations.mn.header.cart }>
                                                             <Button size="default" icon={<ShoppingCartOutlined />} style={{ marginLeft: '12px' }} />                                        
                                                         </Tooltip>
@@ -163,21 +172,22 @@ function CustomMenu (props) {
                                                         <Button type="primary" size="default" icon={<UserOutlined />} style={{ marginLeft: '12px' }} />
                                                     </Tooltip>
                                                 </Link> 
-                                                <div style={{ marginLeft: '8px' }}>
-                                                    <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>{ language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }</div>      
-                                                    <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
-                                                </div>   
-                                            </div>
-                                        )}                                                                                        
+                                            </>
+                                        )}                                                                                      
                                     </>
                                 ) : (
-                                    <Link to="/login">
-                                        <Tooltip placement="bottom" title="Нэвтрэх">
-                                            <Button size="middle" icon={<UserOutlined />} style={{ marginLeft: '12px' }}>
+                                    <>
+                                        <Link to="/login">
+                                            <Button size="middle" type="primary" style={{ marginLeft: '12px' }}>
                                             { language === "en" ? translations.en.header.signin : translations.mn.header.signin }
                                             </Button>                                                
-                                        </Tooltip>
-                                    </Link>  
+                                        </Link>  
+                                        <Link to="/signup">
+                                            <Button size="middle" type="dashed" style={{ marginLeft: '12px' }}>
+                                            { language === "en" ? translations.en.header.signup : translations.mn.header.signup }
+                                            </Button>                                                
+                                        </Link>  
+                                    </>
                                 )}                                                                     
                             </div>
                         </div>    
@@ -203,12 +213,14 @@ function CustomMenu (props) {
                             <Menu.Item key="about" style={{ margin: '0 16px', fontSize: '14px' }}>
                                 <Link to="/about">{ language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }</Link>
                             </Menu.Item>             
+                            { user ?
                             <Menu.Item key="products" style={{ margin: '0 16px', fontSize: '14px' }}>
-                                <Link to="/products">{ language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }</Link>
+                                <Link to="/products">{ language === "en" ? translations.en.header.products : translations.mn.header.products }</Link>
                             </Menu.Item>
-                            <Menu.Item key="posts" style={{ margin: '0 16px', fontSize: '14px' }}>
+                            : []}
+                            {/* <Menu.Item key="posts" style={{ margin: '0 16px', fontSize: '14px' }}>
                                 <Link to="/posts">{ language === "en" ? translations.en.header.blog : translations.mn.header.blog }</Link>
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item key="contact" style={{ margin: '0 16px', fontSize: '14px' }}>
                                 <Link to="/contact">{ language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Link>
                             </Menu.Item>     
@@ -223,7 +235,7 @@ function CustomMenu (props) {
                                 </div>
                                 <div style={{ marginLeft: '8px' }}>
                                     <Typography.Title level={5} style={{ margin: 0 }}>Call now</Typography.Title>
-                                    <Typography.Text style={{ fontSize: '14px' }}>7607-7722</Typography.Text>
+                                    <Typography.Text style={{ fontSize: '14px' }}>1132-2817</Typography.Text>
                                 </div>
                             </div>
                         </div>
@@ -252,9 +264,10 @@ function CustomMenu (props) {
                                         <Avatar size={48} src={logo} style={{ marginBottom: '8px', marginRight: '4px' }} />
                                     </div>
                                     <div>                                    
-                                        <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>emhurgelt.mn</div>                       
+                                        <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>DSEABI LLC</div>                       
                                         <div style={{ margin: 0, color: '#4c4c4c', fontSize: '14px', marginTop: '-8px' }}>
-                                        { language === "en" ? translations.en.header.irmuun_az_pharmacy : translations.mn.header.irmuun_az_pharmacy }
+                                        {/* { language === "en" ? translations.en.header.irmuun_az_pharmacy : translations.mn.header.irmuun_az_pharmacy } */}
+                                        Эм ханган нийлүүлэх төв
                                         </div>       
                                     </div>                                                                                                                                    
                                 </div>
@@ -271,93 +284,99 @@ function CustomMenu (props) {
                             selectedKeys={[current]}
                             style={{ height: '100vh' }}
                         >                
+                            <Menu.Item key="brandproducts" style={{ fontSize: '16px', background: '#2ed573', color: '#fff' }} icon={<FlowerIcon />}>
+                                <Link to="/brandproducts" style={{ color: '#fff' }}>{ language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Link>
+                            </Menu.Item>          
                             <Menu.Item key="about" style={{ fontSize: '16px' }} icon={<InfoCircleOutlined />} >
                                 <Link to="/about">{ language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }</Link>
-                            </Menu.Item>             
+                            </Menu.Item>       
+                            { user ?       
                             <Menu.Item key="products" style={{ fontSize: '16px' }} icon={<ShopOutlined />}>
-                                <Link to="/products">{ language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }</Link>
+                                <Link to="/products">{ language === "en" ? translations.en.header.products : translations.mn.header.products }</Link>
                             </Menu.Item>
-                            <Menu.Item key="posts" style={{ fontSize: '16px' }} icon={<ReadOutlined />}>
+                            : []}
+                            {/* <Menu.Item key="posts" style={{ fontSize: '16px' }} icon={<ReadOutlined />}>
                                 <Link to="/posts">{ language === "en" ? translations.en.header.blog : translations.mn.header.blog }</Link>
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item key="contact" style={{ fontSize: '16px' }} icon={<PhoneOutlined />}>
                                 <Link to="/contact">{ language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Link>
                             </Menu.Item>  
                             <Menu.Item key="bonus" style={{ fontSize: '16px' }} icon={<GiftOutlined />}>
                                 <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
-                            </Menu.Item>      
-                            { user ? (
-                                <>
-                                    { parseInt(user.profile.role) === 3 ? (                                        
-                                        <Menu.Item key="saved" style={{ fontSize: '16px' }} icon={<HeartOutlined />}>
-                                            <Link to="/profile?key=saved" style={{ width: '100%' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                    <div>{ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }</div>
-                                                    <Avatar shape="square" style={{ background: '#2ed573', color: 'white' }}>
-                                                    {user && user.profile.favorite.length ? user.profile.favorite.length : 0}
-                                                    </Avatar>
-                                                </div>
-                                            </Link>
-                                        </Menu.Item>,      
-                                        <Menu.Item key="cart" style={{ fontSize: '16px' }} icon={<ShoppingCartOutlined />}>
-                                            <Link to="/profile?key=cart" style={{ width: '100%' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                    <div>{ language === "en" ? translations.en.header.cart : translations.mn.header.cart }</div>
-                                                    <Avatar shape="square" style={{ background: '#2ed573', color: 'white' }}>
-                                                    {user && user.profile.cart.length ? user.profile.cart.length : 0}
-                                                    </Avatar>
-                                                </div>
-                                            </Link>
-                                        </Menu.Item>                                        
-                                    ) : (
-                                        <></>
-                                    )}
-                                </>
-                            ) : (
-                                <></>
-                            )}                                                         
-                            <Menu.Item key="brandproducts" style={{ fontSize: '16px', background: '#2ed573', color: '#fff' }} icon={<FlowerIcon />}>
-                                <Link to="/brandproducts" style={{ color: '#fff' }}>{ language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Link>
-                            </Menu.Item>                          
+                            </Menu.Item>                                                                                                                                    
                         </Menu>
                     </Affix>
-                    <div style={{ height: '60px', width: '100%', padding: '0 16px', border: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div>
-                            <Input.Search placeholder={ language === "en" ? translations.en.header.search_with_dots : translations.mn.header.search_with_dots } style={{ width: '100%' }} onSearch={onSearch} />                                                          
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>                                                                                        
-                            { user ? (
-                                <>          
-                                    { parseInt(user.profile.role) < 3 ? (
-                                        <Link to="/staff">
-                                            <Tooltip placement="bottom" title="Ажилтан">                                           
-                                                <Button size="middle" icon={<SettingOutlined />}>Ажилтан</Button>
-                                            </Tooltip>
+                    <div style={{ height: '60px', width: '100%', padding: '6px 16px', border: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                            <div>
+                                <Avatar shape="square" size={40} icon={<PhoneOutlined />} style={{ background: '#2c3e50' }} />
+                            </div>
+                            <div style={{ marginLeft: '8px' }}>
+                                <Typography.Title level={5} style={{ margin: 0 }}>Call now</Typography.Title>
+                                <Typography.Text style={{ fontSize: '14px' }}>1132-2817</Typography.Text>
+                            </div>
+                        </div>                             
+                        { user ? (
+                            <div>
+                                {user.role === "1" ? (
+                                    <>
+                                        <Link to="/admin">
+                                            <Button danger type="primary" size="middle" icon={<SettingOutlined />} style={{ marginLeft: '12px' }}>
+                                                Админ
+                                            </Button>
                                         </Link>
-                                    ) : (                     
+                                        <Link to="/staff">
+                                            <Button type="primary" size="middle" icon={<AppstoreAddOutlined />} style={{ marginLeft: '12px' }}>
+                                                Ажилтан
+                                            </Button>
+                                        </Link>
+                                    </>
+                                ) : user.role === "2" ? (
+                                    <Link to="/staff">
+                                        <Tooltip placement="bottom" title="Ажилтан">                                           
+                                            <Button type="primary" size="middle" icon={<AppstoreAddOutlined />} style={{ marginLeft: '12px' }}>
+                                                Ажилтан
+                                            </Button>
+                                        </Tooltip>
+                                    </Link>
+                                ) : (
+                                    <>
+                                        <Link to="/profile?key=favorite">
+                                            <Badge count={user && user.favorite.length ? user.favorite.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
+                                                <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.watchlist : translations.mn.header.watchlist }>                                               
+                                                    <Button size="default" icon={<HeartOutlined />} style={{ marginLeft: '12px' }} />                                                                    
+                                                </Tooltip>
+                                            </Badge>
+                                        </Link>                                               
+                                        <Link to="/profile?key=cart">
+                                            <Badge count={user && user.cart.length ? user.cart.length : 0} overflowCount={9} size="default" style={{ background: '#009432' }} >
+                                                <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.cart : translations.mn.header.cart }>
+                                                    <Button size="default" icon={<ShoppingCartOutlined />} style={{ marginLeft: '12px' }} />                                        
+                                                </Tooltip>
+                                            </Badge>
+                                        </Link>
                                         <Link to="/profile">
-                                            <Tooltip title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
-                                                <Button type="primary" size="middle" icon={<UserOutlined />} style={{ border: 0 }} />
+                                            <Tooltip placement="bottom" title={ language === "en" ? translations.en.header.profile : translations.mn.header.profile }>                                        
+                                                <Button type="primary" size="default" icon={<UserOutlined />} style={{ marginLeft: '12px' }} />
                                             </Tooltip>
-                                        </Link>, 
-                                        <div style={{ marginLeft: '8px' }}>
-                                            <div style={{ margin: 0, color: '#4c4c4c', fontSize: '12px' }}>
-                                            { language === "en" ? translations.en.header.my_wallet : translations.mn.header.my_wallet }
-                                            </div>      
-                                            <div style={{ margin: 0, fontWeight: 'bold' }}>{formatNumber(user.profile.bonus)}₮</div>                       
-                                        </div>
-                                    )}                                                   
-                                </>
-                            ) : (
+                                        </Link> 
+                                    </>
+                                )}                                                                            
+                            </div>
+                        ) : (
+                            <div>
                                 <Link to="/login">
-                                    <Tooltip title="Нэвтрэх">
-                                        <Button size="middle" icon={<UserOutlined />} style={{ marginLeft: '8px' }}>
-                                        { language === "en" ? translations.en.header.signin : translations.mn.header.signin }
-                                        </Button>                                                
-                                    </Tooltip>
-                                </Link>  
-                            )} 
-                        </div>                        
+                                    <Button type="primary" size="default" style={{ marginLeft: '12px' }}>
+                                    { language === "en" ? translations.en.header.signin : translations.mn.header.signin }
+                                    </Button>
+                                </Link> 
+                                <Link to="/signup">
+                                    <Button type="dashed" size="default" style={{ marginLeft: '12px' }}>
+                                    { language === "en" ? translations.en.header.signup : translations.mn.header.signup }
+                                    </Button>
+                                </Link> 
+                            </div>
+                        )}                                          
                     </div>                    
                 </div>
             )}                        
