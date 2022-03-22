@@ -15,9 +15,9 @@ const Logout = (props) => {
     };
 
     return (
-        <div>
+        <div style={{ background: '#fff', padding: '24px' }}>
             <Typography.Title level={4}>Гарах</Typography.Title>            
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '350px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
                 <Result
                         status="warning"
                         title="Та гарахдаа итгэлтэй байна уу?"

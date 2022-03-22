@@ -5,6 +5,7 @@ import logo from './logo.png'
 import * as translations from '../translation';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import moment from "moment"
 
 const { useBreakpoint } = Grid;
 
@@ -36,7 +37,7 @@ function CustomFooter (props) {
                     </Col>  
                     <Col xs={24} sm={24} md={12} lg={6}>                       
                         <Typography.Title level={5}>{ props.language === "en" ? translations.en.footer.phone_number : translations.mn.footer.phone_number }</Typography.Title>
-                        <Typography.Text style={{ fontSize: '16px' }}>1132-2817</Typography.Text>
+                        <Typography.Text>1132-2817, 8080-2594, 8010-8614</Typography.Text>
                     </Col>  
                     <Col xs={24} sm={24} md={12} lg={4}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.social_channels : translations.mn.footer.social_channels }</Typography.Title>
@@ -57,7 +58,7 @@ function CustomFooter (props) {
             </div>                         
             <div style={ screens.xxl ? { padding: '8px 12%', borderTop: '1px solid #dedede', background: '#f0f2f5' } : screens.xl ? { padding: '8px 8%', borderTop: '1px solid #dedede', background: '#f0f2f5' } : { padding: '8px', borderTop: '1px solid #dedede', background: '#f0f2f5' }}>
                 <Typography.Text style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                    © 2021 { props.language === "en" ? translations.en.header.dseabi_llc : translations.mn.header.dseabi_llc }. { props.language === "en" ? translations.en.footer.all_rights_reserved : translations.mn.footer.all_rights_reserved }.
+                    © {moment().year()} / { props.language === "en" ? translations.en.header.dseabi_llc : translations.mn.header.dseabi_llc }. { props.language === "en" ? translations.en.footer.all_rights_reserved : translations.mn.footer.all_rights_reserved }.
                 </Typography.Text>                            
             </div> 
         </div>

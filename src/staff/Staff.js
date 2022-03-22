@@ -10,14 +10,15 @@ import CompanyAdd from "../company/CompanyAdd";
 import CompanyEdit from "../company/CompanyEdit";
 import ProductAdd from "../product/ProductAdd";
 import ProductEdit from "../product/ProductEdit";
-import { BranchesOutlined, CloseCircleOutlined, ExperimentOutlined, HistoryOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
-import Orders from "../account/Orders";
+import { BranchesOutlined, CloseCircleOutlined, ExperimentOutlined, FileImageOutlined, HistoryOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
+import OrderList from "./OrderList";
 import Logout from "../account/Logout";
 import TypeAdd from "../category/TypeAdd";
 import TypeEdit from "../category/TypeEdit";
 import SubCategoryAdd from "../category/SubCategoryAdd";
 import SubCategoryEdit from "../category/SubCategoryEdit";
-import SignupRequests from "../account/SignupRequests";
+import SignupRequests from "./SignupRequests";
+import SliderAdd from "../slider/SliderAdd";
 
 const { SubMenu } = Menu;
 
@@ -78,88 +79,76 @@ function Staff (props) {
                                     <Menu
                                         mode="inline"
                                         defaultSelectedKeys={key}
-                                        defaultOpenKeys={['sub2']}
+                                        defaultOpenKeys={['sub3']}
                                         style={{ height: '100%' }}
                                         onSelect={onSelectMenuItem}
                                     >
                                         <SubMenu key="sub1" icon={<HistoryOutlined />} title="Захиалга">
-                                            <Menu.Item key="1">Төлбөр төлөх</Menu.Item>
-                                            <Menu.Item key="2">Хүлээж авсан</Menu.Item>
-                                            <Menu.Item key="3">Хүргэлтэнд гарсан</Menu.Item>
-                                            <Menu.Item key="4">Хүргэгдсэн</Menu.Item>
-                                            <Menu.Item key="5">Цуцлагдсан</Menu.Item>
+                                            <Menu.Item key="1">Шинээр үүссэн</Menu.Item>             
+                                            <Menu.Item key="2">Төлбөр төлсөн</Menu.Item>                                            
                                         </SubMenu>
-                                        <SubMenu key="sub2" icon={<ExperimentOutlined />} title="Бүтээгдэхүүн">
-                                            <Menu.Item key="6">Нэмэх</Menu.Item>
-                                            <Menu.Item key="7">Засах / Устгах</Menu.Item>                                        
+                                        <SubMenu key="sub2" icon={<UserOutlined />} title="Хэрэглэгч">
+                                            <Menu.Item key="11">Хүсэлтүүд</Menu.Item>                                            
+                                        </SubMenu>       
+                                        <SubMenu key="sub3" icon={<ExperimentOutlined />} title="Бүтээгдэхүүн">
+                                            <Menu.Item key="21">Нэмэх</Menu.Item>
+                                            <Menu.Item key="22">Засах / Устгах</Menu.Item>                                        
                                         </SubMenu>
-                                        <SubMenu key="sub3" icon={<BranchesOutlined />} title="Төрөл">
-                                            <Menu.Item key="8">Нэмэх</Menu.Item>
-                                            <Menu.Item key="9">Засах / Устгах</Menu.Item>               
+                                        <SubMenu key="sub4" icon={<BranchesOutlined />} title="Төрөл">
+                                            <Menu.Item key="31">Нэмэх</Menu.Item>
+                                            <Menu.Item key="32">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        <SubMenu key="sub4" icon={<TagOutlined />} title="Ангилал">
-                                            <Menu.Item key="10">Нэмэх</Menu.Item>
-                                            <Menu.Item key="11">Засах / Устгах</Menu.Item>               
+                                        <SubMenu key="sub5" icon={<TagOutlined />} title="Ангилал">
+                                            <Menu.Item key="41">Нэмэх</Menu.Item>
+                                            <Menu.Item key="42">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        <SubMenu key="sub5" icon={<TagsOutlined />} title="Дэд ангилал">
-                                            <Menu.Item key="12">Нэмэх</Menu.Item>
-                                            <Menu.Item key="13">Засах / Устгах</Menu.Item>               
+                                        <SubMenu key="sub6" icon={<TagsOutlined />} title="Дэд ангилал">
+                                            <Menu.Item key="51">Нэмэх</Menu.Item>
+                                            <Menu.Item key="52">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
                                         {/* <SubMenu key="sub6" icon={<TagsOutlined />} title="Таг">
                                             <Menu.Item key="14">Нэмэх</Menu.Item>
                                             <Menu.Item key="15">Засах / Устгах</Menu.Item> 
                                         </SubMenu> */}
                                         <SubMenu key="sub7" icon={<ShopOutlined />} title="Компани">
-                                            <Menu.Item key="14">Нэмэх</Menu.Item>
-                                            <Menu.Item key="15">Засах / Устгах</Menu.Item> 
-                                        </SubMenu>       
-                                        <SubMenu key="sub8" icon={<UserOutlined />} title="Хэрэглэгч">
-                                            <Menu.Item key="16">Хүсэлтүүд</Menu.Item>                                            
-                                        </SubMenu>       
+                                            <Menu.Item key="61">Нэмэх</Menu.Item>
+                                            <Menu.Item key="62">Засах / Устгах</Menu.Item> 
+                                        </SubMenu> 
+                                        <SubMenu key="sub8" icon={<FileImageOutlined />} title="Slider">
+                                            <Menu.Item key="71">Нэмэх</Menu.Item>
+                                        </SubMenu>                                               
                                         <Menu.Item key="99" icon={<CloseCircleOutlined />}>Гарах</Menu.Item>    
                                     </Menu>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={18} xl={20} style={{ padding: '16px' }}>                                    
                                     { key === "1" ? (
-                                        <Orders state="1" token={props.token} />
+                                        <OrderList state="1" token={props.token} />
                                     ) : key === "2" ? (
-                                        <Orders state="2" token={props.token} />
-                                    ) : key === "3" ? (
-                                        <Orders state="3" token={props.token} />
-                                    ) : key === "4" ? (
-                                        <Orders state="4" token={props.token} />
-                                    ) : key === "5" ? (
-                                        <Orders state="5" token={props.token} />
-                                    ) : key === "6" ? (
-                                        <ProductAdd token={props.token} />
-                                    ) : key === "7" ? (
-                                        <ProductEdit token={props.token} />
-                                    ) : key === "8" ? (
-                                        // Type Add                                        
-                                        <TypeAdd token={props.token} />
-                                    ) : key === "9" ? (
-                                        // Type Edit
-                                        <TypeEdit token={props.token} />
-                                    ) : key === "10" ? (
-                                        // Category Add
-                                        <CategoryAdd token={props.token} />
-                                    ) : key === "11" ? (
-                                        // Category Edit
-                                        <CategoryEdit token={props.token} />
-                                    ) : key === "12" ? (
-                                        // Sub-category Add
-                                        <SubCategoryAdd token={props.token} />
-                                    ) : key === "13" ? (
-                                        // Sub-category Edit
-                                        <SubCategoryEdit token={props.token} />
-                                    ) : key === "14" ? (
-                                        // Sub-category Add
-                                        <CompanyAdd token={props.token} />
-                                    ) : key === "15" ? (
-                                        // Sub-category Edit
-                                        <CompanyEdit token={props.token} />
-                                    ) : key === "16" ? (                                        
+                                        <OrderList state="2" token={props.token} />
+                                    ) : key === "11" ? (                                        
                                         <SignupRequests token={props.token} />
+                                    ) : key === "21" ? (
+                                        <ProductAdd token={props.token} />
+                                    ) : key === "22" ? (
+                                        <ProductEdit token={props.token} />
+                                    ) : key === "31" ? (                                     
+                                        <TypeAdd token={props.token} />
+                                    ) : key === "32" ? (                                        
+                                        <TypeEdit token={props.token} />
+                                    ) : key === "41" ? (                                        
+                                        <CategoryAdd token={props.token} />
+                                    ) : key === "42" ? (                                        
+                                        <CategoryEdit token={props.token} />
+                                    ) : key === "51" ? (                                        
+                                        <SubCategoryAdd token={props.token} />
+                                    ) : key === "52" ? (                                        
+                                        <SubCategoryEdit token={props.token} />
+                                    ) : key === "61" ? (                                        
+                                        <CompanyAdd token={props.token} />
+                                    ) : key === "62" ? (                                        
+                                        <CompanyEdit token={props.token} />
+                                    ) : key === "71" ? (                                        
+                                        <SliderAdd token={props.token} />
                                     ) : key === "99" ? (
                                         <Logout />
                                     ) : <></>}

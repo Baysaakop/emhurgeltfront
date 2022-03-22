@@ -1,4 +1,4 @@
-import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Divider, Checkbox, Spin } from "antd";
+import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Divider, Checkbox, Spin, Result, Button } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -6,6 +6,7 @@ import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as translations from '../translation';
+import { UserOutlined } from "@ant-design/icons";
 
 function ProductList (props) {
     const history = useHistory()
@@ -265,14 +266,14 @@ function ProductList (props) {
                     </Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                    { props.language === "en" ? translations.en.header.pharmacy : translations.mn.header.pharmacy }
+                    { props.language === "en" ? translations.en.header.products : translations.mn.header.products }
                 </Breadcrumb.Item>
             </Breadcrumb>
             { loading ? (
                 <div style={{ width: '100%', height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Spin tip="Ачааллаж байна..." />
                 </div>
-            ) : (            
+            ) : user ? (            
                 <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
                     <Col xs={24} sm={24} md={24} lg={6}>
                         <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                        
@@ -404,6 +405,15 @@ function ProductList (props) {
                         />
                     </Col>
                 </Row>
+            ) : (
+                <div style={{ background: '#FFF', padding: '16px', marginTop: '16px' }}>
+                    <Result
+                        status="403"
+                        title="Хуудас үзэх боломжгүй."
+                        subTitle="Та эхлээд системд нэвтэрч орно уу."
+                        extra={<Button icon={<UserOutlined />} type="primary" href="/login">Нэвтрэх</Button>}
+                    />
+                </div>
             )}
         </div>
     )

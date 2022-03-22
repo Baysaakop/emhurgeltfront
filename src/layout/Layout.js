@@ -7,8 +7,7 @@ import './Layout.css';
 const { useBreakpoint } = Grid;
 const { Header, Content, Footer } = Layout;
 
-function CustomLayout (props) {    
-
+function CustomLayout (props) {        
     const screens = useBreakpoint()
 
     return(
@@ -16,10 +15,10 @@ function CustomLayout (props) {
             <Header>                  
                 <CustomMenu {...props} />                
             </Header>
-            <Content style={{ minHeight: '80vh' }}>                                     
+            <Content style={{ minHeight: '80vh' }}>                     
                 <div className="content-item" style={ screens.xxl ? { padding: '24px 12%' } : screens.xl ? { padding: '24px 8%' } : screens.lg ? { padding: '24px' } : { padding: '16px' }}>
-                    {props.children}                    
-                </div>                
+                    {props.children}                            
+                </div>                                 
                 <BackTop />
             </Content>
             <Footer>

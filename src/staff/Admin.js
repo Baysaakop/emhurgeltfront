@@ -78,8 +78,7 @@ function Admin (props) {
                                         <Menu.Item key="3" icon={<CloseCircleOutlined />}>Гарах</Menu.Item>  
                                     </Menu>
                                 </Col>
-                                <Col xs={24} sm={24} md={24} lg={18} xl={20} style={{ padding: '16px' }}>
-                                    {/* <Typography.Title level={5}>{key}</Typography.Title> */}
+                                <Col xs={24} sm={24} md={24} lg={18} xl={20} style={{ padding: '16px' }}>                                    
                                     { key === "1" ? (
                                         <StaffSignUp />
                                     ) : key === "2" ? (

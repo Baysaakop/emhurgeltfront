@@ -65,9 +65,10 @@ body {
 }
 
 .ant-carousel .slick-dots li button {
-  height: 12px;
-  width: 12px;
+  height: 16px;
+  width: 16px;
   border-radius: 50px;
+  background: #000;
 }
 
 .ant-select-single.ant-select-open .ant-select-selection-item,

@@ -18,37 +18,37 @@ function HomeTimeline () {
                     {   
                         <div>
                             <Typography.Title level={4}>Бүтээгдэхүүн захиалах</Typography.Title>     
-                            Ut lacinia arcu quis aliquam auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, risus vitae porta molestie, felis mauris ultricies nunc, ac tincidunt ipsum arcu a magna.                                                                                     
+                            Харилцагч та манай байгууллагын вэбсайтад бүртгүүлэн бүтээгдэхүүн цэсэнд нэвтрэх эрх үүсгээрэй. Ингэснээр та манайд байгаа бүтээгдэхүүнүүдээс сонголтоо хийн захиалга өгөх боломжтой. 
                         </div>                 
                     }>
-                        <img alt="cart" src={cartSvg} style={{ width: '70%', height: 'auto', objectFit: 'scale-down' }} />
+                        <img alt="cart" src={cartSvg} style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />
                     </Timeline.Item>
                     <Timeline.Item label=
                     {
                         <div>
                             <Typography.Title level={4}>Төлбөр төлөх</Typography.Title>
-                            Ut lacinia arcu quis aliquam auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, risus vitae porta molestie, felis mauris ultricies nunc, ac tincidunt ipsum arcu a magna.                                                                                     
+                            Захиалга батлагдсаны дараа харилцагч та төлбөрөө дансруу шилжүүлэх юмуу хүргэлтийн жолоочид бэлнээр төлөх боломжтой. 
                         </div>
                     }>
-                        <img alt="payment" src={paymentSvg} style={{ width: '70%', height: 'auto', objectFit: 'scale-down' }} />  
+                        <img alt="payment" src={paymentSvg} style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />  
                     </Timeline.Item>
                     <Timeline.Item label=
                     {
                         <div>
                             <Typography.Title level={4}>Хүргэлтээр авах</Typography.Title>
-                            Ut lacinia arcu quis aliquam auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, risus vitae porta molestie, felis mauris ultricies nunc, ac tincidunt ipsum arcu a magna.                                                                                    
+                            Бид харилцагч таны 13:00 цагаас өмнө өгсөн захиалгыг тухайн өдөрт нь хүргэж өгөх бөгөөд 13:00 цагаас хойш хийгдсэн захиалгыг ачааллаас хамааран тухайн өдөрт юмуу дараагийн өдөрт хүргэж өгөх болно.
                         </div>
                     }> 
-                        <img alt="delivery" src={deliverySvg} style={{ width: '80%', height: 'auto', objectFit: 'scale-down' }} />  
+                        <img alt="delivery" src={deliverySvg} style={{ width: 'auto', height: '160px', objectFit: 'scale-down' }} />  
                     </Timeline.Item>
                     <Timeline.Item label=
                     {
                         <div>
                             <Typography.Title level={4}>Бонус цуглуулах</Typography.Title>
-                            Ut lacinia arcu quis aliquam auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices, risus vitae porta molestie, felis mauris ultricies nunc, ac tincidunt ipsum arcu a magna.                                                                                   
+                            Харилцагч таны захиалгын үнийн дүнгийн 1-3% нь таны хэтэвчинд бонус болон хадгалагдах бөгөөд мөн нэмэлт бэлэг урамшуулал авах боломжтой.
                         </div>
                     }>
-                        <img alt="bonus" src={bonusSvg} style={{ width: '50%', height: 'auto', objectFit: 'scale-down' }} />   
+                        <img alt="bonus" src={bonusSvg} style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />   
                     </Timeline.Item>
                 </Timeline>
             ) : (

@@ -1,0 +1,15 @@
+.video .ant-modal-body {
+  padding: 40px 0 0 0;
+}
+
+.video .ant-modal-content {
+  background: rgba(0, 0, 0, 0);
+}
+
+.video .ant-modal-close {
+  color: #d5d5d5;
+}
+
+.video .ant-modal-close:hover {
+  color: #fff;
+}

@@ -4,6 +4,7 @@ const baseUrl = "http://localhost:8000/"
 const api = {
     items: baseUrl + 'api/items/items',    
     companies: baseUrl + 'api/items/companies',
+    sliders: baseUrl + 'api/items/sliders',
     types: baseUrl + 'api/items/types',
     categories: baseUrl + 'api/items/categories',
     subcategories: baseUrl + 'api/items/subcategories',

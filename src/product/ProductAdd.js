@@ -169,6 +169,9 @@ function ProductAdd (props) {
         if (values.subcategory) {
             formData.append('subcategory', values.subcategory);
         }
+        if (values.multiplier) {
+            formData.append('multiplier', values.multiplier);   
+        }
         if (values.video) {
             formData.append('video', values.video);
         }
@@ -235,12 +238,12 @@ function ProductAdd (props) {
                         style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
                     >
                         <Row gutter={[16, 0]}>
-                            <Col span={10}>
+                            <Col span={8}>
                                 <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                                     <Input />
                                 </Form.Item>
                             </Col>
-                            <Col span={10}>
+                            <Col span={8}>
                                 <Form.Item name="name_en" label="Нэр (EN)">
                                     <Input />
                                 </Form.Item>
@@ -248,6 +251,11 @@ function ProductAdd (props) {
                             <Col span={4}>
                                 <Form.Item name="is_featured" label="Онцлох бүтээгдэхүүн">
                                     <Checkbox onChange={() => setFeatured(!featured)}>Тийм</Checkbox>
+                                </Form.Item>
+                            </Col>      
+                            <Col span={4}>
+                                <Form.Item name="multiplier" label="Бонус %">
+                                    <InputNumber defaultValue={1} disabled={!featured} />
                                 </Form.Item>
                             </Col>                                
                             <Col span={6}>

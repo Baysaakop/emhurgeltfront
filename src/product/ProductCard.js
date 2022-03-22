@@ -138,93 +138,100 @@ function ProductCard (props) {
 
     return (
         <div>            
-            <Card     
-                className="product-card"
-                style={{ borderRadius: '2px' }}
-                hoverable
-                size="small"                           
-                cover={
+            { props.user ? (
+                <Card     
+                    className="product-card"
+                    style={{ borderRadius: '2px' }}
+                    hoverable
+                    size="small"                           
+                    cover={
+                        <Link to={`/products/${props.item.id}`}>
+                            <div style={{ position: 'relative', paddingTop: '100%' }}>
+                                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                    <img 
+                                        alt={props.item.name} 
+                                        src={props.item.image1 ? props.item.image1 : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
+                                        style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} 
+                                    />                            
+                                    { props.item.is_featured === true ?                                    
+                                        <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
+                                            <img alt="featured" src={logo} style={{ width: '100%', height: 'auto' }} />                                        
+                                        </div>                                    
+                                    : <></>}    
+                                </div>                            
+                            </div>
+                        </Link>
+                    }                
+                    actions={
+                        props.user.role !== "3" ?
+                            <></>
+                        : props.type === "list" ? [
+                            favorite && favorite.find(x => x.id === props.item.id) ? (
+                                <Tooltip title={props.language === "en" ? translations.en.product_card.removewatchlist : translations.mn.product_card.removewatchlist}>
+                                    <HeartOutlined style={{ color: '#FF0000' }} key="save" onClick={addToSaved} />
+                                </Tooltip>
+                            ) : (
+                                <Tooltip title={props.language === "en" ? translations.en.product_card.watchlist : translations.mn.product_card.watchlist}>
+                                    <HeartOutlined key="save" onClick={addToSaved} />
+                                </Tooltip>
+                            ),               
+                            cart && cart.find(x => x.item.id === props.item.id) ? (                        
+                                <Tooltip title={props.language === "en" ? translations.en.product_card.removecart : translations.mn.product_card.removecart}>
+                                    <ShoppingCartOutlined style={{ color: '#000' }} key="cart" onClick={() => addToCart("delete")} />
+                                </Tooltip>                        
+                            ) : (
+                                <Tooltip title={props.language === "en" ? translations.en.product_card.cart : translations.mn.product_card.cart}>
+                                    <ShoppingCartOutlined key="cart" onClick={() => addToCart("create")} />
+                                </Tooltip>
+                            ),                         
+                            <Tooltip title={props.language === "en" ? translations.en.product_card.more : translations.mn.product_card.more}>
+                                <EllipsisOutlined key="ellip" onClick={() => setVisible(true)} />
+                            </Tooltip>,                                        
+                        ] : props.type === "favorite" ? [
+                            <Button danger icon={<MinusCircleOutlined />} type="text" onClick={onRemove}>
+                                {props.language === "en" ? translations.en.product_card.remove : translations.mn.product_card.remove}
+                            </Button>
+                        ] : <></>}
+                >
                     <Link to={`/products/${props.item.id}`}>
-                        <div style={{ position: 'relative', paddingTop: '100%' }}>
-                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-                                <img 
-                                    alt={props.item.name} 
-                                    src={props.item.image1 ? props.item.image1 : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
-                                    style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} 
-                                />                            
-                                { props.item.is_featured === true ?                                    
-                                    <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
-                                        <img alt="featured" src={logo} style={{ width: '100%', height: 'auto' }} />                                        
-                                    </div>                                    
-                                : <></>}    
-                            </div>                            
+                        <Card.Meta 
+                            title={
+                                <Tooltip title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
+                            }    
+                            description={getType(props.item.types)}                    
+                        />
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>                        
+                            <div>
+                                <Typography.Title level={5} style={{ margin: '0', color: '#000' }}>{formatNumber(props.item.price)}₮</Typography.Title>
+                            </div>
                         </div>
                     </Link>
-                }                
-                actions={ props.type === "list" ? [
-                    favorite && favorite.find(x => x.id === props.item.id) ? (
-                        <Tooltip title={props.language === "en" ? translations.en.product_card.removewatchlist : translations.mn.product_card.removewatchlist}>
-                            <HeartOutlined style={{ color: '#FF0000' }} key="save" onClick={addToSaved} />
-                        </Tooltip>
-                    ) : (
-                        <Tooltip title={props.language === "en" ? translations.en.product_card.watchlist : translations.mn.product_card.watchlist}>
-                            <HeartOutlined key="save" onClick={addToSaved} />
-                        </Tooltip>
-                    ),               
-                    cart && cart.find(x => x.item.id === props.item.id) ? (                        
-                        <Tooltip title={props.language === "en" ? translations.en.product_card.removecart : translations.mn.product_card.removecart}>
-                            <ShoppingCartOutlined style={{ color: '#000' }} key="cart" onClick={() => addToCart("delete")} />
-                        </Tooltip>                        
-                    ) : (
-                        <Tooltip title={props.language === "en" ? translations.en.product_card.cart : translations.mn.product_card.cart}>
-                            <ShoppingCartOutlined key="cart" onClick={() => addToCart("create")} />
-                        </Tooltip>
-                    ),                         
-                    <Tooltip title={props.language === "en" ? translations.en.product_card.more : translations.mn.product_card.more}>
-                        <EllipsisOutlined key="ellip" onClick={() => setVisible(true)} />
-                    </Tooltip>,                                        
-                ] : props.type === "favorite" ? [
-                    <Button danger icon={<MinusCircleOutlined />} type="text" onClick={onRemove}>
-                        {props.language === "en" ? translations.en.product_card.remove : translations.mn.product_card.remove}
-                    </Button>
-                ] : <></>}
-            >
-                <Link to={`/products/${props.item.id}`}>
-                    <Card.Meta 
-                        title={
-                            <Tooltip title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
-                        }    
-                        description={getType(props.item.types)}                    
-                    />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>                        
-                        <div>
-                            <Typography.Title level={5} style={{ margin: '0', color: '#000' }}>{formatNumber(props.item.price)}₮</Typography.Title>
-                        </div>
-                    </div>
-                </Link>
-                <Modal title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name} visible={visible} footer={false} onCancel={() => setVisible(false)}>
-                    <Typography.Title level={5}>{props.language === "en" ? translations.en.product_card.description : translations.mn.product_card.description}:</Typography.Title>
-                    <Typography.Paragraph>
-                    {props.language === "en" && props.item.description_en ? props.item.description_en : props.item.description}
-                    </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.ingredients : translations.mn.product_card.ingredients}:</Typography.Title>
-                    <Typography.Paragraph>
-                    {props.language === "en" && props.item.ingredients_en ? props.item.ingredients_en : props.item.ingredients}                                              
-                    </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.usage : translations.mn.product_card.usage}:</Typography.Title>
-                    <Typography.Paragraph>
-                    {props.language === "en" && props.item.usage_en ? props.item.usage_en : props.item.usage}                                           
-                    </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.storage : translations.mn.product_card.storage}:</Typography.Title>
-                    <Typography.Paragraph>
-                    {props.language === "en" && props.item.storage_en ? props.item.storage_en : props.item.storage}                                                           
-                    </Typography.Paragraph>
-                    <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.caution : translations.mn.product_card.caution}:</Typography.Title>
-                    <Typography.Paragraph>
-                    {props.language === "en" && props.item.caution_en ? props.item.caution_en : props.item.caution}                                                                       
-                    </Typography.Paragraph>
-                </Modal>
-            </Card>            
+                    <Modal title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name} visible={visible} footer={false} onCancel={() => setVisible(false)}>
+                        <Typography.Title level={5}>{props.language === "en" ? translations.en.product_card.description : translations.mn.product_card.description}:</Typography.Title>
+                        <Typography.Paragraph>
+                        {props.language === "en" && props.item.description_en ? props.item.description_en : props.item.description}
+                        </Typography.Paragraph>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.ingredients : translations.mn.product_card.ingredients}:</Typography.Title>
+                        <Typography.Paragraph>
+                        {props.language === "en" && props.item.ingredients_en ? props.item.ingredients_en : props.item.ingredients}                                              
+                        </Typography.Paragraph>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.usage : translations.mn.product_card.usage}:</Typography.Title>
+                        <Typography.Paragraph>
+                        {props.language === "en" && props.item.usage_en ? props.item.usage_en : props.item.usage}                                           
+                        </Typography.Paragraph>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.storage : translations.mn.product_card.storage}:</Typography.Title>
+                        <Typography.Paragraph>
+                        {props.language === "en" && props.item.storage_en ? props.item.storage_en : props.item.storage}                                                           
+                        </Typography.Paragraph>
+                        <Typography.Title level={5} style={{ margin: 0 }}>{props.language === "en" ? translations.en.product_card.caution : translations.mn.product_card.caution}:</Typography.Title>
+                        <Typography.Paragraph>
+                        {props.language === "en" && props.item.caution_en ? props.item.caution_en : props.item.caution}                                                                       
+                        </Typography.Paragraph>
+                    </Modal>
+                </Card>      
+            ) : (
+                <></>
+            )}                  
         </div>
     )
 }

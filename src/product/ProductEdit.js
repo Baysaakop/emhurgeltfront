@@ -65,6 +65,7 @@ function ProductEdit (props) {
             storage_en: hit.storage_en !== null ? hit.storage_en : '',
             price: hit.price !== null ? hit.price : '',
             count: hit.count !== null ? hit.count : '',
+            multiplier: hit.multiplier !== null ? hit.multiplier : '',
             video: hit.video !== null ? hit.video : '',
             company: hit.company !== null ? hit.company.id.toString() : undefined,
             type: hit.types !== null ? getIDs(hit.types) : undefined,
@@ -343,12 +344,12 @@ function ProductEdit (props) {
                             style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
                         >
                             <Row gutter={[16, 0]}>
-                                <Col span={10}>
+                                <Col span={8}>
                                     <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                                         <Input />
                                     </Form.Item>
                                 </Col>
-                                <Col span={10}>
+                                <Col span={8}>
                                     <Form.Item name="name_en" label="Нэр (EN)">
                                         <Input />
                                     </Form.Item>
@@ -356,6 +357,11 @@ function ProductEdit (props) {
                                 <Col span={4}>
                                     <Form.Item name="is_featured" label="Онцлох бүтээгдэхүүн">
                                         <Checkbox checked={featured} onChange={() => setFeatured(!featured)}>Тийм</Checkbox>
+                                    </Form.Item>
+                                </Col>       
+                                <Col span={4}>
+                                    <Form.Item name="multiplier" label="Бонус %">
+                                        <InputNumber disabled={!featured} />
                                     </Form.Item>
                                 </Col>       
                                 <Col span={6}>

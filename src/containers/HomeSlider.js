@@ -1,30 +1,36 @@
-import { Carousel } from "antd"
+import { useEffect, useState } from "react"
+import { Carousel, Empty } from "antd"
+import axios from "axios"
+import api from "../api"
 
 function HomeSlider (props) {
+
+    const [sliders, setSliders] = useState()
+
+    useEffect(() => {
+        axios({
+            method: 'GET',
+            url: `${api.sliders}/`, 
+        }).then(res => {
+            console.log(res.data)
+            setSliders(res.data.results)
+        }).catch(err => {
+            console.log(err.message)
+        })
+    }, [])
+
     return (
         <div>
             <Carousel autoplay style={{ zIndex: '1' }}>
-                <div>
-                    <div style={{ position: 'relative', paddingTop: '40%' }}>
-                        <div style={{ backgroundColor: '#ffbe76', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '2px' }}>
-                            <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
+                { sliders ? (
+                    sliders.map(slider => (
+                        <div>
+                            <img alt="slider" src={slider.image} style={{ width: '100%', height: 'auto' }} />
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div style={{ position: 'relative', paddingTop: '40%' }}>
-                        <div style={{ backgroundColor: '#7ed6df', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '2px' }}>
-                            <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div style={{ position: 'relative', paddingTop: '40%' }}>
-                        <div style={{ backgroundColor: '#6ab04c', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '2px' }}>
-                            <img alt="landscape" src="http://demo2.themelexus.com/medilazar/wp-content/uploads/2020/12/h1-new02.png" style={{ width: '40%', height: 'auto' }} />
-                        </div>
-                    </div>
-                </div>
+                    ))
+                ) : (
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                )}                
             </Carousel>            
         </div>
     )

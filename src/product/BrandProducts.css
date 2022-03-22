@@ -3,6 +3,7 @@
   position: relative;
   margin-bottom: 24px;
   border-radius: 2px;
+  border: 1px solid #000;
 }
 
 .poster img {

@@ -23,10 +23,10 @@ function Contact (props) {
                     Холбогдох
                 </Breadcrumb.Item>
             </Breadcrumb>
-            <div style={{ marginTop: '24px', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ marginTop: '24px' }}>
                 <Row gutter={[16, 16]}>
                     <Col xs={24} sm={24} md={24} lg={8}>
-                        <div style={{ padding: '16px', border: '2px solid black', borderRadius: '2px' }}>
+                        <div style={{ background: '#fff', padding: '16px', border: '2px solid black', borderRadius: '2px' }}>
                             <Typography.Title level={3}>{ props.language === "en" ? translations.en.contact.contact_us : translations.mn.contact.contact_us }</Typography.Title>
                             <Typography.Text>
                                 Та доор байрлах манай утасны дугаар болон цахим хаягуудад зурвас илгээн бидэнтэй холбогдох боломжтой.
@@ -46,7 +46,7 @@ function Contact (props) {
                                 </div>
                                 <div style={{ marginLeft: '16px' }}>
                                     <Typography.Title level={5}>{ props.language === "en" ? translations.en.footer.phone_number : translations.mn.footer.phone_number }</Typography.Title>
-                                    <Typography.Text style={{ fontSize: '16px' }}>1132-2817</Typography.Text>
+                                    <Typography.Text>1132-2817, 8080-2594, 8010-8614</Typography.Text>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'start', marginTop: '16px' }}>
@@ -73,7 +73,7 @@ function Contact (props) {
                         </div>                    
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={16}>         
-                        <div style={{ padding: '16px', border: '2px solid black', borderRadius: '2px' }}>
+                        <div style={{ background: '#fff', padding: '16px', border: '2px solid black', borderRadius: '2px' }}>
                             <Typography.Title level={3}>{ props.language === "en" ? translations.en.contact.location : translations.mn.contact.location }</Typography.Title>
                             <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d167.11517930905669!2d106.90271453211926!3d47.9200777454466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2smn!4v1647676106245!5m2!1sen!2smn" allowfullscreen="" loading="lazy" style={{ width: '100%', height: 'auto', minHeight: '400px', border: 0, marginTop: '8px' }}></iframe>                            
                         </div>           

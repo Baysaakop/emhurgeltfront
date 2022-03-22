@@ -10,7 +10,7 @@ import Logout from './Logout';
 import Cart from './Cart';
 import OrderHistory from './OrderHistory';
 
-const percentages = ['3%', '4%', '5%', '6%'];
+const percentages = ['1%', '2%', '3%'];
 
 function Profile (props) {    
     const [user, setUser] = useState()
@@ -60,7 +60,7 @@ function Profile (props) {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <div className="container" style={{ marginTop: '24px' }}>
-            {user ? (
+            {user && user.role === "3" ? (
                 <Row gutter={[24, 24]}>
                     <Col xs={24} sm={24} md={24} lg={6}>
                         <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>
@@ -72,9 +72,9 @@ function Profile (props) {
                             </div>                             
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын хувь</Typography.Title>                                               
                             <Rate disabled count={3} value={user.level} tooltips={percentages} />                            
-                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- {user.percent}%</span>
+                            <span className="ant-rate-text" style={{ fontWeight: 'bold' }}>- {user.level}%</span>
                             <Typography.Title level={5} style={{ margin: 0 }}>Урамшууллын оноо</Typography.Title>  
-                            <Typography.Title level={4} style={{ margin: 0 }}>{formatNumber(user.bonus)}₮</Typography.Title>                                                                         
+                            <Typography.Title level={5} style={{ margin: 0 }}>{formatNumber(user.bonus)}₮</Typography.Title>                                                                         
                             <Menu mode="inline" selectedKeys={key} style={{ backgroundColor: 'rgba(0, 0, 0, 0)', marginTop: '16px' }} onClick={onSelect}>
                                 <Menu.Item icon={<UserOutlined style={{ fontSize: '18px' }} />} key="1">Хувийн мэдээлэл</Menu.Item>
                                 <Menu.Item icon={<HeartOutlined style={{ fontSize: '18px' }} />} key="2">Хадгалсан</Menu.Item>
@@ -99,12 +99,14 @@ function Profile (props) {
                     </Col>
                 </Row>                           
             ) : (
-                <Result
-                    status="403"
-                    title="Хуудас үзэх боломжгүй."
-                    subTitle="Та эхлээд системд нэвтэрч орно уу."
-                    extra={<Button icon={<UserOutlined />} size="large" type="primary" href="/login">Нэвтрэх</Button>}
-                />
+                <div style={{ background: '#FFF', padding: '16px', marginTop: '16px' }}>
+                    <Result
+                        status="403"
+                        title="Хуудас үзэх боломжгүй."
+                        subTitle="Та эхлээд системд нэвтэрч орно уу."
+                        extra={<Button icon={<UserOutlined />} type="primary" href="/login">Нэвтрэх</Button>}
+                    />
+                </div>
             )}
             </div>
         </div>
