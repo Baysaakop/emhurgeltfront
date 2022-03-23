@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Menu, Badge, Tooltip, Tag, Avatar, Input, Typography, Affix, Select, Space } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { GlobalOutlined, GiftOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, StarOutlined, FacebookFilled, GoogleOutlined, SettingOutlined, AppstoreAddOutlined } from '@ant-design/icons';
+import { GlobalOutlined, GiftOutlined, HeartOutlined, InfoCircleOutlined, MenuOutlined, PhoneOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined, StarOutlined, FacebookFilled, GoogleOutlined, SettingOutlined, AppstoreAddOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import axios from 'axios';
@@ -52,8 +52,7 @@ function CustomMenu (props) {
                 'Authorization': `Token ${props.token}`
             }
         }).then(res => {                                
-            setUser(res.data)
-            console.log(res.data)
+            setUser(res.data)            
         }).catch(err => {
             console.log(err.message)
         })
@@ -226,6 +225,9 @@ function CustomMenu (props) {
                             </Menu.Item>     
                             <Menu.Item key="bonus" icon={<GiftOutlined />} style={{ margin: '0 16px', fontSize: '14px' }}>
                                 <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
+                            </Menu.Item>       
+                            <Menu.Item key="videos" style={{ margin: '0 16px', fontSize: '14px' }}>
+                                <Link to="/videos">{ language === "en" ? translations.en.header.videos : translations.mn.header.videos }</Link>
                             </Menu.Item>                 
                         </Menu>
                         <div>
@@ -303,6 +305,9 @@ function CustomMenu (props) {
                             </Menu.Item>  
                             <Menu.Item key="bonus" style={{ fontSize: '16px' }} icon={<GiftOutlined />}>
                                 <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
+                            </Menu.Item> 
+                            <Menu.Item key="videos" style={{ fontSize: '16px' }} icon={<VideoCameraOutlined />}>
+                                <Link to="/videos">{ language === "en" ? translations.en.header.videos : translations.mn.header.videos }</Link>
                             </Menu.Item>                                                                                                                                    
                         </Menu>
                     </Affix>

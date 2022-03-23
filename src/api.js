@@ -5,6 +5,7 @@ const api = {
     items: baseUrl + 'api/items/items',    
     companies: baseUrl + 'api/items/companies',
     sliders: baseUrl + 'api/items/sliders',
+    videos: baseUrl + 'api/items/videos',
     types: baseUrl + 'api/items/types',
     categories: baseUrl + 'api/items/categories',
     subcategories: baseUrl + 'api/items/subcategories',

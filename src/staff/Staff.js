@@ -10,7 +10,7 @@ import CompanyAdd from "../company/CompanyAdd";
 import CompanyEdit from "../company/CompanyEdit";
 import ProductAdd from "../product/ProductAdd";
 import ProductEdit from "../product/ProductEdit";
-import { BranchesOutlined, CloseCircleOutlined, ExperimentOutlined, FileImageOutlined, HistoryOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
+import { BranchesOutlined, CloseCircleOutlined, ExperimentOutlined, FileImageOutlined, HistoryOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import OrderList from "./OrderList";
 import Logout from "../account/Logout";
 import TypeAdd from "../category/TypeAdd";
@@ -18,7 +18,8 @@ import TypeEdit from "../category/TypeEdit";
 import SubCategoryAdd from "../category/SubCategoryAdd";
 import SubCategoryEdit from "../category/SubCategoryEdit";
 import SignupRequests from "./SignupRequests";
-import SliderAdd from "../slider/SliderAdd";
+import SliderAdd from "./SliderAdd";
+import VideoAdd from "./VideoAdd";
 
 const { SubMenu } = Menu;
 
@@ -116,6 +117,9 @@ function Staff (props) {
                                         </SubMenu> 
                                         <SubMenu key="sub8" icon={<FileImageOutlined />} title="Slider">
                                             <Menu.Item key="71">Нэмэх</Menu.Item>
+                                        </SubMenu> 
+                                        <SubMenu key="sub9" icon={<VideoCameraOutlined />} title="Видео">
+                                            <Menu.Item key="72">Нэмэх</Menu.Item>
                                         </SubMenu>                                               
                                         <Menu.Item key="99" icon={<CloseCircleOutlined />}>Гарах</Menu.Item>    
                                     </Menu>
@@ -149,6 +153,8 @@ function Staff (props) {
                                         <CompanyEdit token={props.token} />
                                     ) : key === "71" ? (                                        
                                         <SliderAdd token={props.token} />
+                                    ) : key === "72" ? (                                        
+                                        <VideoAdd token={props.token} />
                                     ) : key === "99" ? (
                                         <Logout />
                                     ) : <></>}

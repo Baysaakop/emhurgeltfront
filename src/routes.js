@@ -14,6 +14,7 @@ import Bonus from './containers/Bonus';
 import StaffLogIn from './staff/StaffLogin';
 import Registration from './account/Registration';
 import Admin from './staff/Admin';
+import Videos from './containers/Videos';
 
 function BaseRouter () {
     return (
@@ -22,6 +23,7 @@ function BaseRouter () {
             <Route exact path="/about" component={About} />            
             <Route exact path="/contact" component={Contact} />            
             <Route exact path="/bonus" component={Bonus} />            
+            <Route exact path="/videos" component={Videos} />            
             {/* Product */}
             <Route exact path="/products" component={ProductList} />
             <Route exact path="/products/:id" component={ProductDetail} />

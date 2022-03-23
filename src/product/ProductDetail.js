@@ -291,7 +291,7 @@ function ProductDetail (props) {
                                             <Typography.Text style={{ margin: '0' }}>
                                                 {props.language === "en" ? translations.en.product_detail.stock : translations.mn.product_detail.stock}
                                             </Typography.Text>                                    
-                                            <Typography.Title level={4} style={{ margin: '0' }}>{formatNumber(item.count)}</Typography.Title>
+                                            <Typography.Title level={4} style={{ margin: '0' }}>{item.count > 20 ? '20+' : item.count}</Typography.Title>
                                         </div>
                                     </div>                            
                                     <Divider style={{ margin: '16px 0' }} />  

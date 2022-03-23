@@ -49,7 +49,6 @@ function ProductEdit (props) {
         if (hit.categories && hit.categories.length > 0) {
             getSubCategories(getIDs(hit.categories))
         }
-        console.log(hit)
         form.setFieldsValue({
             name: hit.name,            
             name_en: hit.name_en,                                 
@@ -66,7 +65,6 @@ function ProductEdit (props) {
             price: hit.price !== null ? hit.price : '',
             count: hit.count !== null ? hit.count : '',
             multiplier: hit.multiplier !== null ? hit.multiplier : '',
-            video: hit.video !== null ? hit.video : '',
             company: hit.company !== null ? hit.company.id.toString() : undefined,
             type: hit.types !== null ? getIDs(hit.types) : undefined,
             category: hit.categories !== null ? getIDs(hit.categories) : undefined,
@@ -79,6 +77,7 @@ function ProductEdit (props) {
         setImage4(hit.image4 !== null ? hit.image4 : undefined)
         setPoster(hit.poster !== null ? hit.poster : undefined)
         setSelection(hit)
+        console.log(hit)
     }
 
     function getIDs (arr) {
@@ -181,43 +180,43 @@ function ProductEdit (props) {
     function onFinish (values) {
         setLoading(true)
         var formData = new FormData();
-        if (values.name && values.name !== selection.name) {
+        if (values.name && values.name !== null && values.name !== "" && values.name !== selection.name) {
             formData.append('name', values.name);
         }
-        if (values.name_en && values.name_en !== selection.name_en) {
+        if (values.name_en && values.name_en !== null && values.name_en !== "" && values.name_en !== selection.name_en) {
             formData.append('name_en', values.name_en);
         }
         if (featured && featured !== selection.is_featured) {
             formData.append('is_featured', featured);
         }
-        if (values.description && values.description !== selection.description) {
+        if (values.description && values.description !== null && values.description !== "" && values.description !== selection.description) {
             formData.append('description', values.description);
         }    
-        if (values.description_en && values.description_en !== selection.description_en) {
+        if (values.description_en && values.description_en !== null && values.description_en !== "" && values.description_en !== selection.description_en) {
             formData.append('description_en', values.description_en);
         }               
-        if (values.ingredients && values.ingredients !== selection.ingredients) {
+        if (values.ingredients && values.ingredients !== null && values.ingredients !== "" && values.ingredients !== selection.ingredients) {
             formData.append('ingredients', values.ingredients);
         }
-        if (values.ingredients_en && values.ingredients_en !== selection.ingredients_en) {
+        if (values.ingredients_en && values.ingredients_en !== null && values.ingredients_en !== "" && values.ingredients_en !== selection.ingredients_en) {
             formData.append('ingredients_en', values.ingredients_en);
         }
-        if (values.usage && values.usage !== selection.usage) {
+        if (values.usage && values.usage !== null && values.usage !== "" && values.usage !== selection.usage) {
             formData.append('usage', values.usage);
         }
-        if (values.usage_en && values.usage_en !== selection.usage_en) {
+        if (values.usage_en && values.usage_en !== null && values.usage_en !== "" && values.usage_en !== selection.usage_en) {
             formData.append('usage_en', values.usage_en);
         }
-        if (values.caution && values.caution !== selection.caution) {
+        if (values.caution && values.caution !== null && values.caution !== "" && values.caution !== selection.caution) {
             formData.append('caution', values.caution);
         }
-        if (values.caution_en && values.caution_en !== selection.caution_en) {
+        if (values.caution_en && values.caution_en !== null && values.caution_en !== "" && values.caution_en !== selection.caution_en) {
             formData.append('caution_en', values.caution_en);
         }
-        if (values.storage && values.storage !== selection.storage) {
+        if (values.storage && values.storage !== null && values.storage !== "" && values.storage !== selection.storage) {
             formData.append('storage', values.storage);
         }
-        if (values.storage_en && values.storage_en !== selection.storage_en) {
+        if (values.storage_en && values.storage_en !== null && values.storage_en !== "" && values.storage_en !== selection.storage_en) {
             formData.append('storage_en', values.storage_en);
         }
         if (values.price && values.price !== selection.price) {
@@ -226,17 +225,16 @@ function ProductEdit (props) {
         if (values.count && values.count !== selection.count) {
             formData.append('count', values.count);
         }
-        if (values.video && values.video !== selection.video) {
-            formData.append('video', values.video);
+        if (values.multiplier && values.multiplier !== selection.multiplier) {
+            formData.append('multiplier', values.multiplier);
         }
-        if (values.company && values.company !== selection.company.id.toString()) {
+        if (values.company && values.company !== null && values.company !== selection.company) {
             formData.append('company', values.company);
         }
         if (values.type && !compareM2M(values.type, getIDs(selection.types))) {            
             formData.append('type', values.type);
         }
         if (values.category && !compareM2M(values.category, getIDs(selection.categories))) {
-            console.log("category")
             formData.append('category', values.category);
         }
         if (values.subcategory && !compareM2M(values.subcategory, getIDs(selection.subcategories))) {
@@ -279,9 +277,11 @@ function ProductEdit (props) {
                 setImage4(undefined)   
                 setPoster(undefined)                             
                 setSelection(undefined)
+                setFeatured(false)
                 setLoading(false)
             }
         }).catch(err => {
+            console.log(err)
             notification['error']({
                 message: 'Амжилтгүй',
                 description: `${selection.name} бүтээгдэхүүн засагдсангүй. Дахин оролдоно уу.`
@@ -306,7 +306,7 @@ function ProductEdit (props) {
                 })
             }
             form.resetFields()
-            setSelection(undefined)
+            setSelection(undefined)            
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
@@ -324,9 +324,15 @@ function ProductEdit (props) {
             ) : ( 
                 <div>
                     <Typography.Title level={4}>Бүтээгдэхүүн засах / устгах</Typography.Title>            
+                    <Input.Search
+                        placeholder="Бүтээгдэхүүний нэр"
+                        onSearch={onSearch}
+                        enterButton
+                        style={{ marginBottom: '8px' }}
+                    />
                     <Select                              
-                        showSearch
-                        onSearch={onSearch}  
+                        // showSearch
+                        // onSearch={onSearch}  
                         placeholder="Бүтээгдэхүүн сонгох"
                         optionFilterProp="children"
                         onSelect={onSelect}        
@@ -502,14 +508,9 @@ function ProductEdit (props) {
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>                  
-                                <Col span={12}>
-                                    <Form.Item name="video" label="Видео">
-                                        <Input.TextArea rows={10} />
-                                    </Form.Item>
-                                </Col>    
-                                <Col span={12}>
+                                <Col span={24}>
                                     <Form.Item name="poster" label="Постер">
-                                        <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="225px" width="450px" st />     
+                                        <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="250px" width="750px" />     
                                     </Form.Item>
                                 </Col>               
                                 <Col span={6}>

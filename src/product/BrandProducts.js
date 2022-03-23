@@ -4,8 +4,8 @@ import api from "../api";
 import { Breadcrumb, Button, Col, message, Row } from "antd";
 import { Link } from "react-router-dom";
 import './BrandProducts.css'
-import { PlayCircleOutlined, ShoppingOutlined } from "@ant-design/icons";
-import ProductVideo from './ProductVideo'
+import { ShoppingOutlined } from "@ant-design/icons";
+import ProductPoster from './ProductPoster'
 
 function BrandProducts (props) {
 
@@ -46,11 +46,11 @@ function BrandProducts (props) {
                     {items.map(item => {
                         return (
                             <Col xs={24} sm={24} md={12} lg={8}>
-                                {visible ? <ProductVideo title={item.name} video={item.video !== null && item.video !== "" ? item.video : "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fdseabi.mn%2Fvideos%2F510778073510439%2F&show_text=false&width=560&t=0"} hide={() => setVisible(false)} /> : <></> } 
+                                {/* {visible ? <ProductVideo title={item.name} video={item.video !== null && item.video !== "" ? item.video : "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fdseabi.mn%2Fvideos%2F510778073510439%2F&show_text=false&width=560&t=0"} hide={() => setVisible(false)} /> : <></> }  */}
+                                {visible ? <ProductPoster name={item.name} poster={item.poster} hide={() => setVisible(false)} /> : <></> } 
                                 <div className="poster">
-                                    <img alt={item.name} src={item.poster} />
-                                    <div className="overlay">
-                                        <Button type="primary" shape="round" icon={<PlayCircleOutlined />} style={{ marginRight: '8px', background: '#30336b' }} onClick={() => setVisible(true)}>Видео үзэх</Button>
+                                    <img alt={item.name} src={item.poster} onClick={() => setVisible(true)} />
+                                    <div className="overlay">                                        
                                         <Button type="primary" shape="round" icon={<ShoppingOutlined />} style={{ background: '#130f40' }} href={`products/${item.id}`}>Захиалах</Button>
                                     </div>
                                 </div>

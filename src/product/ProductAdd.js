@@ -172,9 +172,6 @@ function ProductAdd (props) {
         if (values.multiplier) {
             formData.append('multiplier', values.multiplier);   
         }
-        if (values.video) {
-            formData.append('video', values.video);
-        }
         if (image1) {
             formData.append('image1', image1)
         } 
@@ -210,7 +207,8 @@ function ProductAdd (props) {
                 setImage2(undefined)                
                 setImage3(undefined)                
                 setImage4(undefined)                
-                setPoster(undefined)                
+                setPoster(undefined)             
+                setFeatured(false)   
                 setLoading(false)
             }
         }).catch(err => {
@@ -384,14 +382,9 @@ function ProductAdd (props) {
                                     <Input.TextArea rows={3} />
                                 </Form.Item>
                             </Col>                                                                  
-                            <Col span={12}>
-                                <Form.Item name="video" label="Видео">
-                                    <Input.TextArea rows={6} />
-                                </Form.Item>
-                            </Col>    
-                            <Col span={12}>
+                            <Col span={24}>
                                 <Form.Item name="poster" label="Постер (Онцлох бүтээгдэхүүн)">
-                                    <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="140px" width="420px" st />     
+                                    <ImageUpload image={poster} onImageSelected={(path) => setPoster(path)} height="250px" width="750px" />     
                                 </Form.Item>
                             </Col>    
                             <Col span={6}>

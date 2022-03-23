@@ -15,12 +15,14 @@ function ProductList (props) {
     const [types, setTypes] = useState()    
     const [categories, setCategories] = useState()    
     const [subCategories, setSubCategories] = useState()    
+    const [companies, setCompanies] = useState()    
     // const [tags, setTags] = useState()
     const [items, setItems] = useState()    
     const [isFeatured, setIsFeatured] = useState(false)
     const [type, setType] = useState("0")
     const [category, setCategory] = useState("0")
     const [subCategory, setSubCategory] = useState("0")
+    const [company, setCompany] = useState("0")    
     // const [selectedTags, setSelectedTags] = useState([])
     const [priceLow, setPriceLow] = useState(0)
     const [priceHigh, setPriceHigh] = useState(200000)
@@ -34,7 +36,8 @@ function ProductList (props) {
         let param_is_featured = params.get('is_featured')
         let param_type = params.get('type')       
         let param_category = params.get('category')       
-        let param_subcategory = params.get('subcategory')       
+        let param_subcategory = params.get('subcategory')    
+        let param_company = params.get('company')       
         // let param_tags = params.get('tags')
         let param_pricelow = params.get('pricelow')
         let param_pricehigh = params.get('pricehigh')        
@@ -63,6 +66,11 @@ function ProductList (props) {
             setSubCategory(param_subcategory)            
         } else {
             setSubCategory("0")
+        }
+        if (param_company !== undefined && param_company !== null) {
+            setCompany(param_company)
+        } else {
+            setCompany("0")
         }
         // if (param_tags !== undefined && param_tags !== null) {
         //     setSelectedTags(param_tags.toString().split(","))
@@ -94,6 +102,9 @@ function ProductList (props) {
         }        
         if (!types) {
             getTypes()
+        }
+        if (!companies) {
+            getCompanies()
         }
         // if (!tags) {
         //     getTags()
@@ -130,6 +141,17 @@ function ProductList (props) {
             } else {
                 message.error("Алдаа гарлаа. Хуудсыг дахин ачааллана уу.")
             }            
+        })
+    }
+
+    function getCompanies () {
+        axios({
+            method: 'GET',
+            url: `${api.companies}/`            
+        }).then(res => {            
+            setCompanies(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
         })
     }
 
@@ -184,6 +206,15 @@ function ProductList (props) {
             params.append("is_featured", "true")
         }
         history.push(`/products?${params.toString()}`)
+    }
+
+    function onSelectCompany (e) {                
+        const params = new URLSearchParams(props.location.search)        
+        params.delete("company")
+        if (parseInt(e.target.value) > 0) {
+            params.append("company", e.target.value)            
+        }
+        history.push(`/products?${params.toString()}`)                
     }
 
     function onSelectType (e) {                
@@ -282,6 +313,21 @@ function ProductList (props) {
                             { props.language === "en" ? translations.en.product_list.yes : translations.mn.product_list.yes }
                             </Checkbox>
                             <Divider />
+
+                            <Typography.Title level={5} style={{ marginTop: '16px' }}>Компани</Typography.Title>
+                            <Radio.Group value={company} onChange={onSelectCompany}>
+                                <Space direction="vertical">
+                                    <Radio value="0">
+                                        { props.language === "en" ? translations.en.product_list.all : translations.mn.product_list.all }
+                                    </Radio>
+                                    {companies ? companies.map(com => (
+                                        <Radio key={com.id} value={com.id.toString()}>
+                                            {com.name.toString()}
+                                        </Radio>
+                                    )) : []}
+                                </Space>
+                            </Radio.Group>
+
                             <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>                            
                             <Radio.Group value={type} onChange={onSelectType}>
                                 <Space direction="vertical">
@@ -398,7 +444,7 @@ function ProductList (props) {
                         <Pagination
                             current={page}
                             total={total}
-                            pageSize={24}
+                            pageSize={36}
                             showSizeChanger={false}
                             showTotal={false}                        
                             onChange={onPageChange}

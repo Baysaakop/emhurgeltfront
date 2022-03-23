@@ -17,6 +17,7 @@ export const mn = {
         blog: 'Мэдээлэл',
         contact: 'Холбогдох',      
         bonus: 'Урамшуулал',        
+        videos: 'Видео',
     },
     footer: {
         all_rights_reserved: 'Зохиогчийн эрх хуулиар хамгаалагдсан',
@@ -96,6 +97,7 @@ export const en = {
         blog: 'Blog',
         contact: 'Contact',        
         bonus: 'Bonus',        
+        videos: 'Videos',
     },
     footer: {        
         all_rights_reserved: 'All Rights Reserved',
