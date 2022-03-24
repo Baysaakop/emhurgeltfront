@@ -1,4 +1,4 @@
-import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Divider, Checkbox, Spin, Result, Button } from "antd";
+import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Divider, Checkbox, Spin, Result, Button, Menu } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -8,20 +8,19 @@ import { connect } from 'react-redux';
 import * as translations from '../translation';
 import { UserOutlined } from "@ant-design/icons";
 
+const { SubMenu } = Menu;
+
 function ProductList (props) {
     const history = useHistory()
     const [loading, setLoading] = useState(false)
-    const [user, setUser] = useState()
-    const [types, setTypes] = useState()    
+    const [user, setUser] = useState()    
     const [categories, setCategories] = useState()    
-    const [subCategories, setSubCategories] = useState()    
     const [companies, setCompanies] = useState()    
     // const [tags, setTags] = useState()
     const [items, setItems] = useState()    
-    const [isFeatured, setIsFeatured] = useState(false)
-    const [type, setType] = useState("0")
-    const [category, setCategory] = useState("0")
-    const [subCategory, setSubCategory] = useState("0")
+    const [isFeatured, setIsFeatured] = useState(false)    
+    const [category, setCategory] = useState('0')
+    const [subCategory, setSubCategory] = useState('0')
     const [company, setCompany] = useState("0")    
     // const [selectedTags, setSelectedTags] = useState([])
     const [priceLow, setPriceLow] = useState(0)
@@ -33,8 +32,7 @@ function ProductList (props) {
     useEffect(() => {        
         setLoading(true)
         const params = new URLSearchParams(props.location.search)                        
-        let param_is_featured = params.get('is_featured')
-        let param_type = params.get('type')       
+        let param_is_featured = params.get('is_featured')  
         let param_category = params.get('category')       
         let param_subcategory = params.get('subcategory')    
         let param_company = params.get('company')       
@@ -47,20 +45,11 @@ function ProductList (props) {
             setIsFeatured(true)
         } else {
             setIsFeatured(false)
-        }
-        if (param_type !== undefined && param_type !== null) {
-            setType(param_type)            
-            getCategories(param_type)
-        } else {
-            setType("0")
-            setCategories(undefined)
-        }
+        }        
         if (param_category !== undefined && param_category !== null) {
             setCategory(param_category)            
-            getSubCategories(param_category)
         } else {
             setCategory("0")
-            setSubCategories(undefined)
         }
         if (param_subcategory !== undefined && param_subcategory !== null) {
             setSubCategory(param_subcategory)            
@@ -100,8 +89,8 @@ function ProductList (props) {
         if (props.token && !user) {
             getUser()
         }        
-        if (!types) {
-            getTypes()
+        if (!categories) {
+            getCategories()
         }
         if (!companies) {
             getCompanies()
@@ -132,7 +121,7 @@ function ProductList (props) {
         axios({
             method: 'GET',
             url: api.items + url           
-        }).then(res => {                        
+        }).then(res => {                                    
             setItems(res.data.results)
             setTotal(res.data.count)
         }).catch(err => {            
@@ -155,34 +144,13 @@ function ProductList (props) {
         })
     }
 
-    function getTypes () {
+    function getCategories () {
         axios({
             method: 'GET',
-            url: `${api.types}/`            
-        }).then(res => {            
-            setTypes(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
-
-    function getCategories (type) {
-        axios({
-            method: 'GET',
-            url: `${api.categories}?type=${type}`            
-        }).then(res => {            
+            url: `${api.categories}`            
+        }).then(res => {                   
+            console.log(res.data.results)     
             setCategories(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
-
-    function getSubCategories (category) {
-        axios({
-            method: 'GET',
-            url: `${api.subcategories}?category=${category}`            
-        }).then(res => {            
-            setSubCategories(res.data.results)
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
         })
@@ -217,32 +185,21 @@ function ProductList (props) {
         history.push(`/products?${params.toString()}`)                
     }
 
-    function onSelectType (e) {                
+    function onSelectCategory (e) {                
         const params = new URLSearchParams(props.location.search)        
-        params.delete("type")
         params.delete("category")
         params.delete("subcategory")
-        if (parseInt(e.target.value) > 0) {
-            params.append("type", e.target.value)            
+        if (parseInt(e.key) > 0) {
+            params.append("category", e.key)            
         }
         history.push(`/products?${params.toString()}`)                
     }
 
-    function onSelectCategory (e) {        
-        const params = new URLSearchParams(props.location.search)        
-        params.delete("category")
-        params.delete("subcategory")
-        if (parseInt(e.target.value) > 0) {
-            params.append("category", e.target.value)            
-        }
-        history.push(`/products?${params.toString()}`)                
-    }
-
-    function onSelectSubCategory (e) {
+    function onSelectSubCategory (e) {        
         const params = new URLSearchParams(props.location.search)        
         params.delete("subcategory")
-        if (parseInt(e.target.value) > 0) {
-            params.append("subcategory", e.target.value)            
+        if (parseInt(e.key) > 0) {
+            params.append("subcategory", e.key)            
         }
         history.push(`/products?${params.toString()}`)                
     }
@@ -306,13 +263,40 @@ function ProductList (props) {
                 </div>
             ) : user ? (            
                 <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
-                    <Col xs={24} sm={24} md={24} lg={6}>
-                        <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                        
-                            <Typography.Title level={5}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }:</Typography.Title>
-                            <Checkbox checked={isFeatured} onChange={onCheckFeatured}>
-                            { props.language === "en" ? translations.en.product_list.yes : translations.mn.product_list.yes }
-                            </Checkbox>
-                            <Divider />
+                    <Col xs={24} sm={24} md={24} lg={6}>                        
+                        <div style={{ background: '#fff', marginBottom: '16px' }}>
+                            <div style={{ background: '#009432', padding: '16px', borderRadius: '4px' }}>
+                                <Typography.Title level={5} style={{ color: '#fff', margin: 0 }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Typography.Title>
+                            </div>
+                            <div style={{ padding: '16px' }}>
+                                <Checkbox checked={isFeatured} onChange={onCheckFeatured}>
+                                { props.language === "en" ? translations.en.product_list.yes : translations.mn.product_list.yes }
+                                </Checkbox>
+                            </div>
+                        </div>
+
+                        <div style={{ background: '#fff', marginBottom: '16px' }}>
+                            <div style={{ background: '#009432', padding: '16px', borderRadius: '4px' }}>
+                                <Typography.Title level={5} style={{ color: '#fff', margin: 0 }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }</Typography.Title>
+                            </div>
+                            <Menu
+                                mode="inline"                                             
+                                // openKeys={category}       
+                                selectedKeys={subCategory}                                                                            
+                                style={{ height: '100%' }}
+                                onSelect={onSelectSubCategory}
+                            >
+                                {categories ? categories.map(cat => (
+                                    <SubMenu key={cat.id.toString()} title={cat.name}>
+                                        {cat.subcategories.map(sub => (
+                                            <Menu.Item key={sub.id.toString()}>{sub.name}</Menu.Item>
+                                        ))}
+                                    </SubMenu>
+                                )) : <></>}                                    
+                            </Menu>
+                        </div>
+
+                        <div style={{ width: '100%', padding: '16px', background: '#fff', borderRadius: '2px' }}>                                                    
 
                             <Typography.Title level={5} style={{ marginTop: '16px' }}>Компани</Typography.Title>
                             <Radio.Group value={company} onChange={onSelectCompany}>
@@ -324,68 +308,11 @@ function ProductList (props) {
                                         <Radio key={com.id} value={com.id.toString()}>
                                             {com.name.toString()}
                                         </Radio>
-                                    )) : []}
+                                    )) : <Spin />}
                                 </Space>
                             </Radio.Group>
 
-                            <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>                            
-                            <Radio.Group value={type} onChange={onSelectType}>
-                                <Space direction="vertical">
-                                    <Radio value="0">
-                                        { props.language === "en" ? translations.en.product_list.all : translations.mn.product_list.all }
-                                    </Radio>
-                                    {types ? types.map(t => (
-                                        <>
-                                            <Radio key={t.id} value={t.id.toString()}>
-                                            { props.language === "en" ? t.name_en : t.name }
-                                            </Radio>
-                                            {type === t.id.toString() && categories && categories.length > 0 ? (
-                                                <Radio.Group value={category} onChange={onSelectCategory} style={{ marginLeft: '24px' }}>                                                    
-                                                    <Space direction="vertical">                                                        
-                                                        <Radio value="0">
-                                                        { props.language === "en" ? translations.en.product_list.all : translations.mn.product_list.all }
-                                                        </Radio>
-                                                        {categories ? categories.map(c => (
-                                                            <>
-                                                                <Radio key={c.id} value={c.id.toString()}>
-                                                                    { props.language === "en" ? c.name_en : c.name }
-                                                                </Radio>
-                                                                {category === c.id.toString() && subCategories && subCategories.length > 0 ? (
-                                                                    <Radio.Group value={subCategory} onChange={onSelectSubCategory} style={{ marginLeft: '24px' }}>
-                                                                        <Space direction="vertical">
-                                                                            <Radio value="0">
-                                                                            { props.language === "en" ? translations.en.product_list.all : translations.mn.product_list.all }
-                                                                            </Radio>
-                                                                            {subCategories ? subCategories.map(s => (
-                                                                                <Radio key={s.id} value={s.id.toString()}>
-                                                                                    { props.language === "en" ? s.name_en : s.name }
-                                                                                </Radio>
-                                                                            )) : <></>}
-                                                                        </Space>
-                                                                    </Radio.Group>
-                                                                ) : []}
-                                                            </>
-                                                        )) : <></>}
-                                                    </Space>
-                                                </Radio.Group>
-                                            ) : []}
-                                        </>
-                                    )) : <></>}
-                                </Space>
-                            </Radio.Group>                            
-                            {/* <Divider />
-                            <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.tags : translations.mn.product_list.tags }:</Typography.Title>
-                            {tags ? tags.map(tag => (
-                                <CheckableTag
-                                    key={tag.id.toString()}
-                                    checked={selectedTags ? selectedTags.indexOf(tag.id.toString()) > -1 : false}
-                                    style={{ fontSize: '14px', marginTop: '8px' }}
-                                    onChange={checked => selectTag(tag.id.toString(), checked)}
-                                >
-                                    {tag.name}
-                                </CheckableTag>
-                            )) : <></>}  */}
-                            <Divider />
+                            <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }:</Typography.Title>                                                        
                             <Typography.Title level={5} style={{ marginTop: '16px' }}>{ props.language === "en" ? translations.en.product_list.price : translations.mn.product_list.price }:</Typography.Title>   
                             <Slider 
                                 range 

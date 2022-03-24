@@ -60,9 +60,9 @@ function ProductDetail (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    function getType (types) {
+    function getCategory (categories) {
         let res = []
-        types.forEach(element => {
+        categories.forEach(element => {
             if (props.language === "en") {
                 res.push(element.name_en)
             } else {
@@ -271,7 +271,7 @@ function ProductDetail (props) {
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div>
                                             <Typography.Title level={3} style={{ margin: 0 }}>{ props.language === "en" && item.name_en ? item.name_en : item.name }</Typography.Title>                            
-                                            <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{getType(item.types)}</Typography.Text>
+                                            <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{getCategory(item.categories)}</Typography.Text>
                                         </div>
                                         <div>
                                             <Tooltip title="Онцлох бүтээгдэхүүн">                                   

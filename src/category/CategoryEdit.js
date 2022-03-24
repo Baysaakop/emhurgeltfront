@@ -6,40 +6,17 @@ import api from "../api";
 function CategoryEdit (props) {
 
     const [form] = Form.useForm()
-    const [types, setTypes] = useState([])
-    const [type, setType] = useState()
     const [categories, setCategories] = useState([])
     const [selection, setSelection] = useState()
 
     useEffect(() => {
-        getTypes()
+        getCategories()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    function getTypes () {
+    function getCategories () {
         axios({
             method: 'GET',
-            url: `${api.types}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setTypes(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
-
-    function onSelectType (id) {
-        let hit = types.find(x => x.id.toString() === id)
-        setType(hit)
-        getCategories(id)                
-    }
-
-    function getCategories (id) {
-        axios({
-            method: 'GET',
-            url: `${api.categories}?type=${id}`,
+            url: `${api.categories}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
@@ -54,35 +31,23 @@ function CategoryEdit (props) {
     function onSelectCategory (id) {
         let hit = categories.find(x => x.id.toString() === id)
         form.setFieldsValue({
-            type: hit.type.toString(),
             name: hit.name,
             name_en: hit.name_en,
-            description: hit.description
         })
         setSelection(hit)
     }
 
     function onFinish (values) {        
-        var formData = new FormData();
-        formData.append('token', props.token)
-        if (values.type && values.type.toString() !== selection.type.toString()) {
-            formData.append('type', values.type)
-        }
-        if (values.name && values.name !== selection.name) {
-            formData.append('name', values.name)
-        }
-        if (values.name_en && values.name_en !== selection.name_en) {
-            formData.append('name_en', values.name_en)
-        }
-        if (values.description && values.description !== selection.description) {
-            formData.append('description', values.description)
-        }
+        console.log(values)
         axios({
             method: 'PUT',
             url: `${api.categories}/${selection.id}/`,        
-            data: formData,
+            data: {
+                name: values.name,
+                name_en: values.name_en ? values.name_en: ''
+            },
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
             }
         }).then(res => {
@@ -91,8 +56,9 @@ function CategoryEdit (props) {
                     message: 'Амжилттай',
                     description: `${selection.name} ангилал амжилттай засагдлаа.`
                 })
-                form.resetFields()        
-                getCategories(type.id)
+                form.resetFields()    
+                getCategories()    
+                setSelection(undefined)
             }
         }).catch(err => {
             notification['error']({
@@ -119,7 +85,8 @@ function CategoryEdit (props) {
                 })
             }
             form.resetFields()
-            getCategories(type.id)
+            getCategories()
+            setSelection(undefined)
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
@@ -130,19 +97,7 @@ function CategoryEdit (props) {
 
     return (
         <div>
-            <Typography.Title level={5}>Ангилал засах / устгах</Typography.Title>
-            <Typography.Text style={{ display: 'block' }}>Төрөл сонгох</Typography.Text>
-            <Select                                
-                placeholder="Төрөл сонгох"
-                optionFilterProp="children"
-                onSelect={onSelectType}
-                style={{ width: '100%' }}
-            >
-                { types ? types.map(t => (
-                    <Select.Option key={t.id}>{t.name}</Select.Option>
-                )) : <></>}
-            </Select>                
-            <Typography.Text style={{ display: 'block', marginTop: '16px' }}>Ангилал сонгох</Typography.Text>
+            <Typography.Title level={5}>Ангилал засах / устгах</Typography.Title>            
             <Select                                
                 placeholder="Ангилал сонгох"
                 optionFilterProp="children"
@@ -160,29 +115,13 @@ function CategoryEdit (props) {
                     onFinish={onFinish}                    
                     style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '100%' }}
                 >
-                    <Form.Item name="type" label="Төрөл" rules={[{ required: true }]}>
-                        <Select                                
-                            placeholder="Төрөл сонгох"
-                            optionFilterProp="children"                        
-                            style={{ width: '100%' }}
-                        >
-                            { types ? types.map(t => (
-                                <Select.Option key={t.id}>{t.name}</Select.Option>
-                            )) : <></>}
-                        </Select>  
-                    </Form.Item>
                     <Form.Item name="name" label="Нэр" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item name="name_en" label="Нэр (EN)">
                         <Input />
-                    </Form.Item>
-                    <Form.Item name="description" label="Тайлбар">
-                        <Input.TextArea rows={4} />
                     </Form.Item>                    
-                    <Popconfirm title="Хадгалах уу?" onConfirm={form.submit} okText="Тийм" cancelText="Үгүй">
-                        <Button type="primary" style={{ marginRight: '8px' }}>Хадгалах</Button>
-                    </Popconfirm>
+                    <Button htmlType="submit" type="primary" style={{ marginRight: '8px' }}>Хадгалах</Button>
                     <Popconfirm title="Устгах уу?" onConfirm={onDelete} okText="Тийм" cancelText="Үгүй">
                         <Button danger type="text">Устгах</Button>
                     </Popconfirm>

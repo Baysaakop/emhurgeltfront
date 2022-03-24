@@ -5,8 +5,10 @@ import api from "../api";
 import { CarOutlined, CheckCircleOutlined, DeleteOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import * as actions from '../store/actions/auth';
+import { useHistory } from "react-router-dom";
 
 function Cart (props) {    
+    const history = useHistory()
     const [form] = Form.useForm()
     const [items, setItems] = useState()    
     const [bonus, setBonus] = useState(0)
@@ -52,7 +54,7 @@ function Cart (props) {
             data: {
                 token: props.token,
                 total: getTotal(), 
-                bonus: bonus,
+                bonus_used: bonus,
                 phone_number: values.phone_number,
                 address: values.address                                                     
             }
@@ -65,6 +67,7 @@ function Cart (props) {
                     description: `'${res.data.ref}' дугаартай захиалга үүслээ.`,
                     duration: 8
                 });                
+                history.push('/profile?key=orders')
             } else if (res.status === 406) {
                 notification['error']({
                     message: 'Захиалга амжилтгүй боллоо.',
@@ -199,7 +202,7 @@ function Cart (props) {
             )}   
             <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
                 <div><Avatar shape="round" size={64} icon={<CarOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
-                <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
+                <div><Typography.Text>13:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 13:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
             </div>                                                                         
         </div>
     )

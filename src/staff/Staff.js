@@ -4,17 +4,15 @@ import axios from 'axios';
 import api from '../api';
 import { Breadcrumb, Button, Menu, Result, Row, Col } from "antd";
 import { Link } from "react-router-dom";
-import CategoryAdd from "../category/CategoryAdd";
-import CategoryEdit from "../category/CategoryEdit";
 import CompanyAdd from "../company/CompanyAdd";
 import CompanyEdit from "../company/CompanyEdit";
 import ProductAdd from "../product/ProductAdd";
 import ProductEdit from "../product/ProductEdit";
-import { BranchesOutlined, CloseCircleOutlined, ExperimentOutlined, FileImageOutlined, HistoryOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, ExperimentOutlined, FileImageOutlined, HistoryOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import OrderList from "./OrderList";
 import Logout from "../account/Logout";
-import TypeAdd from "../category/TypeAdd";
-import TypeEdit from "../category/TypeEdit";
+import CategoryAdd from "../category/CategoryAdd";
+import CategoryEdit from "../category/CategoryEdit";
 import SubCategoryAdd from "../category/SubCategoryAdd";
 import SubCategoryEdit from "../category/SubCategoryEdit";
 import SignupRequests from "./SignupRequests";
@@ -95,31 +93,27 @@ function Staff (props) {
                                             <Menu.Item key="21">Нэмэх</Menu.Item>
                                             <Menu.Item key="22">Засах / Устгах</Menu.Item>                                        
                                         </SubMenu>
-                                        <SubMenu key="sub4" icon={<BranchesOutlined />} title="Төрөл">
+                                        <SubMenu key="sub5" icon={<TagOutlined />} title="Ангилал">
                                             <Menu.Item key="31">Нэмэх</Menu.Item>
                                             <Menu.Item key="32">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        <SubMenu key="sub5" icon={<TagOutlined />} title="Ангилал">
+                                        <SubMenu key="sub6" icon={<TagsOutlined />} title="Дэд ангилал">
                                             <Menu.Item key="41">Нэмэх</Menu.Item>
                                             <Menu.Item key="42">Засах / Устгах</Menu.Item>               
-                                        </SubMenu>
-                                        <SubMenu key="sub6" icon={<TagsOutlined />} title="Дэд ангилал">
-                                            <Menu.Item key="51">Нэмэх</Menu.Item>
-                                            <Menu.Item key="52">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
                                         {/* <SubMenu key="sub6" icon={<TagsOutlined />} title="Таг">
                                             <Menu.Item key="14">Нэмэх</Menu.Item>
                                             <Menu.Item key="15">Засах / Устгах</Menu.Item> 
                                         </SubMenu> */}
                                         <SubMenu key="sub7" icon={<ShopOutlined />} title="Компани">
-                                            <Menu.Item key="61">Нэмэх</Menu.Item>
-                                            <Menu.Item key="62">Засах / Устгах</Menu.Item> 
+                                            <Menu.Item key="51">Нэмэх</Menu.Item>
+                                            <Menu.Item key="52">Засах / Устгах</Menu.Item> 
                                         </SubMenu> 
                                         <SubMenu key="sub8" icon={<FileImageOutlined />} title="Slider">
-                                            <Menu.Item key="71">Нэмэх</Menu.Item>
+                                            <Menu.Item key="61">Нэмэх</Menu.Item>
                                         </SubMenu> 
                                         <SubMenu key="sub9" icon={<VideoCameraOutlined />} title="Видео">
-                                            <Menu.Item key="72">Нэмэх</Menu.Item>
+                                            <Menu.Item key="62">Нэмэх</Menu.Item>
                                         </SubMenu>                                               
                                         <Menu.Item key="99" icon={<CloseCircleOutlined />}>Гарах</Menu.Item>    
                                     </Menu>
@@ -135,25 +129,21 @@ function Staff (props) {
                                         <ProductAdd token={props.token} />
                                     ) : key === "22" ? (
                                         <ProductEdit token={props.token} />
-                                    ) : key === "31" ? (                                     
-                                        <TypeAdd token={props.token} />
-                                    ) : key === "32" ? (                                        
-                                        <TypeEdit token={props.token} />
-                                    ) : key === "41" ? (                                        
+                                    ) : key === "31" ? (                                        
                                         <CategoryAdd token={props.token} />
-                                    ) : key === "42" ? (                                        
+                                    ) : key === "32" ? (                                        
                                         <CategoryEdit token={props.token} />
-                                    ) : key === "51" ? (                                        
+                                    ) : key === "41" ? (                                        
                                         <SubCategoryAdd token={props.token} />
-                                    ) : key === "52" ? (                                        
+                                    ) : key === "42" ? (                                        
                                         <SubCategoryEdit token={props.token} />
-                                    ) : key === "61" ? (                                        
+                                    ) : key === "51" ? (                                        
                                         <CompanyAdd token={props.token} />
-                                    ) : key === "62" ? (                                        
+                                    ) : key === "52" ? (                                        
                                         <CompanyEdit token={props.token} />
-                                    ) : key === "71" ? (                                        
+                                    ) : key === "61" ? (                                        
                                         <SliderAdd token={props.token} />
-                                    ) : key === "72" ? (                                        
+                                    ) : key === "62" ? (                                        
                                         <VideoAdd token={props.token} />
                                     ) : key === "99" ? (
                                         <Logout />

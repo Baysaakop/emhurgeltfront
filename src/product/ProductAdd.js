@@ -9,7 +9,6 @@ import Checkbox from "antd/lib/checkbox/Checkbox";
 function ProductAdd (props) {
 
     const [form] = Form.useForm()    
-    const [types, setTypes] = useState([])
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [companies, setCompanies] = useState([])
@@ -22,29 +21,14 @@ function ProductAdd (props) {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        getTypes()
+        getCategories()
         getCompanies()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-    function getTypes () {
-        axios({
-            method: 'GET',
-            url: `${api.types}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setTypes(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
 
     function getCategories (ids) {
         axios({
             method: 'GET',
-            url: `${api.categories}?types=${ids}`,
+            url: `${api.categories}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
@@ -70,14 +54,6 @@ function ProductAdd (props) {
             message.error("Хуудсыг дахин ачааллана уу")
         })
     } 
-
-    function onSelectType (ids) {        
-        if (ids.length > 0) {
-            getCategories(ids)                
-        } else {
-            setCategories(undefined)
-        }       
-    }
 
     function onSelectCategory (ids) {                
         if (ids.length > 0) {
@@ -159,9 +135,6 @@ function ProductAdd (props) {
         }      
         if (values.company) {
             formData.append('company', values.company);
-        }
-        if (values.type) {
-            formData.append('type', values.type);
         }
         if (values.category) {
             formData.append('category', values.category);
@@ -277,22 +250,8 @@ function ProductAdd (props) {
                                         )) : <></> }
                                     </Select>          
                                 </Form.Item>
-                            </Col>                                                         
-                            <Col span={8}>
-                                <Form.Item name="type" label="Төрөл">
-                                    <Select           
-                                        mode="multiple"                                                               
-                                        placeholder="Төрөл сонгох"
-                                        optionFilterProp="children"    
-                                        onChange={onSelectType}                            
-                                    >
-                                        { types ? types.map(t => (
-                                            <Select.Option key={t.id}>{t.name}</Select.Option>
-                                        )) : <></>}
-                                    </Select>           
-                                </Form.Item>
-                            </Col>                                                                         
-                            <Col span={8}>
+                            </Col>                                                                                                                             
+                            <Col span={12}>
                                 <Form.Item name="category" label="Ангилал">
                                     <Select       
                                         mode="multiple"                                                                               
@@ -306,7 +265,7 @@ function ProductAdd (props) {
                                     </Select>           
                                 </Form.Item>
                             </Col>       
-                            <Col span={8}>
+                            <Col span={12}>
                                 <Form.Item name="subcategory" label="Дэд ангилал">
                                     <Select          
                                         mode="multiple"                      

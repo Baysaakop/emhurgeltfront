@@ -1,5 +1,4 @@
-import { CarOutlined, GiftOutlined, SafetyCertificateOutlined, ShoppingCartOutlined, TeamOutlined, UserOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Breadcrumb, Col, Row, Typography, Avatar, Carousel, Button } from "antd";
+import { Breadcrumb } from "antd";
 import { useRef } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
@@ -22,7 +21,7 @@ function About (props) {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ marginTop: '24px' }}>               
-                <div style={{ position: 'relative' }}>
+                {/* <div style={{ position: 'relative' }}>
                     <Carousel autoplay autoplaySpeed={9000} ref={ref} style={{ zIndex: '1' }}>                
                         
                     </Carousel>        
@@ -40,8 +39,8 @@ function About (props) {
                         style={{ position: 'absolute', right: '8px', top: '5%', zIndex: '2', height: '90%', opacity: '0.5' }}
                         onClick={() => ref.current.next()}
                     />                                        
-                </div>
-                <Row gutter={[16, 16]} style={{ marginTop: '24px', textAlign: 'center', padding: '24px' }}>
+                </div> */}
+                {/* <Row gutter={[16, 16]} style={{ marginTop: '24px', textAlign: 'center', padding: '24px' }}>
                     <Col xs={12} sm={12} md={12} lg={6}>
                         <Avatar shape="circle" icon={<SafetyCertificateOutlined />} size={140} style={{ color: '#000', marginBottom: '16px' }} />                        
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.about.feature1 : translations.mn.about.feature1 }</Typography.Title>                                              
@@ -58,8 +57,8 @@ function About (props) {
                         <Avatar shape="circle" icon={<GiftOutlined />} size={140} style={{ color: '#000', marginBottom: '16px' }} />                  
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.about.feature4 : translations.mn.about.feature4 }</Typography.Title>                                                      
                     </Col>
-                </Row>         
-                <div style={{background: '#fff', padding: '24px', marginTop: '24px', textAlign: 'center',  }}>
+                </Row>          */}
+                {/* <div style={{background: '#fff', padding: '24px', marginTop: '24px', textAlign: 'center',  }}>
                     <Typography.Title level={2} style={{ marginBottom: '24px' }}><TeamOutlined /> Манай хамт олон</Typography.Title>                    
                     <Row gutter={[16, 16]} style={{ textAlign: 'center' }}>
                         <Col xs={12} sm={12} md={8} lg={4}>
@@ -93,7 +92,7 @@ function About (props) {
                             <Typography.Text>Role</Typography.Text>
                         </Col>                        
                     </Row>    
-                </div>                       
+                </div>                        */}
             </div>        
         </div>
     )

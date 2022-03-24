@@ -44,6 +44,18 @@ const Registration = (props) => {
         })
     }    
 
+    const validatePassword = (rule, value, callback) => {
+        if (value.length < 8) {
+            callback("Нууц үг багадаа 8 тэмдэгт байх ёстой.");
+        } else if (value.search(/\d/) === -1) {
+            callback("Нууц үг дор хаяж 1 тоо агуулсан байх ёстой.");
+        } else if (value.search(/[a-zA-Z]/) === -1) {
+            callback("Нууц үг дор хаяж 1 үсэг агуулсан байх ёстой.");
+        } else {
+            callback();
+        }
+    };
+
     return (
         <div>
             <div style={{ marginTop: '24px', minHeight: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>            
@@ -122,13 +134,16 @@ const Registration = (props) => {
                             >
                                 <Input />
                             </Form.Item>                    
-                            <Form.Item
+                            <Form.Item                                
                                 name="password"
                                 label="Нууц үг"
                                 rules={[
                                 {
                                     required: true,
                                     message: 'Нууц үг оруулна уу!',
+                                },
+                                {
+                                    validator: validatePassword
                                 },
                                 ]}
                                 hasFeedback

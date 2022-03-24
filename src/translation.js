@@ -46,7 +46,7 @@ export const mn = {
     },
     product_list: {
         search_products: 'Бүтээгдэхүүн хайх',
-        category: 'Төрөл',
+        category: 'Ангилал',
         tags: 'Зориулалт',
         price: 'Үнэ',
         total: 'Нийт',
@@ -126,7 +126,7 @@ export const en = {
     },
     product_list: {
         search_products: 'Search for products',
-        category: 'Categories',
+        category: 'Category',
         tags: 'Tags',
         price: 'Price',
         total: 'Total',

@@ -35,14 +35,6 @@ function OrderHistory (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    function getBonus (order) {
-        let bonus = 0
-        order.items.forEach(order_item => {
-            bonus += (order_item.item.price / 100) * order.customer.level * order_item.item.multiplier * order_item.count
-        })
-        return bonus
-    }
-
     return (
         <div>
             <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>        
@@ -94,15 +86,15 @@ function OrderHistory (props) {
                                         </div>
                                         <div style={{ marginBottom: '8px' }}>
                                             <Typography.Text style={{ fontWeight: 'bold' }}>Ашигласан бонус: </Typography.Text>
-                                            <Typography.Text>{formatNumber(order.bonus)}₮</Typography.Text>
+                                            <Typography.Text>{formatNumber(order.bonus_used)}₮</Typography.Text>
                                         </div>
                                         <div style={{ marginBottom: '8px' }}>
                                             <Typography.Text style={{ fontWeight: 'bold' }}>Төлөх дүн: </Typography.Text>
-                                            <Typography.Text>{formatNumber(order.total - order.bonus)}₮</Typography.Text>
+                                            <Typography.Text>{formatNumber(order.total - order.bonus_used)}₮</Typography.Text>
                                         </div>
                                         <div style={{ marginBottom: '8px' }}>
                                             <Typography.Text style={{ fontWeight: 'bold' }}>Урамшуулал: </Typography.Text>
-                                            <Typography.Text style={{ fontWeight: 'bold' }}>+{formatNumber(getBonus(order))}₮</Typography.Text>
+                                            <Typography.Text style={{ fontWeight: 'bold' }}>+{formatNumber(order.bonus_granted)}₮</Typography.Text>
                                         </div>                                        
                                     </Col>
                                     <Col xs={24} sm={24} md={8}>                                                

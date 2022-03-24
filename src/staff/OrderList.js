@@ -128,9 +128,9 @@ function OrderList (props) {
         },
         {
             title: 'Бонус',
-            dataIndex: 'bonus',
-            key: 'bonus',
-            render: (bonus) => <Typography.Text>{formatNumber(bonus)}₮</Typography.Text>
+            dataIndex: 'bonus_used',
+            key: 'bonus_used',
+            render: (bonus_used) => <Typography.Text>{formatNumber(bonus_used)}₮</Typography.Text>
         },
         {
             title: 'Утасны дугаар',

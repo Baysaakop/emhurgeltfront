@@ -7,36 +7,16 @@ import api from "../api";
 function SubCategoryAdd (props) {
 
     const [form] = Form.useForm()
-    const [types, setTypes] = useState([])
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        getTypes()
+        getCategories()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    function getTypes () {
+    function getCategories () {
         axios({
             method: 'GET',
-            url: `${api.types}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setTypes(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
-
-    function onSelectType (id) {
-        getCategories(id)
-    }
-
-    function getCategories (type) {
-        axios({
-            method: 'GET',
-            url: `${api.categories}?type=${type}`,
+            url: `${api.categories}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
@@ -55,9 +35,7 @@ function SubCategoryAdd (props) {
             data: {
                 category: values.category,
                 name: values.name,
-                name_en: values.name_en ? values.name_en: '',
-                description: values.description ? values.description: '',
-                token: props.token
+                name_en: values.name_en ? values.name_en: ''
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -89,18 +67,6 @@ function SubCategoryAdd (props) {
                 onFinish={onFinish}
                 style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px', width: '100%' }}
             >
-                <Form.Item name="type" label="Төрөл" rules={[{ required: true }]}>
-                    <Select                                
-                        placeholder="Төрөл сонгох"
-                        optionFilterProp="children"        
-                        onSelect={onSelectType}                
-                        style={{ width: '100%' }}
-                    >
-                        { types ? types.map(t => (
-                            <Select.Option key={t.id}>{t.name}</Select.Option>
-                        )) : <></>}
-                    </Select>  
-                </Form.Item>
                 <Form.Item name="category" label="Ангилал" rules={[{ required: true }]}>
                     <Select                                
                         placeholder="Ангилал сонгох"
@@ -118,10 +84,7 @@ function SubCategoryAdd (props) {
                 <Form.Item name="name_en" label="Нэр (EN)">
                     <Input />
                 </Form.Item>
-                <Form.Item name="description" label="Тайлбар">
-                    <Input.TextArea rows={4} />
-                </Form.Item>
-                <Button type="primary" onClick={form.submit}>Хадгалах</Button>
+                <Button htmlType="submit" type="primary">Хадгалах</Button>
             </Form>
         </div>
     )

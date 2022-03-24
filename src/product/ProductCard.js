@@ -117,21 +117,6 @@ function ProductCard (props) {
         }
     }
 
-    function getType (types) {
-        let res = []
-        types.forEach(element => {
-            if (props.language === "en") {
-                res.push(element.name_en)
-            } else {
-                res.push(element.name)
-            }            
-        })
-        if (res.length > 0) {
-            return res.toString()
-        }        
-        return "---"    
-    }
-
     function formatNumber(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
@@ -197,13 +182,10 @@ function ProductCard (props) {
                         <Card.Meta 
                             title={
                                 <Tooltip title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
-                            }    
-                            description={getType(props.item.types)}                    
+                            }                                              
                         />
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>                        
-                            <div>
-                                <Typography.Title level={5} style={{ margin: '0', color: '#000' }}>{formatNumber(props.item.price)}₮</Typography.Title>
-                            </div>
+                        <div style={{ marginTop: '16px', textAlign: 'center' }}>                        
+                            <Typography.Title level={4} style={{ margin: '0', color: '#000' }}>{formatNumber(props.item.price)}₮</Typography.Title>
                         </div>
                     </Link>
                     <Modal title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name} visible={visible} footer={false} onCancel={() => setVisible(false)}>

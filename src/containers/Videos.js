@@ -42,7 +42,7 @@ function Videos (props) {
                 <Breadcrumb.Item>
                     { props.language === "en" ? translations.en.header.videos : translations.mn.header.videos }
                 </Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb>                       
             { videos ? (
                 <Row gutter={16} style={{ marginTop: '24px' }}>
                     {videos.map(video => (

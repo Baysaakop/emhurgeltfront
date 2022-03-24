@@ -5,10 +5,8 @@ import api from "../api";
 import { useState, useEffect } from "react";
 
 function ProductEdit (props) {
-
-    const [form] = Form.useForm()    
+    const [form] = Form.useForm()        
     const [items, setItems] = useState([])
-    const [types, setTypes] = useState([])
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [companies, setCompanies] = useState([])
@@ -22,25 +20,29 @@ function ProductEdit (props) {
     const [selection, setSelection] = useState()
 
     useEffect(() => {
-        getTypes()
+        getCategories()
         getCompanies()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function onSearch (val) {        
-        axios({
-            method: 'GET',
-            url: `${api.items}?name=${val}`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setItems(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
+        if (val) {
+            axios({
+                method: 'GET',
+                url: `${api.items}?name=${val}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${props.token}`            
+                }        
+            }).then(res => {
+                setItems(res.data.results)                    
+            }).catch(err => {
+                message.error("Хуудсыг дахин ачааллана уу")
+            })                
+        } else {
+            setItems(undefined)
+        }        
     }
-
+    
     function onSelect (id) {
         let hit = items.find(x => x.id.toString() === id)
         if (hit.types && hit.types.length > 0) {
@@ -66,7 +68,6 @@ function ProductEdit (props) {
             count: hit.count !== null ? hit.count : '',
             multiplier: hit.multiplier !== null ? hit.multiplier : '',
             company: hit.company !== null ? hit.company.id.toString() : undefined,
-            type: hit.types !== null ? getIDs(hit.types) : undefined,
             category: hit.categories !== null ? getIDs(hit.categories) : undefined,
             subcategory: hit.subcategories !== null ? getIDs(hit.subcategories) : undefined,
         })        
@@ -101,25 +102,11 @@ function ProductEdit (props) {
         }
     }
 
-    function getTypes () {
-        axios({
-            method: 'GET',
-            url: `${api.types}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setTypes(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }
 
     function getCategories (ids) {
         axios({
             method: 'GET',
-            url: `${api.categories}?types=${ids}`,
+            url: `${api.categories}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`            
@@ -145,14 +132,6 @@ function ProductEdit (props) {
             message.error("Хуудсыг дахин ачааллана уу")
         })
     } 
-
-    function onSelectType (ids) {        
-        if (ids.length > 0) {
-            getCategories(ids)                
-        } else {
-            setCategories(undefined)
-        }       
-    }
 
     function onSelectCategory (ids) {                
         if (ids.length > 0) {
@@ -230,9 +209,6 @@ function ProductEdit (props) {
         }
         if (values.company && values.company !== null && values.company !== selection.company) {
             formData.append('company', values.company);
-        }
-        if (values.type && !compareM2M(values.type, getIDs(selection.types))) {            
-            formData.append('type', values.type);
         }
         if (values.category && !compareM2M(values.category, getIDs(selection.categories))) {
             formData.append('category', values.category);
@@ -324,15 +300,9 @@ function ProductEdit (props) {
             ) : ( 
                 <div>
                     <Typography.Title level={4}>Бүтээгдэхүүн засах / устгах</Typography.Title>            
-                    <Input.Search
-                        placeholder="Бүтээгдэхүүний нэр"
-                        onSearch={onSearch}
-                        enterButton
-                        style={{ marginBottom: '8px' }}
-                    />
                     <Select                              
-                        // showSearch
-                        // onSearch={onSearch}  
+                        showSearch
+                        onSearch={onSearch}                                              
                         placeholder="Бүтээгдэхүүн сонгох"
                         optionFilterProp="children"
                         onSelect={onSelect}        
@@ -391,22 +361,8 @@ function ProductEdit (props) {
                                             )) : <></> }
                                         </Select>          
                                     </Form.Item>
-                                </Col>                      
-                                <Col span={8}>
-                                    <Form.Item name="type" label="Төрөл">
-                                        <Select       
-                                            mode="multiple"                                                              
-                                            placeholder="Төрөл сонгох"
-                                            optionFilterProp="children"    
-                                            onChange={onSelectType}                            
-                                        >
-                                            { types ? types.map(t => (
-                                                <Select.Option key={t.id}>{t.name}</Select.Option>
-                                            )) : <></>}
-                                        </Select>           
-                                    </Form.Item>
-                                </Col>        
-                                <Col span={8}>
+                                </Col>                             
+                                <Col span={12}>
                                     <Form.Item name="category" label="Ангилал">
                                         <Select                   
                                             mode="multiple"                                                                   
@@ -420,7 +376,7 @@ function ProductEdit (props) {
                                         </Select>           
                                     </Form.Item>
                                 </Col>       
-                                <Col span={8}>
+                                <Col span={12}>
                                     <Form.Item name="subcategory" label="Дэд ангилал">
                                         <Select          
                                             mode="multiple"                      
@@ -446,18 +402,6 @@ function ProductEdit (props) {
                                         </Select>     
                                     </Form.Item>        
                                 </Col>            */}                               
-                                {/* <Col span={8}>
-                                    <Form.Item name="shops" label="Салбарууд">
-                                        <Select                                
-                                            placeholder="Салбар сонгох"
-                                            optionFilterProp="children"
-                                        >
-                                            { shops ? shops.map(shop => (
-                                                <Select.Option key={shop.id}>{shop.name}</Select.Option>
-                                            )) : <></> }
-                                        </Select>          
-                                    </Form.Item>
-                                </Col>                     */}
                                 <Col span={12}>
                                     <Form.Item name="description" label="Тайлбар">
                                         <Input.TextArea rows={3} />
