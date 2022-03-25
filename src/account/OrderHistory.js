@@ -1,8 +1,9 @@
-import { Typography, message, List, Row, Col, Collapse, Pagination } from "antd"
+import { Typography, message, List, Row, Col, Collapse, Pagination, Divider, Avatar } from "antd"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../api"
 import moment from "moment";
+import { CheckOutlined } from "@ant-design/icons";
 
 function OrderHistory (props) {
     const [orders, setOrders] = useState()    
@@ -36,10 +37,9 @@ function OrderHistory (props) {
     }
 
     return (
-        <div>
-            <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>        
-                <Typography.Title level={4} style={{ margin: 0 }}>Захиалгын түүх</Typography.Title>            
-            </div>
+        <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>       
+            <Typography.Title level={4} style={{ margin: 0 }}>Захиалгын түүх</Typography.Title>            
+            <Divider /> 
             <List
                 itemLayout="vertical"
                 size="large"
@@ -58,7 +58,11 @@ function OrderHistory (props) {
                                             <Typography.Title level={5} style={{ margin: 0 }}>ЗАХИАЛГЫН ДУГААР: {order.ref}</Typography.Title>   
                                         </Col>
                                         <Col xs={24} sm={24} md={24} lg={12} style={{ textAlign: 'right' }}>
-                                            <Typography.Title level={5} style={{ margin: 0 }}>ТӨЛӨВ: {order.is_payed ? 'Төлбөр төлөгдсөн' : 'Захиалгыг хүлээж авсан'}</Typography.Title>
+                                            {order.is_payed ? (
+                                                <Typography.Title level={5} style={{ margin: 0 }}>ТӨЛӨВ: Төлбөр төлөгдсөн <Avatar size="small" icon={<CheckOutlined />} style={{ background: '#52c41a' }} /></Typography.Title>
+                                            ) : (
+                                                <Typography.Title level={5} style={{ margin: 0 }}>ТӨЛӨВ: Хүлээж авсан</Typography.Title>
+                                            )}                                            
                                         </Col>
                                     </Row>
                                 }

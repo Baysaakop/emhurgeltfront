@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Result,  Row, Col, Typography, Avatar, Menu, Rate } from 'antd';
+import { Breadcrumb, Button, Result,  Row, Col, Typography, Avatar, Menu, Rate, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -13,10 +13,12 @@ import OrderHistory from './OrderHistory';
 const percentages = ['1%', '2%', '3%'];
 
 function Profile (props) {    
+    const [loading, setLoading] = useState(false)
     const [user, setUser] = useState()
     const [key, setKey] = useState("1")
 
-    useEffect(() => {        
+    useEffect(() => {    
+        setLoading(true)            
         let key = props.location.search.split("=")[1]
         if (key === "favorite") {
             setKey("2")
@@ -36,8 +38,10 @@ function Profile (props) {
             }
         }).then(res => {                       
             setUser(res.data)
+            setLoading(false)
         }).catch(err => {
             console.log(err)
+            setLoading(false)
         })
     }, [props.token, props.location.search])
 
@@ -60,7 +64,11 @@ function Profile (props) {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <div className="container" style={{ marginTop: '24px' }}>
-            {user && user.role === "3" ? (
+            { loading ? (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '60vh' }}>
+                    <Spin tip='Ачааллаж байна...' />
+                </div>
+            ) : user && user.role === "3" ? (
                 <Row gutter={[24, 24]}>
                     <Col xs={24} sm={24} md={24} lg={6}>
                         <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>

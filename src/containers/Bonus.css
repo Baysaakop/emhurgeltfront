@@ -1,11 +1,11 @@
 .bonus {
-  height: 80vh;
   width: 100%;
+  min-height: 80vh;
 }
 
 .bonus::before {
   content: "";
-  background-image: url("https://media.istockphoto.com/vectors/gift-boxes-vector-seamless-pattern-cute-long-background-banner-with-vector-id1289019632?k=20&m=1289019632&s=170667a&w=0&h=zPryxF73gp1qfV8SeOzTLMFdup1s8bEYDrTVmywkSyM=");
+  background-image: url("bonus.jpg");
   position: absolute;
   top: 0px;
   right: 0px;

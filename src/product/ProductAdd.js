@@ -9,8 +9,8 @@ import Checkbox from "antd/lib/checkbox/Checkbox";
 function ProductAdd (props) {
 
     const [form] = Form.useForm()    
-    const [categories, setCategories] = useState([])
-    const [subCategories, setSubCategories] = useState([])
+    const [categories, setCategories] = useState([])    
+    const [subCategories, setSubCategories] = useState([])    
     const [companies, setCompanies] = useState([])
     const [featured, setFeatured] = useState(false)
     const [image1, setImage1] = useState()
@@ -40,24 +40,10 @@ function ProductAdd (props) {
         })
     }       
 
-    function getSubCategories (ids) {
-        axios({
-            method: 'GET',
-            url: `${api.subcategories}?categories=${ids}`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setSubCategories(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    } 
-
-    function onSelectCategory (ids) {                
-        if (ids.length > 0) {
-            getSubCategories(ids)            
+    function onSelectCategory (id) {                
+        if (id) {
+            let cat = categories.find(x => x.id.toString() === id.toString())
+            setSubCategories(cat.subcategories)
         } else {
             setSubCategories(undefined)
         }                    
@@ -253,8 +239,7 @@ function ProductAdd (props) {
                             </Col>                                                                                                                             
                             <Col span={12}>
                                 <Form.Item name="category" label="Ангилал">
-                                    <Select       
-                                        mode="multiple"                                                                               
+                                    <Select                                                                                   
                                         placeholder="Ангилал сонгох"
                                         optionFilterProp="children"                                
                                         onChange={onSelectCategory}

@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios"; 
 import api from "../api";
-import './ProductCard.css'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import logo from '../components/logo.png';
-import './ProductCard.css'
 import * as translations from '../translation';
 
 function ProductCard (props) {

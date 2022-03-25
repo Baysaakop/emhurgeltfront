@@ -60,7 +60,7 @@ function Bonus (props) {
                         Та манай веб сайтаар үйлчлүүлснээр өөр хаана ч байхгүй гайхалтай урамшууллын хөтөлбөрт хамрагдах боломжтой.
                     </Typography.Title>
                 </div>
-                <Table columns={columns} dataSource={data} pagination={false} style={{ border: '1px solid #000' }} />
+                <Table columns={columns} dataSource={data} pagination={false} size="small" style={{ border: '1px solid #000' }} />
                 <div style={{ background: '#fff', border: '1px solid #000', padding: '24px', marginTop: '24px' }}>
                     <div style={{ marginBottom: '8px' }}>
                         <Typography.Text>

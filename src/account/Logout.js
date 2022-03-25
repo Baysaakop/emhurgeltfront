@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Result, Typography } from 'antd';
+import { Button, Divider, Result, Typography } from 'antd';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 import { CloseOutlined } from '@ant-design/icons';
@@ -17,7 +17,8 @@ const Logout = (props) => {
     return (
         <div style={{ background: '#fff', padding: '24px' }}>
             <Typography.Title level={4}>Гарах</Typography.Title>            
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
+            <Divider />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
                 <Result
                         status="warning"
                         title="Та гарахдаа итгэлтэй байна уу?"

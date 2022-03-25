@@ -45,11 +45,8 @@ function ProductEdit (props) {
     
     function onSelect (id) {
         let hit = items.find(x => x.id.toString() === id)
-        if (hit.types && hit.types.length > 0) {
-            getCategories(getIDs(hit.types))
-        }
-        if (hit.categories && hit.categories.length > 0) {
-            getSubCategories(getIDs(hit.categories))
+        if (hit.category) {            
+            setSubCategories(hit.category.subcategories)
         }
         form.setFieldsValue({
             name: hit.name,            
@@ -68,7 +65,7 @@ function ProductEdit (props) {
             count: hit.count !== null ? hit.count : '',
             multiplier: hit.multiplier !== null ? hit.multiplier : '',
             company: hit.company !== null ? hit.company.id.toString() : undefined,
-            category: hit.categories !== null ? getIDs(hit.categories) : undefined,
+            category: hit.category !== null ? hit.category.id.toString() : undefined,
             subcategory: hit.subcategories !== null ? getIDs(hit.subcategories) : undefined,
         })        
         setFeatured(hit.is_featured)
@@ -118,27 +115,13 @@ function ProductEdit (props) {
         })
     }       
 
-    function getSubCategories (ids) {
-        axios({
-            method: 'GET',
-            url: `${api.subcategories}?categories=${ids}`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setSubCategories(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    } 
-
-    function onSelectCategory (ids) {                
-        if (ids.length > 0) {
-            getSubCategories(ids)            
+    function onSelectCategory (id) {                
+        if (id) {
+            let cat = categories.find(x => x.id.toString() === id.toString())
+            setSubCategories(cat.subcategories)
         } else {
             setSubCategories(undefined)
-        }                    
+        }                        
     }
 
     function getCompanies () {
@@ -210,7 +193,7 @@ function ProductEdit (props) {
         if (values.company && values.company !== null && values.company !== selection.company) {
             formData.append('company', values.company);
         }
-        if (values.category && !compareM2M(values.category, getIDs(selection.categories))) {
+        if (values.category && values.category !== null && values.category !== selection.category) {
             formData.append('category', values.category);
         }
         if (values.subcategory && !compareM2M(values.subcategory, getIDs(selection.subcategories))) {
@@ -364,8 +347,7 @@ function ProductEdit (props) {
                                 </Col>                             
                                 <Col span={12}>
                                     <Form.Item name="category" label="Ангилал">
-                                        <Select                   
-                                            mode="multiple"                                                                   
+                                        <Select                                                                                  
                                             placeholder="Ангилал сонгох"
                                             optionFilterProp="children"                                
                                             onChange={onSelectCategory}

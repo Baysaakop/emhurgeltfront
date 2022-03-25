@@ -87,7 +87,8 @@ function Staff (props) {
                                             <Menu.Item key="2">Төлбөр төлсөн</Menu.Item>                                            
                                         </SubMenu>
                                         <SubMenu key="sub2" icon={<UserOutlined />} title="Хэрэглэгч">
-                                            <Menu.Item key="11">Хүсэлтүүд</Menu.Item>                                            
+                                            <Menu.Item key="11">Хүсэлтүүд</Menu.Item>           
+                                            <Menu.Item key="12">Захиалгууд</Menu.Item>                                            
                                         </SubMenu>       
                                         <SubMenu key="sub3" icon={<ExperimentOutlined />} title="Бүтээгдэхүүн">
                                             <Menu.Item key="21">Нэмэх</Menu.Item>

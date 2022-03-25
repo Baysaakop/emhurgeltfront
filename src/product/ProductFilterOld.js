@@ -1,6 +1,6 @@
 import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Checkbox, Spin, Result, Button, Menu } from "antd";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import axios from "axios";
 import api from "../api";
@@ -11,17 +11,18 @@ import { UserOutlined } from "@ant-design/icons";
 const { SubMenu } = Menu;
 
 function ProductList (props) {
+    const history = useHistory()
     const [loading, setLoading] = useState(false)
-    // get from api
     const [user, setUser] = useState()    
     const [categories, setCategories] = useState()    
     const [companies, setCompanies] = useState()    
+    // const [tags, setTags] = useState()
     const [items, setItems] = useState()    
-    // filtering
     const [isFeatured, setIsFeatured] = useState(false)    
     const [category, setCategory] = useState()
     const [subCategory, setSubCategory] = useState()
     const [company, setCompany] = useState("0")    
+    // const [selectedTags, setSelectedTags] = useState([])
     const [priceLow, setPriceLow] = useState(0)
     const [priceHigh, setPriceHigh] = useState(200000)
     const [page, setPage] = useState(1)    
@@ -29,8 +30,61 @@ function ProductList (props) {
     const [sorter, setSorter] = useState("-created_at")
 
     useEffect(() => {        
-        const params = new URLSearchParams(props.location.search)               
-        let search = params.get('name')                   
+        const params = new URLSearchParams(props.location.search)                        
+        // let param_is_featured = params.get('is_featured')  
+        // let param_category = params.get('category')       
+        // let param_subcategory = params.get('subcategory')    
+        // let param_company = params.get('company')       
+        // // let param_tags = params.get('tags')
+        // let param_pricelow = params.get('pricelow')
+        // let param_pricehigh = params.get('pricehigh')        
+        // let param_page = params.get('page')
+        // let param_order = params.get('order')
+        // if (param_is_featured !== undefined && param_is_featured !== null && param_is_featured === 'true') {
+        //     setIsFeatured(true)
+        // } else {
+        //     setIsFeatured(false)
+        // }        
+        // if (param_category !== undefined && param_category !== null) {
+        //     setCategory(param_category)            
+        // } else {
+        //     setCategory("0")
+        // }
+        // if (param_subcategory !== undefined && param_subcategory !== null) {
+        //     setSubCategory(param_subcategory)            
+        // } else {
+        //     setSubCategory("0")
+        // }
+        // if (param_company !== undefined && param_company !== null) {
+        //     setCompany(param_company)
+        // } else {
+        //     setCompany("0")
+        // }
+        // if (param_tags !== undefined && param_tags !== null) {
+        //     setSelectedTags(param_tags.toString().split(","))
+        // } else {
+        //     setSelectedTags([])
+        // }
+        // if (param_pricelow !== undefined && param_pricelow !== null) {
+        //     setPriceLow(param_pricelow)
+        // } else {
+        //     setPriceLow(0)
+        // }
+        // if (param_pricehigh !== undefined && param_pricehigh !== null) {
+        //     setPriceHigh(param_pricehigh)
+        // } else {
+        //     setPriceHigh(200000)
+        // }
+        // if (param_page !== undefined && param_page !== null) {
+        //     setPage(param_page)
+        // } else {
+        //     setPage(1)
+        // }
+        // if (param_order !== undefined && param_order !== null) {
+        //     setOrder(param_order)
+        // } else {
+        //     setOrder("-created_at")
+        // }
         if (props.token && !user) {
             getUser()
         }        
@@ -40,7 +94,10 @@ function ProductList (props) {
         if (!companies) {
             getCompanies()
         }
-        getProducts(search)          
+        // if (!tags) {
+        //     getTags()
+        // }
+        getProducts()          
     }, [props.token, props.location.search, isFeatured, category, subCategory, company, priceLow, priceHigh, sorter, page]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUser() {        
@@ -58,13 +115,10 @@ function ProductList (props) {
         })
     }
 
-    function getProducts (search) {                 
+    function getProducts () {                 
         setLoading(true)
         let url = "?"         
 
-        if (search && search !== null && search !== "") {
-            url += "name=" + search + "&"
-        }
         if (isFeatured) {
             url += "is_featured=" + true + "&"
         }
@@ -133,6 +187,12 @@ function ProductList (props) {
 
     function onCheckFeatured () {        
         setIsFeatured(!isFeatured)
+        // const params = new URLSearchParams(props.location.search)        
+        // params.delete("is_featured")
+        // if (!isFeatured) {
+        //     params.append("is_featured", "true")
+        // }
+        // history.push(`/products?${params.toString()}`)
     }
 
     function onSelectCategory (e) {       
@@ -141,32 +201,69 @@ function ProductList (props) {
             setCategory(undefined)
         } else {            
             setCategory(e.key)
-        }                                                
+        }                                 
+        // const params = new URLSearchParams(props.location.search)        
+        // params.delete("category")
+        // params.delete("subcategory")
+        // if (parseInt(e.key) > 0) {
+        //     params.append("category", e.key)            
+        // }
+        // history.push(`/products?${params.toString()}`)                
     }
 
     function onSelectSubCategory (e) {        
-        setSubCategory(e.key)            
+        setSubCategory(e.key)
+        // const params = new URLSearchParams(props.location.search)        
+        // params.delete("subcategory")
+        // if (parseInt(e.key) > 0) {
+        //     params.append("subcategory", e.key)            
+        // }
+        // history.push(`/products?${params.toString()}`)                
     }
 
     function onSelectCompany (e) {                
-        setCompany(e.target.value)             
+        setCompany(e.target.value)
+        // const params = new URLSearchParams(props.location.search)        
+        // params.delete("company")
+        // if (parseInt(e.target.value) > 0) {
+        //     params.append("company", e.target.value)            
+        // }
+        // history.push(`/products?${params.toString()}`)                
     }
     
     function onPriceChange (val) {        
         setPriceLow(parseInt(val[0]))
-        setPriceHigh(parseInt(val[1]))      
+        setPriceHigh(parseInt(val[1]))
+        // const params = new URLSearchParams(props.location.search)        
+        // params.delete("pricelow")
+        // params.delete("pricehigh")
+        // if (val[0] > 0) {
+        //     params.append("pricelow", val[0])
+        // }
+        // if (val[1] < 200000) {
+        //     params.append("pricehigh", val[1])
+        // }
+        // history.push(`/products?${params.toString()}`)        
     }
 
     function onPageChange (pageNum, pageSize) {        
-        setPage(pageNum)   
+        setPage(pageNum)
+        // const params = new URLSearchParams(props.location.search)        
+        // params.delete("page")        
+        // if (pageNum > 1) {
+        //     params.append("page", pageNum)
+        // }
+        // history.push(`/products?${params.toString()}`)      
     } 
 
     function onSort (val) {
-        setSorter(val)      
-    }
-
-    function showTotal () {
-        return `${props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total} ${total} ${props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products}`;
+        setSorter(val)
+        // const params = new URLSearchParams(props.location.search)        
+        // params.delete("order")        
+        // if (val !== "-created_at") {
+        //     params.append("order", val)
+        // }
+        // history.push(`/products?${params.toString()}`)        
     }
 
     return (
@@ -185,7 +282,7 @@ function ProductList (props) {
                 <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
                     <Col xs={24} sm={24} md={24} lg={6}>                        
                         <div style={{ background: '#fff', marginBottom: '16px' }}>
-                            <div style={{ background: '#009432', padding: '8px 16px', borderRadius: '4px' }}>
+                            <div style={{ background: '#009432', padding: '16px', borderRadius: '4px' }}>
                                 <Typography.Title level={5} style={{ color: '#fff', margin: 0 }}>{ props.language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Typography.Title>
                             </div>
                             <div style={{ padding: '16px' }}>
@@ -196,7 +293,7 @@ function ProductList (props) {
                         </div>
 
                         <div style={{ background: '#fff', marginBottom: '16px' }}>
-                            <div style={{ background: '#009432', padding: '8px 16px', borderRadius: '4px' }}>
+                            <div style={{ background: '#009432', padding: '16px', borderRadius: '4px' }}>
                                 <Typography.Title level={5} style={{ color: '#fff', margin: 0 }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }</Typography.Title>
                             </div>
                             <Menu
@@ -217,7 +314,7 @@ function ProductList (props) {
                         </div>
 
                         <div style={{ background: '#fff', marginBottom: '16px' }}>
-                            <div style={{ background: '#009432', padding: '8px 16px', borderRadius: '4px' }}>
+                            <div style={{ background: '#009432', padding: '16px', borderRadius: '4px' }}>
                                 <Typography.Title level={5} style={{ color: '#fff', margin: 0 }}>{ props.language === "en" ? translations.en.product_list.brand : translations.mn.product_list.brand }</Typography.Title>
                             </div>
                             <Radio.Group value={company} onChange={onSelectCompany}>
@@ -235,7 +332,7 @@ function ProductList (props) {
                         </div>
 
                         <div style={{ background: '#fff', marginBottom: '16px' }}>
-                            <div style={{ background: '#009432', padding: '8px 16px', borderRadius: '4px' }}>
+                            <div style={{ background: '#009432', padding: '16px', borderRadius: '4px' }}>
                                 <Typography.Title level={5} style={{ color: '#fff', margin: 0 }}>{ props.language === "en" ? translations.en.product_list.price : translations.mn.product_list.price }</Typography.Title>
                             </div>
                             <div style={{ padding: '16px' }}>
@@ -272,7 +369,8 @@ function ProductList (props) {
                             </div>
                         ) : (
                             <div>
-                                <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderRadius: '2px' }}>                                    
+                                <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderRadius: '2px' }}>
+                                    {/* <Typography.Title level={5} style={{ margin: 0 }}>{ props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total }: {total} { props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products }</Typography.Title> */}
                                     <Typography.Title level={5} style={{ margin: 0 }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }: {category ? categories.find(x => x.id.toString() === category).name : 'Бүх'}</Typography.Title>
                                     <div>
                                         <Select value={sorter} style={{ width: '180px' }} onChange={onSort}>
@@ -285,8 +383,8 @@ function ProductList (props) {
                                 </div>
                                 <List
                                     grid={{
-                                        gutter: 16,
-                                        xs: 2,
+                                        gutter: 24,
+                                        xs: 1,
                                         sm: 2,
                                         md: 3,
                                         lg: 3,
@@ -300,16 +398,14 @@ function ProductList (props) {
                                         </List.Item>
                                     )}
                                 />
-                                <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
-                                    <Pagination
-                                        current={page}
-                                        total={total}
-                                        pageSize={36}
-                                        showSizeChanger={false}
-                                        showTotal={showTotal}                        
-                                        onChange={onPageChange}
-                                    />
-                                </div>
+                                <Pagination
+                                    current={page}
+                                    total={total}
+                                    pageSize={36}
+                                    showSizeChanger={false}
+                                    showTotal={false}                        
+                                    onChange={onPageChange}
+                                />
                             </div>
                         )}
                     </Col>
