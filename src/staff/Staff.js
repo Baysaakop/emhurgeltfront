@@ -18,12 +18,13 @@ import SubCategoryEdit from "../category/SubCategoryEdit";
 import SignupRequests from "./SignupRequests";
 import SliderAdd from "./SliderAdd";
 import VideoAdd from "./VideoAdd";
+import CustomerList from "./CustomerList";
 
 const { SubMenu } = Menu;
 
 function Staff (props) {
     const [user, setUser] = useState()
-    const [key, setKey] = useState("6")
+    const [key, setKey] = useState("21")
 
     useEffect(() => {        
         if (props.token && props.token !== null && !user) {
@@ -88,7 +89,7 @@ function Staff (props) {
                                         </SubMenu>
                                         <SubMenu key="sub2" icon={<UserOutlined />} title="Хэрэглэгч">
                                             <Menu.Item key="11">Хүсэлтүүд</Menu.Item>           
-                                            <Menu.Item key="12">Захиалгууд</Menu.Item>                                            
+                                            <Menu.Item key="12">Жагсаалт</Menu.Item>                                            
                                         </SubMenu>       
                                         <SubMenu key="sub3" icon={<ExperimentOutlined />} title="Бүтээгдэхүүн">
                                             <Menu.Item key="21">Нэмэх</Menu.Item>
@@ -126,6 +127,8 @@ function Staff (props) {
                                         <OrderList state="2" token={props.token} />
                                     ) : key === "11" ? (                                        
                                         <SignupRequests token={props.token} />
+                                    ) : key === "12" ? (                                        
+                                        <CustomerList token={props.token} />
                                     ) : key === "21" ? (
                                         <ProductAdd token={props.token} />
                                     ) : key === "22" ? (

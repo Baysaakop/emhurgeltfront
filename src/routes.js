@@ -11,7 +11,7 @@ import ProductShop from './product/ProductShop';
 import BrandProducts from './product/BrandProducts';
 import Staff from './staff/Staff';
 import Bonus from './containers/Bonus';
-import StaffLogIn from './staff/StaffLogin';
+import CustomerDetail from './staff/CustomerDetail';
 import Registration from './account/Registration';
 import Admin from './staff/Admin';
 import Videos from './containers/Videos';
@@ -38,8 +38,9 @@ function BaseRouter () {
             <Route exact path="/signup" component={Registration} />              
             <Route exact path="/profile" component={Profile} />   
             {/* Staff urls */}
-            <Route exact path="/stafflogin" component={StaffLogIn} />            
+            {/* <Route exact path="/stafflogin" component={StaffLogIn} />             */}
             <Route exact path="/staff" component={Staff} />          
+            <Route exact path="/staff/customers/:id" component={CustomerDetail} />          
             <Route exact path="/admin" component={Admin} />            
         </Switch>
     )    

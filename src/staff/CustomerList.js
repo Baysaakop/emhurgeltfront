@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import api from '../api'
-import { Button, Table, Spin } from "antd"
-import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from "@ant-design/icons"
+import { LoadingOutlined } from "@ant-design/icons";
+import { Button, Spin, Table, Typography } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import api from "../api";
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-function SignupRequests (props) {
+function CustomerList (props) {
 
     const [loading, setLoading] = useState(false)
     const [users, setUsers] = useState()
@@ -21,7 +21,7 @@ function SignupRequests (props) {
         setLoading(true)
         axios({
             method: 'GET',
-            url: `${api.users}?is_confirmed=False&&role=3`
+            url: `${api.users}?is_confirmed=True&role=3&page=${page}`
         })
         .then(res => {            
             setUsers(res.data.results)
@@ -38,50 +38,20 @@ function SignupRequests (props) {
         setPage(pageNum)
     }
 
-    function onAccept (id) {
-        console.log(id)
-        axios({
-            method: 'PUT',
-            url: api.users + "/" + id + "/",
-            data: {
-                is_confirmed: true
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }
-        })
-        .then(res => {            
-            getUsers()
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
-    function onDelete (id) {
-        console.log(id)
-        axios({
-            method: 'DELETE',
-            url: api.users + "/" + id + "/",            
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }
-        })
-        .then(res => {            
-            getUsers()
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     const columns = [
         {
             title: 'Утасны дугаар',
             dataIndex: 'username',
-            key: 'username'
+            key: 'username',            
+        },
+        {
+            title: 'E-mail',
+            dataIndex: 'email',
+            key: 'email'
         },
         {
             title: 'Компанийн нэр',
@@ -99,16 +69,30 @@ function SignupRequests (props) {
             key: 'address'
         },
         {
-            title: 'Зөвшөөрөх / Цуцлах',
+            title: 'Цол',
+            dataIndex: 'level',
+            key: 'level'
+        },
+        {
+            title: 'Нийт',
+            dataIndex: 'total',
+            key: 'total',
+            render: (total) => <Typography.Text>{formatNumber(total)}₮</Typography.Text>
+        },
+        {
+            title: 'Бонус',
+            dataIndex: 'bonus',
+            key: 'bonus',
+            render: (bonus) => <Typography.Text>{formatNumber(bonus)}₮</Typography.Text>
+        },
+        {
+            title: 'Захиалгын түүх',
             dataIndex: 'id',
             key: 'id',
-            render: (id) => 
-            <>
-                <Button type="primary" icon={<CheckCircleOutlined />} onClick={() => onAccept(id)} style={{ marginRight: '8px' }}>Зөвшөөрөх</Button>
-                <Button danger type="primary" icon={<CloseCircleOutlined />} onClick={() => onDelete(id)}>Цуцлах</Button>
-            </>
+            render: (id) => <Button type="link" href={`/staff/customers/${id}`}>Захиалгын түүх</Button>
         },
     ];
+
 
     return (
         <div>
@@ -133,4 +117,4 @@ function SignupRequests (props) {
     )
 }
 
-export default SignupRequests
+export default CustomerList;

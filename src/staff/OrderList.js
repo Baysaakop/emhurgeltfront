@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
-import { Button, message, Popconfirm, Popover, Space, Table, Tag, Typography } from "antd"
+import { Button, message, Popconfirm, Popover, Space, Spin, Table, Tag, Typography } from "antd"
 import axios from "axios"
 import api from "../api"
-import { CheckOutlined, DeleteOutlined } from "@ant-design/icons"
+import { CheckOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons"
 import moment from "moment"
 
-function OrderList (props) {
+const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
+function OrderList (props) {
+    const [loading, setLoading] = useState(false)
     const [orders, setOrders] = useState()
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState()
@@ -16,8 +18,8 @@ function OrderList (props) {
     }, [props.state, page])
 
     function getOrders(state, page) {
+        setLoading(true)
         let url = api.orders + "?"
-
         if (state === "1") {
             url += "is_payed=False"
         } else if (state === "2") {
@@ -27,12 +29,13 @@ function OrderList (props) {
         axios({
             method: 'GET',
             url: url           
-        }).then(res => {               
-            console.log(res)                           
+        }).then(res => {                                                
             setOrders(res.data.results)          
             setTotal(res.data.count)
+            setLoading(false)
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
+            setLoading(false)
         })
     }
     
@@ -88,13 +91,13 @@ function OrderList (props) {
             title: 'Код',
             dataIndex: 'ref',
             key: 'ref',
-            render: (ref) => <a href={`/orders/${ref}`}>{ref}</a>
+            // render: (ref) => <a href={`/orders/${ref}`}>{ref}</a>
         },
         {
             title: 'Захиалагч',
             dataIndex: 'customer',
             key: 'customer',
-            render: (customer) => <a href={`/customers/${customer.id}`}>{customer.company_name}</a>
+            render: (customer) => <a href={`/staff/customers/${customer.id}`}>{customer.company_name}</a>
         },
         {
             title: 'Бүтээгдэхүүн',
@@ -127,10 +130,16 @@ function OrderList (props) {
             render: (total) => <Typography.Text>{formatNumber(total)}₮</Typography.Text>
         },
         {
-            title: 'Бонус',
+            title: 'Ашигласан',
             dataIndex: 'bonus_used',
             key: 'bonus_used',
             render: (bonus_used) => <Typography.Text>{formatNumber(bonus_used)}₮</Typography.Text>
+        },
+        {
+            title: 'Урамшуулал',
+            dataIndex: 'bonus_granted',
+            key: 'bonus_granted',
+            render: (bonus_granted) => <Typography.Text>+{formatNumber(bonus_granted)}₮</Typography.Text>
         },
         {
             title: 'Утасны дугаар',
@@ -168,17 +177,23 @@ function OrderList (props) {
 
     return (
         <div>
-            <Table 
-                columns={columns} 
-                dataSource={orders} 
-                size="small" 
-                pagination={{ 
-                    current: page, 
-                    pageSize: 24, 
-                    total: total,     
-                    onChange: onPageChange                
-                }}
-            />       
+            { loading ? (
+                <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spin indicator={loadingIcon} />
+                </div>
+            ) : (
+                <Table 
+                    columns={columns} 
+                    dataSource={orders} 
+                    size="small" 
+                    pagination={{ 
+                        current: page, 
+                        pageSize: 24, 
+                        total: total,     
+                        onChange: onPageChange                
+                    }}
+                />       
+            )}
         </div>
     )
 }
