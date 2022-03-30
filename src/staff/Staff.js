@@ -8,13 +8,15 @@ import CompanyAdd from "../company/CompanyAdd";
 import CompanyEdit from "../company/CompanyEdit";
 import ProductAdd from "../product/ProductAdd";
 import ProductEdit from "../product/ProductEdit";
-import { CloseCircleOutlined, ExperimentOutlined, FileImageOutlined, HistoryOutlined, ShopOutlined, TagOutlined, TagsOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
+import { ApartmentOutlined, AppstoreOutlined, CloseCircleOutlined, ExperimentOutlined, FileImageOutlined, HistoryOutlined, ShopOutlined, TagsOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import OrderList from "./OrderList";
 import Logout from "../account/Logout";
 import CategoryAdd from "../category/CategoryAdd";
 import CategoryEdit from "../category/CategoryEdit";
 import SubCategoryAdd from "../category/SubCategoryAdd";
 import SubCategoryEdit from "../category/SubCategoryEdit";
+import TagAdd from "../tag/TagAdd";
+import TagEdit from "../tag/TagEdit";
 import SignupRequests from "./SignupRequests";
 import SliderAdd from "./SliderAdd";
 import VideoAdd from "./VideoAdd";
@@ -95,27 +97,27 @@ function Staff (props) {
                                             <Menu.Item key="21">Нэмэх</Menu.Item>
                                             <Menu.Item key="22">Засах / Устгах</Menu.Item>                                        
                                         </SubMenu>
-                                        <SubMenu key="sub5" icon={<TagOutlined />} title="Ангилал">
+                                        <SubMenu key="sub5" icon={<AppstoreOutlined />} title="Ангилал">
                                             <Menu.Item key="31">Нэмэх</Menu.Item>
                                             <Menu.Item key="32">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        <SubMenu key="sub6" icon={<TagsOutlined />} title="Дэд ангилал">
+                                        <SubMenu key="sub6" icon={<ApartmentOutlined />} title="Дэд ангилал">
                                             <Menu.Item key="41">Нэмэх</Menu.Item>
                                             <Menu.Item key="42">Засах / Устгах</Menu.Item>               
                                         </SubMenu>
-                                        {/* <SubMenu key="sub6" icon={<TagsOutlined />} title="Таг">
-                                            <Menu.Item key="14">Нэмэх</Menu.Item>
-                                            <Menu.Item key="15">Засах / Устгах</Menu.Item> 
-                                        </SubMenu> */}
-                                        <SubMenu key="sub7" icon={<ShopOutlined />} title="Компани">
+                                        <SubMenu key="sub7" icon={<TagsOutlined />} title="Таг">
                                             <Menu.Item key="51">Нэмэх</Menu.Item>
                                             <Menu.Item key="52">Засах / Устгах</Menu.Item> 
-                                        </SubMenu> 
-                                        <SubMenu key="sub8" icon={<FileImageOutlined />} title="Slider">
+                                        </SubMenu>
+                                        <SubMenu key="sub8" icon={<ShopOutlined />} title="Компани">
                                             <Menu.Item key="61">Нэмэх</Menu.Item>
+                                            <Menu.Item key="62">Засах / Устгах</Menu.Item> 
                                         </SubMenu> 
-                                        <SubMenu key="sub9" icon={<VideoCameraOutlined />} title="Видео">
-                                            <Menu.Item key="62">Нэмэх</Menu.Item>
+                                        <SubMenu key="sub9" icon={<FileImageOutlined />} title="Slider">
+                                            <Menu.Item key="71">Нэмэх</Menu.Item>
+                                        </SubMenu> 
+                                        <SubMenu key="sub10" icon={<VideoCameraOutlined />} title="Видео">
+                                            <Menu.Item key="81">Нэмэх</Menu.Item>
                                         </SubMenu>                                               
                                         <Menu.Item key="99" icon={<CloseCircleOutlined />}>Гарах</Menu.Item>    
                                     </Menu>
@@ -142,12 +144,16 @@ function Staff (props) {
                                     ) : key === "42" ? (                                        
                                         <SubCategoryEdit token={props.token} />
                                     ) : key === "51" ? (                                        
-                                        <CompanyAdd token={props.token} />
+                                        <TagAdd token={props.token} />
                                     ) : key === "52" ? (                                        
-                                        <CompanyEdit token={props.token} />
+                                        <TagEdit token={props.token} />
                                     ) : key === "61" ? (                                        
-                                        <SliderAdd token={props.token} />
+                                        <CompanyAdd token={props.token} />
                                     ) : key === "62" ? (                                        
+                                        <CompanyEdit token={props.token} />
+                                    ) : key === "71" ? (                                        
+                                        <SliderAdd token={props.token} />
+                                    ) : key === "81" ? (                                        
                                         <VideoAdd token={props.token} />
                                     ) : key === "99" ? (
                                         <Logout />

@@ -9,6 +9,7 @@ function ProductEdit (props) {
     const [items, setItems] = useState([])
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
+    const [tags, setTags] = useState([])    
     const [companies, setCompanies] = useState([])
     const [featured, setFeatured] = useState(false)
     const [image1, setImage1] = useState()
@@ -99,7 +100,6 @@ function ProductEdit (props) {
         }
     }
 
-
     function getCategories (ids) {
         axios({
             method: 'GET',
@@ -122,6 +122,21 @@ function ProductEdit (props) {
         } else {
             setSubCategories(undefined)
         }                        
+    }
+
+    function onSearchTag (val) {
+        axios({
+            method: 'GET',
+            url: `${api.tags}?name=${val}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setTags(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
     }
 
     function getCompanies () {
@@ -345,7 +360,7 @@ function ProductEdit (props) {
                                         </Select>          
                                     </Form.Item>
                                 </Col>                             
-                                <Col span={12}>
+                                <Col span={8}>
                                     <Form.Item name="category" label="Ангилал">
                                         <Select                                                                                  
                                             placeholder="Ангилал сонгох"
@@ -358,7 +373,7 @@ function ProductEdit (props) {
                                         </Select>           
                                     </Form.Item>
                                 </Col>       
-                                <Col span={12}>
+                                <Col span={8}>
                                     <Form.Item name="subcategory" label="Дэд ангилал">
                                         <Select          
                                             mode="multiple"                      
@@ -371,9 +386,11 @@ function ProductEdit (props) {
                                         </Select>           
                                     </Form.Item>
                                 </Col>               
-                                {/* <Col span={8}>
+                                <Col span={8}>
                                     <Form.Item name="tag" label="Таг">
-                                        <Select                      
+                                        <Select              
+                                            showSearch
+                                            onSearch={onSearchTag}                
                                             mode="multiple"          
                                             placeholder="Таг сонгох"
                                             optionFilterProp="children"                
@@ -383,7 +400,7 @@ function ProductEdit (props) {
                                             )) : <></>}
                                         </Select>     
                                     </Form.Item>        
-                                </Col>            */}                               
+                                </Col>                                          
                                 <Col span={12}>
                                     <Form.Item name="description" label="Тайлбар">
                                         <Input.TextArea rows={3} />

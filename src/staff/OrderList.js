@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button, message, Popconfirm, Popover, Space, Spin, Table, Tag, Typography } from "antd"
 import axios from "axios"
 import api from "../api"
@@ -181,18 +181,21 @@ function OrderList (props) {
                 <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Spin indicator={loadingIcon} />
                 </div>
-            ) : (
-                <Table 
-                    columns={columns} 
-                    dataSource={orders} 
-                    size="small" 
-                    pagination={{ 
-                        current: page, 
-                        pageSize: 24, 
-                        total: total,     
-                        onChange: onPageChange                
-                    }}
-                />       
+            ) : (                
+                <div>
+                    <Table                    
+                        columns={columns} 
+                        dataSource={orders} 
+                        size="small"                             
+                        pagination={{ 
+                            current: page, 
+                            pageSize: 24, 
+                            total: total,     
+                            onChange: onPageChange                
+                        }}
+                    />   
+                    <Button type="primary" onClick={() => window.print()}>Save as PDF</Button>
+                </div>                                        
             )}
         </div>
     )
