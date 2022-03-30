@@ -1,11 +1,13 @@
-import { Typography, message, List, Row, Col, Collapse, Pagination, Divider, Avatar } from "antd"
+import { Typography, message, List, Row, Col, Collapse, Pagination, Divider, Avatar, Button } from "antd"
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../api"
 import moment from "moment";
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, FilePdfOutlined } from "@ant-design/icons";
+import { useReactToPrint } from "react-to-print";
 
 function OrderHistory (props) {
+    const printRef = useRef()
     const [orders, setOrders] = useState()    
     const [page, setPage] = useState(1)    
     const [total, setTotal] = useState()    
@@ -36,6 +38,10 @@ function OrderHistory (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
+
     return (
         <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>       
             <Typography.Title level={4} style={{ margin: 0 }}>Захиалгын түүх</Typography.Title>            
@@ -50,7 +56,7 @@ function OrderHistory (props) {
                         style={{ background: '#fff', padding: '0', marginTop: '16px' }}                 
                     >                            
                         <Collapse defaultActiveKey={ order.state === "1" ? [`${order.id}`] : undefined }>
-                            <Collapse.Panel
+                            <Collapse.Panel                                
                                 key={order.id}
                                 header={
                                     <Row gutter={[16, 16]}>
@@ -68,7 +74,7 @@ function OrderHistory (props) {
                                 }
                                 showArrow={false}                                
                             >
-                                <Row gutter={[24, 24]}>
+                                <Row gutter={[24, 24]} ref={printRef}>
                                     <Col xs={24} sm={24} md={8}>
                                         <div style={{ marginBottom: '8px' }}>
                                             <Typography.Text style={{ fontWeight: 'bold' }}>Огноо: </Typography.Text>
@@ -110,7 +116,10 @@ function OrderHistory (props) {
                                                 </div>
                                             )
                                         })}                                                                                       
-                                    </Col>                                                                                     
+                                    </Col>                
+                                    <Col span={24}>
+                                        <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
+                                    </Col>                                                                     
                                 </Row>
                             </Collapse.Panel>
                         </Collapse>                                                                             

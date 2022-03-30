@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Button, message, Popconfirm, Popover, Space, Spin, Table, Tag, Typography } from "antd"
 import axios from "axios"
 import api from "../api"
-import { CheckOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons"
+import { CheckOutlined, DeleteOutlined, FilePdfOutlined, LoadingOutlined } from "@ant-design/icons"
 import moment from "moment"
+import { useReactToPrint } from "react-to-print";
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 function OrderList (props) {
+    const printRef = useRef()
     const [loading, setLoading] = useState(false)
     const [orders, setOrders] = useState()
     const [page, setPage] = useState(1)
@@ -174,6 +176,10 @@ function OrderList (props) {
                 </Space>
         },
     ]
+    
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
 
     return (
         <div>
@@ -181,21 +187,26 @@ function OrderList (props) {
                 <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Spin indicator={loadingIcon} />
                 </div>
-            ) : (                
-                <div>
-                    <Table                    
-                        columns={columns} 
-                        dataSource={orders} 
-                        size="small"                             
-                        pagination={{ 
-                            current: page, 
-                            pageSize: 24, 
-                            total: total,     
-                            onChange: onPageChange                
-                        }}
-                    />   
-                    <Button type="primary" onClick={() => window.print()}>Save as PDF</Button>
-                </div>                                        
+            ) : (         
+                <div>       
+                    <div ref={printRef} style={{ padding: '8px' }}>
+                        <Typography.Title level={4}>
+                            {props.state === "2" ? 'Төлбөр төлөгдсөн захиалгууд' : 'Төлбөр дутуу захиалгууд'}                            
+                        </Typography.Title>
+                        <Table                    
+                            columns={columns} 
+                            dataSource={orders} 
+                            size="small"                             
+                            pagination={{ 
+                                current: page, 
+                                pageSize: 24, 
+                                total: total,     
+                                onChange: onPageChange                
+                            }}
+                        />                       
+                    </div>   
+                    <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
+                </div>                                     
             )}
         </div>
     )
