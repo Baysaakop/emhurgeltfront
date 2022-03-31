@@ -15,6 +15,8 @@ import CustomerDetail from './staff/CustomerDetail';
 import Registration from './account/Registration';
 import Admin from './staff/Admin';
 import Videos from './containers/Videos';
+import PasswordReset from './account/PasswordReset';
+import PasswordResetConfirm from './account/PasswordResetConfirm';
 
 function BaseRouter () {
     return (
@@ -37,6 +39,8 @@ function BaseRouter () {
             <Route exact path="/login" component={Login} />              
             <Route exact path="/signup" component={Registration} />              
             <Route exact path="/profile" component={Profile} />   
+            <Route exact path="/rest-auth/password/reset" component={PasswordReset} />              
+            <Route exact path="/rest-auth/password/reset/confirm/:uid/:token" component={PasswordResetConfirm} />              
             {/* Staff urls */}
             {/* <Route exact path="/stafflogin" component={StaffLogIn} />             */}
             <Route exact path="/staff" component={Staff} />          

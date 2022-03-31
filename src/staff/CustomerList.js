@@ -15,7 +15,7 @@ function CustomerList (props) {
 
     useEffect(() => {
         getUsers()
-    }, [page])
+    }, [page]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUsers() {
         setLoading(true)

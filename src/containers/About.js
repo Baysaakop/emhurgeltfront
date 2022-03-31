@@ -1,12 +1,9 @@
-import { Breadcrumb } from "antd";
-import { useRef } from "react";
+import { Breadcrumb, Col, Row, Typography } from "antd";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import * as translations from '../translation';
 
 function About (props) {
-
-    const ref = useRef()
 
     return (
         <div>
@@ -20,7 +17,21 @@ function About (props) {
                     { props.language === "en" ? translations.en.header.about_us : translations.mn.header.about_us }
                 </Breadcrumb.Item>
             </Breadcrumb>
-            <div style={{ marginTop: '24px' }}>               
+            <div style={{ marginTop: '24px' }}>           
+                <Row gutter={24}>
+                    <Col xs={24} sm={24} md={24} lg={8}>
+                        <div style={{ background: '#fff', padding: '16px', borderRadius: '4px' }}>
+                            <Typography.Title level={4}>Бидний талаар</Typography.Title>
+                            <div>Сайн байна уу? Эрхэм харилцагч танд энэ өдрийн мэндийг дэвшүүлье.</div>
+                            <div>Манай компани 2019 оноос эхлэн эм, эмнэлгийн хэрэгсэл болон биологийн идэвхит бүтээгдэхүүн ханган нийлүүлэх чиглэлээр үйл ажиллагаа явуулан Монгол улсын эрүүл мэндийн салбарт өөрсдийн хувь нэмрийг оруулахаар хичээнгүйлэн ажиллаж байгаа билээ. </div>
+                            <div>Эм, эмнэлгийн хэрэгслийг ар түмэнд илүү хүртээмжтэй болгохын тулд бид чадварлаг боловсон хүчнээр хамт олноо бүрдүүлэн харилцагч байгууллагууддаа хамгийн сайн чанарын бүтээгдэхүүнүүдийг зах зээлийн хамгийн доод үнээр ханган нийлүүлэхийг эрхэм зорилгоо болгосон юм. </div>
+                            <div>Бид энэхүү цахим хуудсаараа дамжуулан харилцагч та бүхэнд өндөр түвшний үйлчилгээ үзүүлэхийг ямагт хичээж ажиллах болно. Монгол хүн бүр эрүүл энх байх болтугай.</div>
+                        </div>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={16}>
+                        <img alt="aboutus" src="/aboutus.jpg" style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+                    </Col>                    
+                </Row>
                 {/* <div style={{ position: 'relative' }}>
                     <Carousel autoplay autoplaySpeed={9000} ref={ref} style={{ zIndex: '1' }}>                
                         

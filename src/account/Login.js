@@ -48,8 +48,8 @@ const Login = (props) => {
                             }
                             subTitle="Та хуудсаа refresh хийж дахин оролдоно уу."
                             extra={[
-                                <Button href="/" type="primary">
-                                    Нүүр хуудас руу буцах
+                                <Button type="primary" onClick={() => window.location.reload(false)}>
+                                    Refresh хийх
                                 </Button>
                             ]}
                         />
@@ -89,7 +89,7 @@ const Login = (props) => {
                             >
                                 <Input.Password prefix={<LockOutlined style={{ color: '#a1a1a1' }} />} placeholder="Нууц үг" />
                             </Form.Item>
-                            <a href='/forgot-password'>Нууц үгээ мартсан?</a>
+                            <a href='/rest-auth/password/reset'>Нууц үгээ мартсан?</a>
                             <Button block type="primary" htmlType="submit" onClick={form.submit} style={{ marginTop: '16px' }}>Нэвтрэх</Button>
                         </Form>
                     </div>

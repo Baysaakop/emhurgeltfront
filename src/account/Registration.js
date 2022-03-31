@@ -81,8 +81,8 @@ const Registration = (props) => {
                             title={error.message.includes("400") ? "Утасны дугаар бүртгэлтэй байна." : "Бүртгэл амжилтгүй боллоо."}
                             subTitle={error.message.includes("400") ? "Та манай 1132-2817 дугаар руу холбогдож тодруулна уу." : "Та хуудсаа refresh хийж дахин оролдоно уу."}
                             extra={[
-                                <Button href="/" type="primary">
-                                    Нүүр хуудас руу буцах
+                                <Button type="primary" onClick={() => window.location.reload(false)}>
+                                    Refresh хийх
                                 </Button>
                             ]}
                         />
@@ -107,6 +107,13 @@ const Registration = (props) => {
                                 <InputNumber style={{ width: '100%' }} />
                             </Form.Item>
                             <Form.Item
+                                name="email"
+                                label="И-Мэйл хаяг"                                
+                                rules={[{ required: true, message: 'И-Мэйл хаяг оруулна уу!' }, { type: 'email', message: 'И-Мэйл хаяг буруу байна!' }]}
+                            >
+                                <Input />
+                            </Form.Item>       
+                            <Form.Item
                                 name="company_name"
                                 label="Байгууллагын нэр"                                
                                 rules={[{ required: true, message: 'Байгууллагын нэр оруулна уу!' }]}
@@ -126,14 +133,7 @@ const Registration = (props) => {
                                 rules={[{ required: true, message: 'Хаяг оруулна уу!' }]}
                             >
                                 <Input.TextArea rows={4} />
-                            </Form.Item>        
-                            <Form.Item
-                                name="email"
-                                label="И-Мэйл хаяг"                                
-                                rules={[{ type: 'email', message: 'И-Мэйл хаяг буруу байна!' }]}
-                            >
-                                <Input />
-                            </Form.Item>                    
+                            </Form.Item>                                                 
                             <Form.Item                                
                                 name="password"
                                 label="Нууц үг"
