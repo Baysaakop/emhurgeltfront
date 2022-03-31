@@ -60,22 +60,6 @@ function ProductDetail (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    function getCategory (categories) {
-        let res = []
-        categories.forEach(element => {
-            if (props.language === "en") {
-                res.push(element.name_en)
-            } else {
-                res.push(element.name)
-            }
-            
-        })
-        if (res.length > 0) {
-            return res.toString()
-        }
-        return "-Ангилал хийгдээгүй-"
-    }
-
     // function getSuggestedProducts() {
     //     axios({
     //         method: 'GET',
@@ -271,7 +255,7 @@ function ProductDetail (props) {
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div>
                                             <Typography.Title level={3} style={{ margin: 0 }}>{ props.language === "en" && item.name_en ? item.name_en : item.name }</Typography.Title>                            
-                                            <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{getCategory(item.categories)}</Typography.Text>
+                                            <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{item.category ? item.category : 'Ангилал хийгдээгүй'}</Typography.Text>
                                         </div>
                                         <div>
                                             <Tooltip title="Онцлох бүтээгдэхүүн">                                   

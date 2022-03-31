@@ -89,6 +89,7 @@ const Login = (props) => {
                             >
                                 <Input.Password prefix={<LockOutlined style={{ color: '#a1a1a1' }} />} placeholder="Нууц үг" />
                             </Form.Item>
+                            <a href='/forgot-password'>Нууц үгээ мартсан?</a>
                             <Button block type="primary" htmlType="submit" onClick={form.submit} style={{ marginTop: '16px' }}>Нэвтрэх</Button>
                         </Form>
                     </div>
