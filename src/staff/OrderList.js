@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Button, message, Popconfirm, Popover, Space, Spin, Table, Tag, Typography } from "antd"
+import { Button, DatePicker, message, Popconfirm, Popover, Select, Space, Spin, Table, Tag, Typography } from "antd"
 import axios from "axios"
 import api from "../api"
 import { CheckOutlined, DeleteOutlined, FilePdfOutlined, LoadingOutlined } from "@ant-design/icons"
@@ -14,23 +14,40 @@ function OrderList (props) {
     const [orders, setOrders] = useState()
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState()
+    const [sorter, setSorter] = useState("-created_at")
+    const [dateMin, setDateMin] = useState()
+    const [dateMax, setDateMax] = useState()
 
     useEffect(() => {
         getOrders(props.state, page)
-    }, [props.state, page])
+    }, [props.state, page, sorter, dateMin, dateMax]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getOrders(state, page) {
         setLoading(true)
-        let url = api.orders + "?"
+        let url = "?"
         if (state === "1") {
-            url += "is_payed=False"
+            url += "is_payed=False&"
         } else if (state === "2") {
-            url += "is_payed=True"
+            url += "is_payed=True&"
         }        
-        url += `&page=${page}`    
+
+        if (dateMin) {
+            url += "datemin=" + dateMin + "&"
+        }
+        if (dateMax) {
+            url += "datemax=" + dateMax + "&"
+        }
+        if (sorter) {
+            url += "sortby=" + sorter + "&"
+        }
+        if (page) {
+            url += "page=" + page + "&"
+        }
+        url = url.substring(0, url.length - 1)
+
         axios({
             method: 'GET',
-            url: url           
+            url: api.orders + url           
         }).then(res => {                                                
             setOrders(res.data.results)          
             setTotal(res.data.count)
@@ -43,6 +60,15 @@ function OrderList (props) {
     
     function onPageChange (pageNum, pageSize) {        
         setPage(pageNum)
+    }
+
+    function onSort (val) {
+        setSorter(val)      
+    }
+
+    function onSelectDateRange (dates) {        
+        setDateMin(moment(dates[0]).format("YYYY-MM-DD"))
+        setDateMax(moment(dates[1]).format("YYYY-MM-DD"))
     }
 
     function formatNumber(num) {
@@ -182,17 +208,31 @@ function OrderList (props) {
     });
 
     return (
-        <div>
-            { loading ? (
-                <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Spin indicator={loadingIcon} />
-                </div>
-            ) : (         
-                <div>       
-                    <div ref={printRef} style={{ padding: '8px' }}>
-                        <Typography.Title level={4}>
-                            {props.state === "2" ? 'Төлбөр төлөгдсөн захиалгууд' : 'Төлбөр дутуу захиалгууд'}                            
-                        </Typography.Title>
+        <div>     
+            <div>       
+                <div ref={printRef} style={{ padding: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                        <div>
+                            <Typography.Title level={4}>{props.state === "2" ? 'Төлбөр төлөгдсөн захиалгууд' : 'Төлбөр дутуу захиалгууд'}</Typography.Title>
+                        </div>
+                        <div>
+                            Хугацаа:
+                            <DatePicker.RangePicker style={{ marginLeft: '8px' }} onChange={onSelectDateRange} />
+                        </div>
+                        <div>
+                            Эрэмбэлэх:
+                            <Select value={sorter} style={{ width: '180px', marginLeft: '8px' }} onChange={onSort}>
+                                <Select.Option value="-created_at">Сүүлд нэмэгдсэн</Select.Option>
+                                <Select.Option value="created_at">Анх нэмэгдсэн</Select.Option>
+                                <Select.Option value="-total">Нийт дүн</Select.Option>                                    
+                            </Select>      
+                        </div>
+                    </div>
+                    { loading ? (
+                        <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Spin indicator={loadingIcon} />
+                        </div>
+                    ) : (    
                         <Table                    
                             columns={columns} 
                             dataSource={orders} 
@@ -203,11 +243,11 @@ function OrderList (props) {
                                 total: total,     
                                 onChange: onPageChange                
                             }}
-                        />                       
-                    </div>   
-                    <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
-                </div>                                     
-            )}
+                        />         
+                    )}              
+                </div>   
+                <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
+            </div>                                     
         </div>
     )
 }

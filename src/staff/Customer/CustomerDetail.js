@@ -3,7 +3,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
-import api from "../api"
+import api from "../../api"
 import moment from 'moment'
 import { LoadingOutlined, CheckOutlined, DeleteOutlined } from "@ant-design/icons"
 

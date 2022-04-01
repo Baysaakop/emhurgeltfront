@@ -1,4 +1,3 @@
-import { WarningOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, notification, Popconfirm, Row, Select, Typography, message, Spin, InputNumber } from "antd";
 import ImageUpload from '../components/ImageUpload'
 import axios from "axios";
@@ -21,6 +20,10 @@ function ProductAdd (props) {
     const [poster, setPoster] = useState()
     const [loading, setLoading] = useState(false)
 
+    const [selectedCategory, setSelectedCategory] = useState()
+    const [selectedSubCategory, setSelectedSubCategory] = useState()
+    const [selectedCompany, setSelectedCompany] = useState()
+
     useEffect(() => {
         getCategories()
         getCompanies()        
@@ -42,12 +45,21 @@ function ProductAdd (props) {
     }       
 
     function onSelectCategory (id) {                
+        setSelectedCategory(id)
         if (id) {
             let cat = categories.find(x => x.id.toString() === id.toString())
             setSubCategories(cat.subcategories)
         } else {
             setSubCategories(undefined)
         }                    
+    }
+
+    function onSelectSubCategory (ids) {                        
+        setSelectedSubCategory(ids)                 
+    }
+
+    function onSelectCompany (id) {                
+        setSelectedCompany(id)                 
     }
 
     function getCompanies () {
@@ -120,14 +132,14 @@ function ProductAdd (props) {
         if (values.storage_en) {
             formData.append('storage_en', values.storage_en);
         }      
-        if (values.company) {
-            formData.append('company', values.company);
+        if (selectedCompany) {
+            formData.append('company', selectedCompany);
         }
-        if (values.category) {
-            formData.append('category', values.category);
+        if (selectedCategory) {
+            formData.append('category', selectedCategory);
         }
-        if (values.subcategory) {
-            formData.append('subcategory', values.subcategory);
+        if (selectedSubCategory) {
+            formData.append('subcategory', selectedSubCategory);
         }
         if (values.multiplier) {
             formData.append('multiplier', values.multiplier);   
@@ -180,20 +192,61 @@ function ProductAdd (props) {
     }
 
     return (
-        <div>
-            { loading ? (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
-                    <Spin tip="Уншиж байна..." />
-                </div>
-            ) : ( 
-                <div>
-                    <Typography.Title level={4}>Бүтээгдэхүүн нэмэх</Typography.Title>
-                    <Typography.Text type="warning"><WarningOutlined /> Бүтээгдэхүүн нэмэхийн өмнө тухайн бүтээгдэхүүн өмнө бүртгэгдсэн эсэхийг шалгана уу!</Typography.Text>
+        <div>           
+            <div>
+                <Typography.Title level={4}>Бүтээгдэхүүн нэмэх</Typography.Title>                                        
+                <Row gutter={[16, 0]} style={{ margin: '24px 0' }}>                                                                                                                                 
+                    <Col span={8}>
+                        <Typography.Title level={5}>Ангилал:</Typography.Title>
+                        <Select                                                                                   
+                            placeholder="Ангилал сонгох"
+                            optionFilterProp="children"                                
+                            onChange={onSelectCategory}
+                            style={{ width: '100%' }}
+                        >
+                            { categories ? categories.map(c => (
+                                <Select.Option key={c.id}>{c.name}</Select.Option>
+                            )) : <></>}
+                        </Select>           
+                    </Col>       
+                    <Col span={8}>
+                        <Typography.Title level={5}>Дэд ангилал:</Typography.Title>
+                        <Select          
+                            mode="multiple"                      
+                            placeholder="Дэд ангилал сонгох"
+                            optionFilterProp="children"     
+                            onChange={onSelectSubCategory}                  
+                            style={{ width: '100%' }}         
+                        >
+                            { subCategories ? subCategories.map(s => (
+                                <Select.Option key={s.id}>{s.name}</Select.Option>
+                            )) : <></>}
+                        </Select>           
+                    </Col>                    
+                    <Col span={8}>
+                        <Typography.Title level={5}>Компани:</Typography.Title>
+                        <Select                                
+                            placeholder="Компани сонгох"
+                            optionFilterProp="children"
+                            onChange={onSelectCompany}
+                            style={{ width: '100%' }}
+                        >
+                            { companies ? companies.map(com => (
+                                <Select.Option key={com.id}>{com.name}</Select.Option>
+                            )) : <></> }
+                        </Select>          
+                    </Col>                
+                </Row>
+                { loading ? (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+                        <Spin tip="Уншиж байна..." />
+                    </div>
+                ) : ( 
                     <Form 
                         form={form} 
                         layout="vertical" 
                         onFinish={onFinish}
-                        style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
+                        style={{ border: '1px solid #dedede', padding: '8px' }}
                     >
                         <Row gutter={[16, 0]}>
                             <Col span={8}>
@@ -225,46 +278,8 @@ function ProductAdd (props) {
                                 <Form.Item name="count" label="Тоо ширхэг" rules={[{ required: true }]}>
                                     <InputNumber style={{ width: '100%' }} />
                                 </Form.Item>
-                            </Col>            
+                            </Col>                                        
                             <Col span={12}>
-                                <Form.Item name="company" label="Компани">
-                                    <Select                                
-                                        placeholder="Компани сонгох"
-                                        optionFilterProp="children"
-                                    >
-                                        { companies ? companies.map(com => (
-                                            <Select.Option key={com.id}>{com.name}</Select.Option>
-                                        )) : <></> }
-                                    </Select>          
-                                </Form.Item>
-                            </Col>                                                                                                                             
-                            <Col span={8}>
-                                <Form.Item name="category" label="Ангилал">
-                                    <Select                                                                                   
-                                        placeholder="Ангилал сонгох"
-                                        optionFilterProp="children"                                
-                                        onChange={onSelectCategory}
-                                    >
-                                        { categories ? categories.map(c => (
-                                            <Select.Option key={c.id}>{c.name}</Select.Option>
-                                        )) : <></>}
-                                    </Select>           
-                                </Form.Item>
-                            </Col>       
-                            <Col span={8}>
-                                <Form.Item name="subcategory" label="Дэд ангилал">
-                                    <Select          
-                                        mode="multiple"                      
-                                        placeholder="Дэд ангилал сонгох"
-                                        optionFilterProp="children"                                
-                                    >
-                                        { subCategories ? subCategories.map(s => (
-                                            <Select.Option key={s.id}>{s.name}</Select.Option>
-                                        )) : <></>}
-                                    </Select>           
-                                </Form.Item>
-                            </Col>                    
-                            <Col span={8}>
                                 <Form.Item name="tag" label="Таг">
                                     <Select                 
                                         showSearch
@@ -359,8 +374,8 @@ function ProductAdd (props) {
                             <Button type="primary" style={{ marginRight: '8px' }}>Хадгалах</Button>
                         </Popconfirm>                               
                     </Form>
-                </div>
-            )}     
+                )}
+            </div>  
         </div>
     )
 }

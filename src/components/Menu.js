@@ -94,9 +94,7 @@ function CustomMenu (props) {
                         </div>
                         <div>
                             <Space className="menu-social-icons" size={[0, 0]} wrap>
-                                <Button className="facebook" shape="circle" type="link" href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542" icon={<FacebookFilled />} />
-                                {/* <Button className="instagram" shape="circle" type="link" icon={<InstagramOutlined />} />
-                                <Button className="youtube" shape="circle" type="link" icon={<YoutubeFilled />} /> */}
+                                <Button className="facebook" shape="circle" type="link" target="_blank" rel="noreferrer" href="https://www.facebook.com/dseabi.mn" icon={<FacebookFilled />} />
                                 <Button className="google" shape="circle" type="link" icon={<GoogleOutlined />} />
                             </Space>
                             <Typography.Text style={{ fontWeight: 'bold', color: '#fff' }}>
@@ -222,10 +220,14 @@ function CustomMenu (props) {
                             </Menu.Item> */}
                             <Menu.Item key="contact" style={{ margin: '0 16px', fontSize: '14px' }}>
                                 <Link to="/contact">{ language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Link>
-                            </Menu.Item>     
-                            <Menu.Item key="bonus" icon={<GiftOutlined />} style={{ margin: '0 16px', fontSize: '14px' }}>
-                                <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
-                            </Menu.Item>       
+                            </Menu.Item>         
+                            <Menu.Item key="bonus" style={{ margin: '0 8px 0 0' }}>
+                                <Link to="/bonus">
+                                    <Tag color="#009432" style={{ fontSize: '14px', padding: '4px 8px', width: '100%' }}>                                    
+                                        <GiftOutlined style={{ marginRight: '4px', color: '#fff', fontSize: '14px',  }} /> { language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }
+                                    </Tag>
+                                </Link>
+                            </Menu.Item>         
                             <Menu.Item key="videos" style={{ margin: '0 16px', fontSize: '14px' }}>
                                 <Link to="/videos">{ language === "en" ? translations.en.header.videos : translations.mn.header.videos }</Link>
                             </Menu.Item>                 
@@ -233,7 +235,7 @@ function CustomMenu (props) {
                         <div>
                             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                 <div>
-                                    <Avatar shape="square" size={40} icon={<PhoneOutlined />} style={{ background: '#2c3e50' }} />
+                                    <Avatar shape="square" size={40} icon={<PhoneOutlined />} style={{ background: '#2C3E50' }} />
                                 </div>
                                 <div style={{ marginLeft: '8px' }}>
                                     <Typography.Title level={5} style={{ margin: 0 }}>Call now</Typography.Title>
@@ -286,7 +288,7 @@ function CustomMenu (props) {
                             selectedKeys={[current]}
                             style={{ height: '100vh' }}
                         >                
-                            <Menu.Item key="brandproducts" style={{ fontSize: '16px', background: '#2ed573', color: '#fff' }} icon={<FlowerIcon />}>
+                            <Menu.Item key="brandproducts" style={{ fontSize: '16px', background: '#009432', color: '#fff' }} icon={<FlowerIcon />}>
                                 <Link to="/brandproducts" style={{ color: '#fff' }}>{ language === "en" ? translations.en.header.featured_products : translations.mn.header.featured_products }</Link>
                             </Menu.Item>          
                             <Menu.Item key="about" style={{ fontSize: '16px' }} icon={<InfoCircleOutlined />} >
@@ -303,8 +305,8 @@ function CustomMenu (props) {
                             <Menu.Item key="contact" style={{ fontSize: '16px' }} icon={<PhoneOutlined />}>
                                 <Link to="/contact">{ language === "en" ? translations.en.header.contact : translations.mn.header.contact }</Link>
                             </Menu.Item>  
-                            <Menu.Item key="bonus" style={{ fontSize: '16px' }} icon={<GiftOutlined />}>
-                                <Link to="/bonus">{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
+                            <Menu.Item key="bonus" style={{ fontSize: '16px', background: '#009432', color: '#fff' }} icon={<GiftOutlined />}>
+                                <Link to="/bonus" style={{ color: '#fff' }}>{ language === "en" ? translations.en.header.bonus : translations.mn.header.bonus }</Link>
                             </Menu.Item> 
                             <Menu.Item key="videos" style={{ fontSize: '16px' }} icon={<VideoCameraOutlined />}>
                                 <Link to="/videos">{ language === "en" ? translations.en.header.videos : translations.mn.header.videos }</Link>
@@ -314,7 +316,7 @@ function CustomMenu (props) {
                     <div style={{ height: '60px', width: '100%', padding: '6px 16px', border: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                             <div>
-                                <Avatar shape="square" size={40} icon={<PhoneOutlined />} style={{ background: '#2c3e50' }} />
+                                <Avatar shape="square" size={40} icon={<PhoneOutlined />} style={{ background: '#2C3E50' }} />
                             </div>
                             <div style={{ marginLeft: '8px' }}>
                                 <Typography.Title level={5} style={{ margin: 0 }}>Call now</Typography.Title>

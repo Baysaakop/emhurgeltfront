@@ -76,7 +76,6 @@ function ProductEdit (props) {
         setImage4(hit.image4 !== null ? hit.image4 : undefined)
         setPoster(hit.poster !== null ? hit.poster : undefined)
         setSelection(hit)
-        console.log(hit)
     }
 
     function getIDs (arr) {

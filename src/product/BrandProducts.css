@@ -17,8 +17,14 @@
   transition: 0.8s ease-in-out;
 }
 
-.poster .overlay {
+.poster .overlay-order {
   position: absolute;
   right: 8px;
   bottom: 8px;
+}
+
+.poster .overlay-bonus {
+  position: absolute;
+  left: 8px;
+  top: 12px;
 }

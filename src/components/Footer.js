@@ -41,7 +41,7 @@ function CustomFooter (props) {
                     </Col>  
                     <Col xs={24} sm={24} md={12} lg={4}>
                         <Typography.Title level={4}>{ props.language === "en" ? translations.en.footer.social_channels : translations.mn.footer.social_channels }</Typography.Title>
-                        <a href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542">
+                        <a target="_blank" rel="noreferrer" href="https://www.facebook.com/dseabi.mn">
                             <div style={{ marginTop: '8px' }}>
                                 <Button size="large" type="primary" style={{ background: '#3B5998', paddingTop: '4px' }} icon={<FacebookFilled />} /> 
                                 <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold', marginLeft: '8px' }}> Facebook</Typography.Text>

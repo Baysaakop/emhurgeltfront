@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from 'axios';
 import api from '../api';
-import { Breadcrumb, Button, Menu, Result, Row, Col } from "antd";
+import { Breadcrumb, Button, Menu, Result, Row, Col, Badge } from "antd";
 import { Link } from "react-router-dom";
 import CompanyAdd from "../company/CompanyAdd";
 import CompanyEdit from "../company/CompanyEdit";
@@ -17,16 +17,19 @@ import SubCategoryAdd from "../category/SubCategoryAdd";
 import SubCategoryEdit from "../category/SubCategoryEdit";
 import TagAdd from "../tag/TagAdd";
 import TagEdit from "../tag/TagEdit";
-import SignupRequests from "./SignupRequests";
+import SignupRequests from "./Customer/SignupRequests";
+import CustomerList from "./Customer/CustomerList";
 import SliderAdd from "./SliderAdd";
 import VideoAdd from "./VideoAdd";
-import CustomerList from "./CustomerList";
+import NewTopUsers from "./Customer/NewTopUsers";
+import ProductCountUpdate from "../product/ProductCountUpdate";
 
 const { SubMenu } = Menu;
 
 function Staff (props) {
     const [user, setUser] = useState()
     const [key, setKey] = useState("21")
+    const [topCount, setTopCount] = useState(0)
 
     useEffect(() => {        
         if (props.token && props.token !== null && !user) {
@@ -43,10 +46,26 @@ function Staff (props) {
                 console.log(err.message)
             })
         }
+        getTopCount()
     }, [props.location, props.token]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function onSelectMenuItem (e) {
         setKey(e.key)
+    }
+
+    function getTopCount() {
+        axios({
+            method: 'GET',
+            url: api.users + "?level=3&bonus_collected=False",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`
+            }
+        }).then(res => {                                
+            setTopCount(res.data.count)
+        }).catch(err => {
+            console.log(err.message)
+        })
     }
 
     return (
@@ -91,11 +110,14 @@ function Staff (props) {
                                         </SubMenu>
                                         <SubMenu key="sub2" icon={<UserOutlined />} title="Хэрэглэгч">
                                             <Menu.Item key="11">Хүсэлтүүд</Menu.Item>           
-                                            <Menu.Item key="12">Жагсаалт</Menu.Item>                                            
+                                            <Menu.Item key="12">Жагсаалт</Menu.Item>             
+                                            <Menu.Item key="13">3-р түвшин <Badge count={topCount} style={{ marginLeft: '16px' }} />
+                                            </Menu.Item>                                            
                                         </SubMenu>       
                                         <SubMenu key="sub3" icon={<ExperimentOutlined />} title="Бүтээгдэхүүн">
                                             <Menu.Item key="21">Нэмэх</Menu.Item>
-                                            <Menu.Item key="22">Засах / Устгах</Menu.Item>                                        
+                                            <Menu.Item key="22">Засах / Устгах</Menu.Item>         
+                                            <Menu.Item key="23">Үлдэгдэл шинэчлэх</Menu.Item>                                        
                                         </SubMenu>
                                         <SubMenu key="sub5" icon={<AppstoreOutlined />} title="Ангилал">
                                             <Menu.Item key="31">Нэмэх</Menu.Item>
@@ -131,10 +153,14 @@ function Staff (props) {
                                         <SignupRequests token={props.token} />
                                     ) : key === "12" ? (                                        
                                         <CustomerList token={props.token} />
+                                    ) : key === "13" ? (                                        
+                                        <NewTopUsers token={props.token} />
                                     ) : key === "21" ? (
                                         <ProductAdd token={props.token} />
                                     ) : key === "22" ? (
                                         <ProductEdit token={props.token} />
+                                    ) : key === "23" ? (
+                                        <ProductCountUpdate token={props.token} />
                                     ) : key === "31" ? (                                        
                                         <CategoryAdd token={props.token} />
                                     ) : key === "32" ? (                                        

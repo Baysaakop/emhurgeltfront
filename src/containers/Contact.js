@@ -65,8 +65,7 @@ function Contact (props) {
                                 <div style={{ marginLeft: '16px' }}>
                                     <Typography.Title level={5}>{ props.language === "en" ? translations.en.contact.facebook : translations.mn.contact.facebook }</Typography.Title>
                                     <Typography.Text style={{ fontSize: '16px' }}>
-                                        <a href="https://www.facebook.com/dseabi.mn">Dseabi Company</a>, 
-                                        <a href="https://www.facebook.com/%D0%98%D1%80%D0%BC%D2%AF%D2%AF%D0%BD-%D0%B0%D0%B7-%D1%8D%D0%BC%D0%B8%D0%B9%D0%BD-%D1%81%D0%B0%D0%BD-581215945892542"> Ирмүүн аз эмийн сан</a>
+                                        <a target="_blank" rel="noreferrer" href="https://www.facebook.com/dseabi.mn">Dseabi Company</a>                                        
                                     </Typography.Text>
                                 </div>
                             </div>                        

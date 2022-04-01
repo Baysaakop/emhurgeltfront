@@ -44,10 +44,12 @@ function Videos (props) {
                 </Breadcrumb.Item>
             </Breadcrumb>                       
             { videos ? (
-                <Row gutter={16} style={{ marginTop: '24px' }}>
+                <Row gutter={24}>
                     {videos.map(video => (
                         <Col xs={24} sm={24} md={24} lg={12}>
-                            <iframe title={video.name} width="100%" height={getHeight()} src={video.video_url} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true"></iframe>                                                
+                            <div style={{ marginTop: '16px' }}>                                
+                                <iframe title={video.name} width="100%" height={getHeight()} src={video.video_url} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true"></iframe>                                                
+                            </div>
                         </Col>
                     ))}
                 </Row>

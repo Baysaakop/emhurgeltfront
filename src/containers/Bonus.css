@@ -1,6 +1,9 @@
 .bonus {
   width: 100%;
-  min-height: 80vh;
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bonus::before {
@@ -11,9 +14,24 @@
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 0.75;
+  opacity: 0.75;  
 }
 
 .bonus div {
   position: relative;
+  width: 100%;
+}
+
+.ant-table-bonus .ant-table {
+  background: #2C3E50;
+  color: yellow;
+}
+
+.ant-table-bonus .ant-table-small .ant-table-thead > tr > th {
+  background-color: #2C3E50;
+  color: yellow;
+}
+
+.ant-table-bonus .ant-table-tbody > tr.ant-table-row:hover > td {
+  background: unset;
 }

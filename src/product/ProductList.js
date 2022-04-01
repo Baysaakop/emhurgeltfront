@@ -1,4 +1,4 @@
-import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Checkbox, Spin, Result, Button, Menu } from "antd";
+import { Breadcrumb, Col, List, Row, Typography, message, Radio, Space, Pagination, Select, Slider, Checkbox, Spin, Menu } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
@@ -6,7 +6,6 @@ import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as translations from '../translation';
-import { UserOutlined } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 
@@ -95,7 +94,7 @@ function ProductList (props) {
         axios({
             method: 'GET',
             url: api.items + url           
-        }).then(res => {                             
+        }).then(res => {                        
             setItems(res.data.results)
             setTotal(res.data.count)
             setLoading(false)
@@ -123,8 +122,7 @@ function ProductList (props) {
         axios({
             method: 'GET',
             url: `${api.categories}`            
-        }).then(res => {                   
-            console.log(res.data.results)     
+        }).then(res => {                       
             setCategories(res.data.results)
         }).catch(err => {
             message.error("Хуудсыг дахин ачааллана уу")
@@ -167,6 +165,19 @@ function ProductList (props) {
 
     function showTotal () {
         return `${props.language === "en" ? translations.en.product_list.total : translations.mn.product_list.total} ${total} ${props.language === "en" ? translations.en.product_list.products : translations.mn.product_list.products}`;
+    }
+
+    function getCategoryHeader () {        
+        if (category) {
+            let selected = categories.find(x => x.id.toString() === category)
+            if (subCategory) {
+                return selected.name + " / " + selected.subcategories.find(x => x.id.toString() === subCategory).name
+            } else {
+                return selected.name
+            }
+        } else {
+            return 'Бүх'
+        }
     }
 
     return (
@@ -273,9 +284,12 @@ function ProductList (props) {
                         ) : (
                             <div>
                                 <div style={{ background: '#fff', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderRadius: '2px' }}>                                    
-                                    <Typography.Title level={5} style={{ margin: 0 }}>{ props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }: {category ? categories.find(x => x.id.toString() === category).name : 'Бүх'}</Typography.Title>
+                                    <Typography.Title level={5} style={{ margin: 0 }}>
+                                        { props.language === "en" ? translations.en.product_list.category : translations.mn.product_list.category }: {getCategoryHeader()}                                         
+                                    </Typography.Title>
                                     <div>
-                                        <Select value={sorter} style={{ width: '180px' }} onChange={onSort}>
+                                        Эрэмбэлэх:
+                                        <Select value={sorter} style={{ width: '180px', marginLeft: '8px' }} onChange={onSort}>
                                             <Select.Option value="-created_at">{ props.language === "en" ? translations.en.product_list.newest : translations.mn.product_list.newest }</Select.Option>
                                             <Select.Option value="created_at">{ props.language === "en" ? translations.en.product_list.oldest : translations.mn.product_list.oldest }</Select.Option>
                                             <Select.Option value="price">{ props.language === "en" ? translations.en.product_list.lowtohigh : translations.mn.product_list.lowtohigh }</Select.Option>
@@ -315,13 +329,7 @@ function ProductList (props) {
                     </Col>
                 </Row>
             ) : (
-                <div style={{ background: '#FFF', padding: '16px', marginTop: '16px' }}>
-                    <Result
-                        status="403"
-                        title="Хуудас үзэх боломжгүй."
-                        subTitle="Та эхлээд системд нэвтэрч орно уу."
-                        extra={<Button icon={<UserOutlined />} type="primary" href="/login">Нэвтрэх</Button>}
-                    />
+                <div>                   
                 </div>
             )}
         </div>

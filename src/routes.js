@@ -11,7 +11,7 @@ import ProductShop from './product/ProductShop';
 import BrandProducts from './product/BrandProducts';
 import Staff from './staff/Staff';
 import Bonus from './containers/Bonus';
-import CustomerDetail from './staff/CustomerDetail';
+import CustomerDetail from './staff/Customer/CustomerDetail';
 import Registration from './account/Registration';
 import Admin from './staff/Admin';
 import Videos from './containers/Videos';

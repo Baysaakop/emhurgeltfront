@@ -1,8 +1,8 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button, Spin, Table, Typography } from "antd";
+import { Button, Select, Spin, Table, Typography } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import api from "../api";
+import api from "../../api";
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -12,16 +12,25 @@ function CustomerList (props) {
     const [users, setUsers] = useState()
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState()
+    const [sorter, setSorter] = useState("-id")
 
     useEffect(() => {
         getUsers()
-    }, [page]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [page, sorter]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getUsers() {
         setLoading(true)
+        let url = "?is_confirmed=True&role=3&"  
+        if (sorter) {
+            url += "sortby=" + sorter + "&"
+        }
+        if (page) {
+            url += "page=" + page + "&"
+        }
+        url = url.substring(0, url.length - 1)
         axios({
             method: 'GET',
-            url: `${api.users}?is_confirmed=True&role=3&page=${page}`
+            url: api.users + url
         })
         .then(res => {            
             setUsers(res.data.results)
@@ -36,6 +45,10 @@ function CustomerList (props) {
 
     function onPageChange (pageNum, pageSize) {        
         setPage(pageNum)
+    }
+
+    function onSort (val) {
+        setSorter(val)      
     }
 
     function formatNumber(num) {
@@ -101,17 +114,33 @@ function CustomerList (props) {
                     <Spin indicator={loadingIcon} />
                 </div>
             ) : (
-                <Table 
-                    columns={columns} 
-                    dataSource={users} 
-                    size="small" 
-                    pagination={{ 
-                        current: page, 
-                        pageSize: 36, 
-                        total: total,     
-                        onChange: onPageChange                
-                    }}
-                />       
+                <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                        <div>
+                            <Typography.Title level={4}>Хэрэглэгчийн жагсаалт</Typography.Title>
+                        </div>
+                        <div>
+                            Эрэмбэлэх:
+                            <Select value={sorter} style={{ width: '180px', marginLeft: '8px' }} onChange={onSort}>
+                                <Select.Option value="-id">Сүүлд нэмэгдсэн</Select.Option>
+                                <Select.Option value="id">Анх нэмэгдсэн</Select.Option>
+                                <Select.Option value="-price">Нийт дүн</Select.Option>
+                                <Select.Option value="-bonus">Бонус</Select.Option>
+                            </Select>      
+                        </div>
+                    </div>
+                    <Table 
+                        columns={columns} 
+                        dataSource={users} 
+                        size="small" 
+                        pagination={{ 
+                            current: page, 
+                            pageSize: 36, 
+                            total: total,     
+                            onChange: onPageChange                
+                        }}
+                    />   
+                </div>    
             )}            
         </div>
     )

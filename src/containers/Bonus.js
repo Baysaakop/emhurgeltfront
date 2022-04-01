@@ -1,4 +1,4 @@
-import { Rate, Table, Typography } from "antd"
+import { Rate, Table } from "antd"
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom"
 import './Bonus.css'
@@ -55,32 +55,25 @@ function Bonus (props) {
     return (
         <div className="bonus">
             <div>
-                <div style={{ background: '#fff', border: '1px solid #000', padding: '24px', marginBottom: '24px' }}>
-                    <Typography.Title level={5} style={{ margin: 0 }}>
-                        Та манай веб сайтаар үйлчлүүлснээр өөр хаана ч байхгүй гайхалтай урамшууллын хөтөлбөрт хамрагдах боломжтой.
-                    </Typography.Title>
+                <div style={{ background: '#2C3E50', color: 'yellow', fontSize: '18px', padding: '24px', marginBottom: '24px' }}>
+                    Та манай веб сайтаар үйлчлүүлснээр өөр хаана ч байхгүй гайхалтай урамшууллын хөтөлбөрт хамрагдах боломжтой.
                 </div>
-                <Table columns={columns} dataSource={data} pagination={false} size="small" style={{ border: '1px solid #000' }} />
-                <div style={{ background: '#fff', border: '1px solid #000', padding: '24px', marginTop: '24px' }}>
+                <Table className="ant-table-bonus" columns={columns} dataSource={data} pagination={false} size="small" />
+                <div style={{ background: '#2C3E50', color: 'yellow', padding: '24px', marginTop: '24px' }}>
                     <div style={{ marginBottom: '8px' }}>
-                        <Typography.Text>
-                        <strong>Цол:</strong> Худалдан авалтын дүнгээ өсгөж цолоо ахиулснаар урамшууллын хувиа өгсөх боломжтой.
-                        </Typography.Text>    
+                        <strong>Цол:</strong> Худалдан авалтын дүнгээ өсгөж цолоо ахиулснаар урамшууллын хувиа өгсөх боломжтой. 
                     </div>
                     <div style={{ marginBottom: '8px' }}>
-                    <Typography.Text>
                         <strong>Урамшууллын хувь:</strong> Худалдан авалт тус бүрээс урамшууллын хувиараа бонус оноо цуглуулах боломжтой.
-                        </Typography.Text>
                     </div>
                     <div style={{ marginBottom: '8px' }}>
-                        <Typography.Text>
-                        <strong>Худалдан авалтын дүн:</strong> Бүртгүүлсэн цагаас хойшхи нийт худалдан авалтын нийлбэр дүн.
-                        </Typography.Text>                    
+                        <strong>Худалдан авалтын дүн:</strong> Бүртгүүлсэн цагаас хойшхи нийт худалдан авалтын нийлбэр дүн.                   
                     </div>
                     <div style={{ marginBottom: '8px' }}>
-                        <Typography.Text>
-                        <strong>Нэмэлт бэлэг:</strong> Цол ахих тутамд бидний зүгээс танд бэлэглэж буй нэмэлт эрхүүд.
-                        </Typography.Text>                    
+                        <strong>Нэмэлт бэлэг:</strong> Цол ахих тутамд бидний зүгээс танд бэлэглэж буй нэмэлт эрхүүд.              
+                    </div>
+                    <div style={{ color: 'yellow' }}>
+                        <strong>Онцлох бүтээгдэхүүн:</strong> Онцлох бүтээгдэхүүнээс сонгон захиалснаар урамшууллаа үржүүлэн аваарай.             
                     </div>
                 </div>   
             </div>     

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
-import api from '../api'
+import api from '../../api'
 import { Button, Table, Spin } from "antd"
 import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from "@ant-design/icons"
 
@@ -38,8 +38,7 @@ function SignupRequests (props) {
         setPage(pageNum)
     }
 
-    function onAccept (id) {
-        console.log(id)
+    function onAccept (id) {        
         axios({
             method: 'PUT',
             url: api.users + "/" + id + "/",
@@ -59,8 +58,7 @@ function SignupRequests (props) {
         })
     }
 
-    function onDelete (id) {
-        console.log(id)
+    function onDelete (id) {    
         axios({
             method: 'DELETE',
             url: api.users + "/" + id + "/",            

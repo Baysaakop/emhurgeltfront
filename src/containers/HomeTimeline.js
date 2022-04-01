@@ -1,8 +1,4 @@
 import { Grid, Timeline, Typography } from "antd"
-import cartSvg from './cart.svg'
-import paymentSvg from './payment.svg'
-import deliverySvg from './delivery.svg'
-import bonusSvg from './bonus.svg'
 
 const { useBreakpoint } = Grid;
 
@@ -21,7 +17,7 @@ function HomeTimeline () {
                             Харилцагч та манай байгууллагын вэбсайтад бүртгүүлэн бүтээгдэхүүн цэсэнд нэвтрэх эрх үүсгээрэй. Ингэснээр та манайд байгаа бүтээгдэхүүнүүдээс сонголтоо хийн захиалга өгөх боломжтой. 
                         </div>                 
                     }>
-                        <img alt="cart" src={cartSvg} style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />
+                        <img alt="cart" src="/cart.svg" style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />
                     </Timeline.Item>
                     <Timeline.Item label=
                     {
@@ -30,7 +26,7 @@ function HomeTimeline () {
                             Захиалга батлагдсаны дараа харилцагч та төлбөрөө дансруу шилжүүлэх юмуу хүргэлтийн жолоочид бэлнээр төлөх боломжтой. 
                         </div>
                     }>
-                        <img alt="payment" src={paymentSvg} style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />  
+                        <img alt="payment" src="/payment.svg" style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />  
                     </Timeline.Item>
                     <Timeline.Item label=
                     {
@@ -39,7 +35,7 @@ function HomeTimeline () {
                             Бид харилцагч таны 13:00 цагаас өмнө өгсөн захиалгыг тухайн өдөрт нь хүргэж өгөх бөгөөд 13:00 цагаас хойш хийгдсэн захиалгыг ачааллаас хамааран тухайн өдөрт юмуу дараагийн өдөрт хүргэж өгөх болно.
                         </div>
                     }> 
-                        <img alt="delivery" src={deliverySvg} style={{ width: 'auto', height: '160px', objectFit: 'scale-down' }} />  
+                        <img alt="delivery" src="/delivery.svg" style={{ width: 'auto', height: '160px', objectFit: 'scale-down' }} />  
                     </Timeline.Item>
                     <Timeline.Item label=
                     {
@@ -48,7 +44,7 @@ function HomeTimeline () {
                             Харилцагч таны захиалгын үнийн дүнгийн 1-3% нь таны хэтэвчинд бонус болон хадгалагдах бөгөөд мөн нэмэлт бэлэг урамшуулал авах боломжтой.
                         </div>
                     }>
-                        <img alt="bonus" src={bonusSvg} style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />   
+                        <img alt="bonus" src="/bonus.svg" style={{ width: 'auto', height: '200px', objectFit: 'scale-down' }} />   
                     </Timeline.Item>
                 </Timeline>
             ) : (
@@ -60,7 +56,7 @@ function HomeTimeline () {
                             <Typography.Text style={{ fontSize: '11px' }}>Харилцагч та манай байгууллагын вэбсайтад бүртгүүлэн бүтээгдэхүүн цэсэнд нэвтрэх эрх үүсгээрэй. Ингэснээр та манайд байгаа бүтээгдэхүүнүүдээс сонголтоо хийн захиалга өгөх боломжтой.</Typography.Text>
                         </div>                 
                     }>
-                        <img alt="cart" src={cartSvg} style={{ width: '80%', height: 'auto', objectFit: 'scale-down' }} />
+                        <img alt="cart" src="/cart.svg" style={{ width: '80%', height: 'auto', objectFit: 'scale-down' }} />
                     </Timeline.Item>
                     <Timeline.Item style={{ height: '180px' }} label=
                     {
@@ -69,7 +65,7 @@ function HomeTimeline () {
                             <Typography.Text style={{ fontSize: '11px' }}>Захиалга батлагдсаны дараа харилцагч та төлбөрөө дансруу шилжүүлэх юмуу хүргэлтийн жолоочид бэлнээр төлөх боломжтой.</Typography.Text>
                         </div>
                     }>
-                        <img alt="payment" src={paymentSvg} style={{ width: '80%', height: 'auto', objectFit: 'scale-down' }} />  
+                        <img alt="payment" src="/payment.svg" style={{ width: '80%', height: 'auto', objectFit: 'scale-down' }} />  
                     </Timeline.Item>
                     <Timeline.Item style={{ height: '250px' }} label=
                     {
@@ -78,7 +74,7 @@ function HomeTimeline () {
                             <Typography.Text style={{ fontSize: '11px' }}>Бид харилцагч таны 13:00 цагаас өмнө өгсөн захиалгыг тухайн өдөрт нь хүргэж өгөх бөгөөд 13:00 цагаас хойш хийгдсэн захиалгыг ачааллаас хамааран тухайн өдөрт юмуу дараагийн өдөрт хүргэж өгөх болно.</Typography.Text>
                         </div>
                     }>
-                        <img alt="delivery" src={deliverySvg} style={{ width: '90%', height: 'auto', objectFit: 'scale-down' }} />  
+                        <img alt="delivery" src="/delivery.svg" style={{ width: '90%', height: 'auto', objectFit: 'scale-down' }} />  
                     </Timeline.Item>
                     <Timeline.Item style={{ height: '250px' }} label=
                     {
@@ -87,7 +83,7 @@ function HomeTimeline () {
                             <Typography.Text style={{ fontSize: '11px' }}>Харилцагч таны захиалгын үнийн дүнгийн 1-3% нь таны хэтэвчинд бонус болон хадгалагдах бөгөөд мөн нэмэлт бэлэг урамшуулал авах боломжтой.</Typography.Text>
                         </div>
                     }>
-                        <img alt="bonus" src={bonusSvg} style={{ width: '60%', height: 'auto', objectFit: 'scale-down' }} />   
+                        <img alt="bonus" src="/bonus.svg" style={{ width: '60%', height: 'auto', objectFit: 'scale-down' }} />   
                     </Timeline.Item>
                 </Timeline>
             )}            

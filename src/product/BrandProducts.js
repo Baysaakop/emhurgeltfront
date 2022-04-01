@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import axios from "axios";
 import api from "../api";
-import { Breadcrumb, Button, Col, message, Row } from "antd";
+import { Avatar, Badge, Breadcrumb, Button, Col, message, Row, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import './BrandProducts.css'
-import { ShoppingOutlined } from "@ant-design/icons";
+import { GiftOutlined, ShoppingOutlined } from "@ant-design/icons";
 import ProductPoster from './ProductPoster'
 
 function BrandProducts (props) {
@@ -50,8 +50,15 @@ function BrandProducts (props) {
                                 {visible ? <ProductPoster name={item.name} poster={item.poster} hide={() => setVisible(false)} /> : <></> } 
                                 <div className="poster">
                                     <img alt={item.name} src={item.poster} onClick={() => setVisible(true)} />
-                                    <div className="overlay">                                        
-                                        <Button type="primary" shape="round" icon={<ShoppingOutlined />} style={{ background: '#130f40' }} href={`products/${item.id}`}>Захиалах</Button>
+                                    <div className="overlay-bonus">         
+                                        <Tooltip title={`Уг барааг захиалвал ${item.multiplier} хувийн урамшуулалтай`}>
+                                            <Badge count={`${item.multiplier}X`}>
+                                                <Avatar icon={<GiftOutlined />} shape="square" size={40} style={{ background: '#130f40' }}></Avatar>
+                                            </Badge>
+                                        </Tooltip>                                                                       
+                                    </div>
+                                    <div className="overlay-order">                                        
+                                        <Button type="primary" shape="round" icon={<ShoppingOutlined />} style={{ background: '#009432' }} href={`products/${item.id}`}>Захиалах</Button>
                                     </div>
                                 </div>
                             </Col>

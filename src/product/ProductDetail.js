@@ -1,9 +1,7 @@
-import { CarOutlined, HeartOutlined, QuestionCircleOutlined, ShoppingCartOutlined, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
-import { Grid, Typography, Breadcrumb, Row, Col, Button, InputNumber, message, Divider, Tag, notification, Avatar, Space, Tooltip, Result } from "antd";
+import { CarOutlined, HeartOutlined, QuestionCircleOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { Grid, Typography, Breadcrumb, Row, Col, Button, InputNumber, message, Divider, Tag, notification, Avatar, Space, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import ProductCard from "./ProductCard";
-// import InfiniteCarousel from 'react-leaf-carousel';
 import axios from "axios"; 
 import api from "../api";
 import { connect } from 'react-redux';
@@ -20,26 +18,18 @@ function ProductDetail (props) {
     const [user, setUser] = useState()
     const [favorite, setFavorite] = useState()
     const [cart, setCart] = useState()
-    // const [suggestedItems, setSuggestedItems] = useState()
     const [image, setImage] = useState()
 
     useEffect(() => {
-        axios({
-            method: 'GET',
-            url: `${api.items}/${props.match.params.id}/`,            
-        }).then(res => {                        
-            setItem(res.data)
-            setImage(res.data.image1)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })        
-        if (props.token) {
-            getUser()
+        if (!user) {
+            getUser()            
         }
-        // getSuggestedProducts()
+        if (!item) {
+            getItem()
+        }        
     }, [props.match.params.id]) // eslint-disable-line react-hooks/exhaustive-deps    
 
-    function getUser() {
+    function getUser () {
         axios({
             method: 'GET',
             url: api.profile,
@@ -47,7 +37,7 @@ function ProductDetail (props) {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${props.token}`
             }
-        }).then(res => {                           
+        }).then(res => {                       
             setUser(res.data)
             setFavorite(res.data.favorite)
             setCart(res.data.cart)
@@ -56,20 +46,17 @@ function ProductDetail (props) {
         })
     }
 
-    function formatNumber(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    function getItem () {
+        axios({
+            method: 'GET',
+            url: `${api.items}/${props.match.params.id}/`,            
+        }).then(res => {                      
+            setItem(res.data)
+            setImage(res.data.image1)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })                
     }
-
-    // function getSuggestedProducts() {
-    //     axios({
-    //         method: 'GET',
-    //         url: api.items           
-    //     }).then(res => {                        
-    //         setSuggestedItems(res.data.results)            
-    //     }).catch(err => {
-    //         message.error("Хуудсыг дахин ачааллана уу")
-    //     })
-    // }
 
     function addToSaved () {
         if (user) {  
@@ -97,8 +84,8 @@ function ProductDetail (props) {
                             message: 'Бүтээгдэхүүнийг хаслаа.',
                             description: `'${item.name}' бүтээгдэхүүн таны хадгалсан бүтээгдэхүүнүүдийн жагсаалтаас хасагдлаа.`,
                         });
-                    }
-                    setFavorite(res.data.favorite)                         
+                    }           
+                    setFavorite(res.data.favorite)             
                     props.onUpdateSaved(res.data.favorite)         
                 }                                                         
             })
@@ -132,8 +119,8 @@ function ProductDetail (props) {
                     notification['success']({
                         message: 'Сагсанд нэмэгдлээ.',
                         description: `'${item.name}' бүтээгдэхүүн таны сагсанд нэмэгдлээ.`,
-                    });
-                    setCart(res.data.cart)                            
+                    });                         
+                    setCart(res.data.cart)             
                     props.onUpdateCart(res.data.cart)                    
                 }                                                         
             })
@@ -157,22 +144,10 @@ function ProductDetail (props) {
         }
         return 'create'
     }
-
-    // function getSliderCount() {
-    //     if (screens.xxl) {
-    //         return 6
-    //     } else if (screens.xl) {
-    //         return 5
-    //     } else if (screens.lg) {
-    //         return 4
-    //     } else if (screens.md) {
-    //         return 3
-    //     } else if (screens.sm) {
-    //         return 2
-    //     } else if (screens.xs) {
-    //         return 1
-    //     }
-    // }
+    
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
 
     return (
         <div>    
@@ -255,11 +230,17 @@ function ProductDetail (props) {
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div>
                                             <Typography.Title level={3} style={{ margin: 0 }}>{ props.language === "en" && item.name_en ? item.name_en : item.name }</Typography.Title>                            
-                                            <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{item.category ? item.category : 'Ангилал хийгдээгүй'}</Typography.Text>
+                                            <Typography.Text type="secondary" style={{ fontSize: '16px' }}>{item.category ? item.category.name : 'Ангилал хийгдээгүй'}</Typography.Text>
                                         </div>
                                         <div>
                                             <Tooltip title="Онцлох бүтээгдэхүүн">                                   
-                                                { item.is_featured ? <Avatar src={logo} alt="brand" style={{ height: '40px', width: '40px' }} /> : <></> }                
+                                                { item.is_featured ? 
+                                                    <Avatar src={logo} alt="brand" style={{ height: '40px', width: '40px' }} /> 
+                                                : item.company ?
+                                                    <Typography.Title level={4}>{item.company.name}</Typography.Title>
+                                                : 
+                                                    <></> 
+                                                }                
                                             </Tooltip>
                                         </div>
                                     </div>                            
@@ -320,13 +301,6 @@ function ProductDetail (props) {
                                             <Tag key={tag.id}>{tag.name}</Tag>
                                         )                                
                                     })}
-                                    {/* { item.is_featured ?
-                                    <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
-                                        <div><Avatar size={64} icon={<PercentageOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
-                                        <div><Typography.Title level={5}>Урамшууллын хувь - {item.multiplier}%</Typography.Title></div>
-                                    </div>
-                                    : <></>
-                                    } */}
                                     <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
                                         <div><Avatar size={64} icon={<QuestionCircleOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
                                         <div><Typography.Text>{ props.language === "en" && item.description_en ? item.description_en : item.description ? item.description : 'Тайлбар оруулаагүй.' }</Typography.Text></div>
@@ -354,42 +328,14 @@ function ProductDetail (props) {
                                 <Typography.Paragraph>
                                 { props.language === "en" && item.caution_en ? item.caution_en : item.caution}                                                   
                                 </Typography.Paragraph>
-                            </div>           
-                            {/* <Typography.Title level={4} style={{ marginTop: '24px' }}>Төстэй бүтээгдэхүүнүүд:</Typography.Title>
-                            <div>                        
-                                {suggestedItems ? (
-                                    <InfiniteCarousel                    
-                                        dots={false}
-                                        showSides={true}
-                                        sidesOpacity={.5}
-                                        sideSize={.1}
-                                        slidesToScroll={2}
-                                        slidesToShow={getSliderCount()}
-                                        scrollOnDevice={true}                    
-                                    >
-                                        {suggestedItems.map(item => {
-                                            return (
-                                                <ProductCard key={item.id} history={props.history} item={item} user={user} type="" />
-                                            )
-                                        })}
-                                    </InfiniteCarousel>
-                                ) : (
-                                    <></>
-                                )}            
-                            </div>          */}
+                            </div>                                      
                         </>
                     ) : (
                         <></>
                     )}
                 </>
             ) : (
-                <div style={{ background: '#FFF', padding: '16px', marginTop: '16px' }}>
-                    <Result
-                        status="403"
-                        title="Хуудас үзэх боломжгүй."
-                        subTitle="Та эхлээд системд нэвтэрч орно уу."
-                        extra={<Button icon={<UserOutlined />} type="primary" href="/login">Нэвтрэх</Button>}
-                    />
+                <div>
                 </div>
             )}                      
         </div>
