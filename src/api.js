@@ -1,5 +1,5 @@
-// const baseUrl = "http://localhost:8000/"
-const baseUrl = "https://emhurgeltback.herokuapp.com/"
+const baseUrl = "http://localhost:8000/"
+// const baseUrl = "https://emhurgeltback.herokuapp.com/"
 
 const api = {
     items: baseUrl + 'api/items/items',    

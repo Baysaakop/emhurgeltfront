@@ -303,11 +303,17 @@ function ProductDetail (props) {
                                     })}
                                     <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
                                         <div><Avatar size={64} icon={<QuestionCircleOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
-                                        <div><Typography.Text>{ props.language === "en" && item.description_en ? item.description_en : item.description ? item.description : 'Тайлбар оруулаагүй.' }</Typography.Text></div>
+                                        <div>
+                                            <Typography.Title level={5}>ТАЙЛБАР</Typography.Title>
+                                            <Typography.Text>{ props.language === "en" && item.description_en ? item.description_en : item.description ? item.description : 'Тайлбар оруулаагүй.' }</Typography.Text>
+                                        </div>
                                     </div>                                    
                                     <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
                                         <div><Avatar size={64} icon={<CarOutlined />} style={{ background: '#dedede', color: '#000', marginRight: '16px' }} /></div>
-                                        <div><Typography.Text>14:00 цагаас өмнө захиалсан бүтээгдэхүүн тухайн өдөртөө хүргэгдэх бөгөөд 14:00 цагаас хойш захиалсан бүтээгдэхүүн дараа өдөртөө багтан танд хүргэгдэх болно.</Typography.Text></div>
+                                        <div>
+                                            <Typography.Title level={5}>ХҮРГЭЛТИЙН НӨХЦӨЛ</Typography.Title>
+                                            <Typography.Text>Бид харилцагч таны 13:00 цагаас өмнө өгсөн захиалгыг тухайн өдөрт нь хүргэж өгөх бөгөөд 13:00 цагаас хойш хийгдсэн захиалгыг ачааллаас хамааран тухайн өдөрт юмуу дараагийн өдөрт хүргэж өгөх болно.</Typography.Text>
+                                        </div>
                                     </div>                                    
                                 </Col>
                             </Row>
