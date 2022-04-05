@@ -54,7 +54,7 @@ function BrandProducts (props) {
                                 <div className="poster">
                                     <img alt={item.name} src={item.poster} onClick={() => onSelect(item)} />
                                     <div className="overlay-bonus">         
-                                        <Tooltip title={`Уг барааг захиалвал ${item.multiplier} хувийн урамшуулалтай`}>
+                                        <Tooltip title={`Уг барааг захиалвал таны бонус ${item.multiplier} дахин үржигдэж орно.`}>
                                             <Badge count={`${item.multiplier}X`}>
                                                 <Avatar icon={<GiftOutlined />} shape="square" size={40} style={{ background: '#130f40' }}></Avatar>
                                             </Badge>

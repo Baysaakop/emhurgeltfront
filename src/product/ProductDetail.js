@@ -6,7 +6,6 @@ import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
-import logo from '../components/logo.png'
 import * as translations from '../translation';
 
 const { useBreakpoint } = Grid
@@ -121,21 +120,21 @@ function ProductDetail (props) {
                         description: `'${item.name}' бүтээгдэхүүн таны сагсанд нэмэгдлээ.`,
                     });                         
                     setCart(res.data.cart)             
-                    props.onUpdateCart(res.data.cart)                    
+                    props.onUpdateCart(res.data.cart)           
                 }                                                         
             })
             .catch(err => {                      
                 console.log(err.message)         
-                message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
+                message.error("Алдаа гарлаа. Дахин оролдоно уу.")          
             })             
         } else {
-            props.history.push('/login')            
+            props.history.push('/login')       
         }         
     }    
 
-    function order () {
+    function order () {        
         addToCart(getMode())
-        props.history.push("/profile?key=cart")
+        props.history.push("/profile?key=cart")       
     }
 
     function getMode () {
@@ -235,7 +234,7 @@ function ProductDetail (props) {
                                         <div>
                                             <Tooltip title="Онцлох бүтээгдэхүүн">                                   
                                                 { item.is_featured ? 
-                                                    <Avatar src={logo} alt="brand" style={{ height: '40px', width: '40px' }} /> 
+                                                    <Avatar src="/logo.png" alt="brand" style={{ height: '40px', width: '40px' }} /> 
                                                 : item.company ?
                                                     <Typography.Title level={4}>{item.company.name}</Typography.Title>
                                                 : 

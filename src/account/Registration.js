@@ -78,7 +78,7 @@ const Registration = (props) => {
                     <div style={{ background: '#FFF', padding: '16px' }}>
                         <Result
                             status="500"
-                            title={error.message.includes("400") ? "Утасны дугаар бүртгэлтэй байна." : "Бүртгэл амжилтгүй боллоо."}
+                            title={error.message.includes("400") ? "Утасны дугаар эсвэл и-мэйл бүртгэлтэй байна." : "Бүртгэл амжилтгүй боллоо."}
                             subTitle={error.message.includes("400") ? "Та манай 1132-2817 дугаар руу холбогдож тодруулна уу." : "Та хуудсаа refresh хийж дахин оролдоно уу."}
                             extra={[
                                 <Button type="primary" onClick={() => window.location.reload(false)}>

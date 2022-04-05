@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button, Select, Spin, Table, Typography } from "antd";
+import { Button, Divider, Select, Spin, Table, Typography } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../../api";
@@ -117,7 +117,7 @@ function CustomerList (props) {
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                         <div>
-                            <Typography.Title level={4}>Хэрэглэгчийн жагсаалт</Typography.Title>
+                            <Typography.Title level={4} style={{ margin: 0 }}>Хэрэглэгчийн жагсаалт</Typography.Title>                            
                         </div>
                         <div>
                             Эрэмбэлэх:
@@ -129,6 +129,7 @@ function CustomerList (props) {
                             </Select>      
                         </div>
                     </div>
+                    <Divider style={{ margin: '12px 0' }} />
                     <Table 
                         columns={columns} 
                         dataSource={users} 

@@ -1,4 +1,4 @@
-import { Button, Form, notification, Popconfirm, Typography } from "antd";
+import { Button, Form, notification, Popconfirm, Typography, Divider } from "antd";
 import ImageUpload from '../components/ImageUpload'
 import axios from "axios";
 import api from "../api";
@@ -45,7 +45,8 @@ function SliderAdd (props) {
 
     return (
         <div>
-            <Typography.Title level={4}>Slider нэмэх</Typography.Title>            
+            <Typography.Title level={4} style={{ margin: 0 }}>Slider нэмэх</Typography.Title>            
+            <Divider style={{ margin: '12px 0' }} />
             <Form 
                 form={form} 
                 layout="vertical" 

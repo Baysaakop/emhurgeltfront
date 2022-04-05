@@ -6,7 +6,6 @@ import axios from "axios";
 import api from "../api";
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
-import logo from '../components/logo.png';
 import * as translations from '../translation';
 
 function ProductCard (props) {
@@ -138,7 +137,7 @@ function ProductCard (props) {
                                     />                            
                                     { props.item.is_featured === true ?                                    
                                         <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
-                                            <img alt="featured" src={logo} style={{ width: '100%', height: 'auto' }} />                                        
+                                            <img alt="featured" src="/logo.png" style={{ width: '100%', height: 'auto' }} />                                        
                                         </div>                                    
                                     : <></>}    
                                 </div>                            

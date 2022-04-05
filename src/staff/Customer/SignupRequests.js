@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import api from '../../api'
-import { Button, Table, Spin } from "antd"
+import { Button, Table, Spin, Typography, Divider } from "antd"
 import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from "@ant-design/icons"
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -115,17 +115,21 @@ function SignupRequests (props) {
                     <Spin indicator={loadingIcon} />
                 </div>
             ) : (
-                <Table 
-                    columns={columns} 
-                    dataSource={users} 
-                    size="small" 
-                    pagination={{ 
-                        current: page, 
-                        pageSize: 36, 
-                        total: total,     
-                        onChange: onPageChange                
-                    }}
-                />       
+                <div>
+                    <Typography.Title level={4} style={{ margin: 0 }}>Шинэ хэрэглэгчийн хүсэлтүүд</Typography.Title>    
+                    <Divider style={{ margin: '12px 0' }} />
+                    <Table 
+                        columns={columns} 
+                        dataSource={users} 
+                        size="small" 
+                        pagination={{ 
+                            current: page, 
+                            pageSize: 36, 
+                            total: total,     
+                            onChange: onPageChange                
+                        }}
+                    />       
+                </div>
             )}            
         </div>
     )

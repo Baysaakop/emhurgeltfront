@@ -66,9 +66,8 @@ function Cart (props) {
                     message: 'Захиалга хүлээж авлаа.',
                     description: `'${res.data.ref}' дугаартай захиалга үүслээ.`,
                     duration: 8
-                });                
-                history.push('/profile?key=orders')
-                history.push(`/orders/${res.data.id}`)
+                });                                
+                history.push(`/orders/${res.data.ref}`)
             } else if (res.status === 406) {
                 notification['error']({
                     message: 'Захиалга амжилтгүй боллоо.',

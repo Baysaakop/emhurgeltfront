@@ -1,9 +1,9 @@
-import { Typography, message, Row, Col, Collapse, Pagination, Divider, Avatar, Button, Spin } from "antd"
+import { Typography, message, Divider, Button, Spin, Table, Tag, Space } from "antd"
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import api from "../api"
 import moment from "moment";
-import { CheckOutlined, ClockCircleOutlined, FilePdfOutlined, LoadingOutlined } from "@ant-design/icons";
+import { FilePdfOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useReactToPrint } from "react-to-print";
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -20,6 +20,7 @@ function OrderHistory (props) {
     }, [page]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getOrders (page) {
+         
         setLoading(true)
         let url = `${api.orders}/?customer=${props.user.id}`
         url += `&page=${page}`    
@@ -44,9 +45,54 @@ function OrderHistory (props) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    // function onChangeOrder() {
-    //     printRef.current = 
-    // }
+    const columns = [
+        {
+            title: 'Захиалгын дугаар',
+            dataIndex: 'id',
+            key: 'id',
+            render: (id) => <a target="_blank" rel="noreferrer" href={`/orders/${id}`}>{orders.find(x => x.id === id).ref}</a>
+        },
+        {
+            title: 'Үнийн дүн',
+            dataIndex: 'total',
+            key: 'total',
+            render: (total) => <Typography.Text>{formatNumber(total)}₮</Typography.Text>
+        },
+        {
+            title: 'Ашигласан бонус',
+            dataIndex: 'bonus_used',
+            key: 'bonus_used',
+            render: (bonus_used) => <Typography.Text>{formatNumber(bonus_used)}₮</Typography.Text>
+        },
+        {
+            title: 'Урамшуулал',
+            dataIndex: 'bonus_granted',
+            key: 'bonus_granted',
+            render: (bonus_granted) => <Typography.Text>+{formatNumber(bonus_granted)}₮</Typography.Text>
+        },
+        {
+            title: 'Утасны дугаар',
+            dataIndex: 'phone_number',
+            key: 'phone_number'
+        },
+        {
+            title: 'Хаяг',
+            dataIndex: 'address',
+            key: 'address'
+        },
+        {
+            title: 'Огноо',
+            dataIndex: 'created_at',
+            key: 'created_at',
+            render: (date) => moment(date).format("YYYY-MM-DD HH:mm")
+        },
+        {
+            title: 'Төлөв',
+            dataIndex: 'is_payed',
+            key: 'is_payed',
+            render: (is_payed) => <Tag color={is_payed ? "success" : "cyan"}>{is_payed ? "Төлбөр төлөгдсөн" : "Төлбөр дутуу"}</Tag>
+        },
+    ]
 
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
@@ -55,105 +101,39 @@ function OrderHistory (props) {
     return (
         <div style={{ background: '#fff', borderRadius: '2px', padding: '24px' }}>       
             <Typography.Title level={4} style={{ margin: 0 }}>Захиалгын түүх</Typography.Title>            
-            <Divider /> 
+            <Divider />             
             { loading ? (
                 <div style={{ width: '100%', height: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Spin indicator={loadingIcon} />
                 </div>
             ) : orders ? (
-                <Collapse accordion >
-                    {orders.map(order => (
-                        <Collapse.Panel                             
-                            key={order.id}
-                            showArrow={false}
-                            header={
-                                <Row gutter={[16, 16]}>
-                                    <Col xs={24} sm={24} md={24} lg={12}>
-                                        <Typography.Title level={5} style={{ margin: 0 }}>ЗАХИАЛГЫН ДУГААР: {order.ref}</Typography.Title>   
-                                    </Col>
-                                    <Col xs={24} sm={24} md={24} lg={12} style={{ textAlign: 'right' }}>
-                                        {order.is_payed ? (
-                                            <Typography.Title level={5} style={{ margin: 0 }}>ТӨЛӨВ: Төлбөр төлөгдсөн <Avatar size="small" icon={<CheckOutlined />} style={{ background: '#2ecc71' }} /></Typography.Title>
-                                        ) : (
-                                            <Typography.Title level={5} style={{ margin: 0 }}>ТӨЛӨВ: Хүлээж авсан <Avatar size="small" icon={<ClockCircleOutlined />} style={{ background: '#4834d4' }} /></Typography.Title>
-                                        )}                                            
-                                    </Col>
-                                </Row>
-                            }                                                                            
-                        >
-                            <div ref={printRef} style={{ padding: '8px' }}>
-                                <Row gutter={[24, 24]}>
-                                    <Col span={6}>
-                                        <Typography.Title level={5}>Захиалгын мэдээлэл:</Typography.Title>
-                                        <div style={{ marginBottom: '8px' }}>
-                                            <Typography.Text>Захиалгын дугаар: {order.ref}</Typography.Text>                                        
-                                        </div>
-                                        <div style={{ marginBottom: '8px' }}>
-                                            <Typography.Text>Огноо: {moment(order.created_at).format("YYYY-MM-DD HH:MM")}</Typography.Text>                                        
-                                        </div>
-                                        <div style={{ marginBottom: '8px' }}>                                        
-                                            <Typography.Text>Утасны дугаар: {order.phone_number}</Typography.Text>
-                                        </div>
-                                        <div style={{ marginBottom: '8px' }}>                                        
-                                            <Typography.Text>Хүргэлтийн хаяг: {order.address}</Typography.Text>
-                                        </div>
-                                    </Col>                                           
-                                    <Col span={6}>
-                                        <Typography.Title level={5}>Төлбөрийн мэдээлэл:</Typography.Title>
-                                        <div style={{ marginBottom: '8px' }}>                                        
-                                            <Typography.Text>Үнийн дүн: {formatNumber(order.total)}₮</Typography.Text>
-                                        </div>
-                                        <div style={{ marginBottom: '8px' }}>                                        
-                                            <Typography.Text>Ашигласан бонус: {formatNumber(order.bonus_used)}₮</Typography.Text>
-                                        </div>
-                                        <div style={{ marginBottom: '8px' }}>                                        
-                                            <Typography.Text>Төлөх дүн: {formatNumber(order.total - order.bonus_used)}₮</Typography.Text>
-                                        </div>
-                                        <div style={{ marginBottom: '8px' }}>                                        
-                                            <Typography.Text style={{ fontWeight: 'bold' }}>Урамшуулал: +{formatNumber(order.bonus_granted)}₮</Typography.Text>
-                                        </div>                                        
-                                    </Col>
-                                    <Col span={6}>                
-                                        <Typography.Title level={5}>Бүтээгдэхүүнүүд:</Typography.Title>                                
-                                        {order.items.map(item => {
-                                            return (
-                                                <div style={{ marginBottom: '8px' }}>                                                
-                                                    <Typography.Text>{item.item.name} - {item.count}ш</Typography.Text>
-                                                </div>
-                                            )
-                                        })}                                                                                       
-                                    </Col>                                      
-                                    <Col span={6}>             
-                                        <Typography.Title level={5}>Захиалгын төлөв:</Typography.Title>       
-                                        {order.is_payed ? (
-                                            <div style={{ textAlign: 'center'}}>
-                                                <Avatar size={48} icon={<CheckOutlined />} style={{ background: '#2ecc71', margin: '16px 0'  }} />
-                                                <Typography.Title level={5}>Төлбөр төлөгдсөн</Typography.Title>
-                                            </div>                                        
-                                        ) : (
-                                            <div style={{ textAlign: 'center'}}>
-                                                <Avatar size={48} icon={<ClockCircleOutlined />} style={{ background: '#4834d4', margin: '16px 0'  }} />
-                                                <Typography.Title level={5}>Хүлээж авсан</Typography.Title>
-                                            </div>                                           
-                                        )}       
-                                    </Col>          
-                                </Row>
-                            </div>
-                            <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
-                        </Collapse.Panel>
-                    ))}
-                </Collapse>
-            ) : <></>}            
-            <Pagination
-                current={page}
-                total={total}
-                pageSize={24}
-                showSizeChanger={false}
-                showTotal={false}      
-                size="small"   
-                style={{ marginTop: '16px' }}       
-                onChange={onPageChange}
-            />          
+                <div>
+                    <div ref={printRef} style={{ padding: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                            <div><Typography.Title level={5} style={{ margin: 0 }}>Хэрэглэгч: {props.user.company_name}</Typography.Title></div>
+                            <Space size={8} wrap>
+                                <img src="/logo.png" alt="dseabi" style={{ width: '24px', height: 'auto' }} /> 
+                                <Typography.Title level={5} style={{ margin: 0 }}>Ди Эс И Эй Би Ай ХХК</Typography.Title>
+                            </Space>
+                        </div> 
+                        <Table 
+                            bordered
+                            columns={columns} 
+                            dataSource={orders} 
+                            size="small" 
+                            pagination={{ 
+                                current: page, 
+                                pageSize: 36, 
+                                total: total,     
+                                onChange: onPageChange                
+                            }}
+                        />
+                    </div>
+                    <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
+                </div>
+            ) : 
+                <></>
+            }                    
         </div>
     )
 }

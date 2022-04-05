@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Button, Typography, Row, Col, Avatar } from 'antd';
 import { FacebookFilled, GoogleOutlined  } from '@ant-design/icons';
-import logo from './logo.png'
 import * as translations from '../translation';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -20,7 +19,7 @@ function CustomFooter (props) {
                     <Col xs={24} sm={24} md={12} lg={6}>
                         <div className="logo" style={{ display: 'flex', justifyContent: 'flex-start', alignContent: 'center', marginBottom: '8px' }}>                            
                             <div>
-                                <Avatar size={48} src={logo} style={{ marginRight: '4px' }} />
+                                <Avatar size={48} src="/logo.png" style={{ marginRight: '4px' }} />
                             </div>
                             <div>                                    
                                 <div style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '24px', color: '#000' }}>DSEABI LLC</div>                       

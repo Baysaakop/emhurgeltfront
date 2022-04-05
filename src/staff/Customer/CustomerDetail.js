@@ -1,15 +1,17 @@
-import { Breadcrumb, Button, Col, Popover, Result, Row, Typography, Tag, Space, Popconfirm, Spin, Table, message } from "antd"
+import { Breadcrumb, Button, Col, Result, Row, Typography, Tag, Space, Popconfirm, Spin, Table, message, Divider } from "antd"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import api from "../../api"
 import moment from 'moment'
-import { LoadingOutlined, CheckOutlined, DeleteOutlined } from "@ant-design/icons"
+import { LoadingOutlined, CheckOutlined, DeleteOutlined, FilePdfOutlined } from "@ant-design/icons"
+import { useReactToPrint } from "react-to-print";
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 function CustomerDetail (props) {
+    const printRef = useRef()
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState()
     const [customer, setCustomer] = useState()
@@ -113,33 +115,9 @@ function CustomerDetail (props) {
     const columns = [
         {
             title: 'Код',
-            dataIndex: 'ref',
-            key: 'ref',
-            // render: (ref) => <a href={`/orders/${ref}`}>{ref}</a>
-        },
-        {
-            title: 'Бүтээгдэхүүн',
-            dataIndex: 'items',
-            key: 'items',
-            render: (items) => <div>
-                <Popover
-                    content={
-                        <div>
-                            {items.map(item => {
-                                return (
-                                    <div>
-                                        {item.item.name} ({formatNumber(item.item.price)}₮) - {item.count}ш
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    }
-                    title="Бүтээгдэхүүнүүд"
-                    trigger="click"
-                >
-                    <Button size="middle">Дэлгэрэнгүй</Button>
-                </Popover>
-            </div>
+            dataIndex: 'id',
+            key: 'id',
+            render: (id) => <a target="_blank" rel="noreferrer" href={`/orders/${id}`}>{orders.find(x => x.id === id).ref}</a>
         },
         {
             title: 'Үнийн дүн',
@@ -191,7 +169,11 @@ function CustomerDetail (props) {
                     </Popconfirm>  
                 </Space>
         },
-    ]
+    ];
+
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
 
     return (
         <div>
@@ -253,23 +235,36 @@ function CustomerDetail (props) {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={18}>
                             <div style={{ background: '#fff', borderRadius: '4px', padding: '16px' }}>
-                                <Typography.Title level={4}>Захиалгын түүх</Typography.Title>
+                                <Typography.Title level={4} style={{ margin: 0 }}>Захиалгын түүх</Typography.Title>
+                                <Divider style={{ margin: '12px 0' }} />
                                 { loading ? (
                                     <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                         <Spin indicator={loadingIcon} />
                                     </div>
                                 ) : (
-                                    <Table 
-                                        columns={columns} 
-                                        dataSource={orders} 
-                                        size="small" 
-                                        pagination={{ 
-                                            current: page, 
-                                            pageSize: 24, 
-                                            total: total,     
-                                            onChange: onPageChange                
-                                        }}
-                                    />       
+                                    <div>
+                                        <div ref={printRef} style={{ padding: '8px' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                                <div><Typography.Title level={5} style={{ margin: 0 }}>Хэрэглэгч: {customer.company_name}</Typography.Title></div>
+                                                <Space size={8} wrap>
+                                                    <img src="/logo.png" alt="dseabi" style={{ width: '24px', height: 'auto' }} /> 
+                                                    <Typography.Title level={5} style={{ margin: 0 }}>Ди Эс И Эй Би Ай ХХК</Typography.Title>
+                                                </Space>
+                                            </div> 
+                                            <Table 
+                                                columns={columns} 
+                                                dataSource={orders} 
+                                                size="small" 
+                                                pagination={{ 
+                                                    current: page, 
+                                                    pageSize: 36, 
+                                                    total: total,     
+                                                    onChange: onPageChange                
+                                                }}
+                                            />       
+                                        </div>
+                                        <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
+                                    </div>
                                 )}
                             </div>                               
                         </Col>

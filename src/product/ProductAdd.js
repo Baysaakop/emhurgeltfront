@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, notification, Popconfirm, Row, Select, Typography, message, Spin, InputNumber } from "antd";
+import { Button, Col, Form, Input, notification, Popconfirm, Row, Select, Typography, message, Spin, InputNumber, Divider } from "antd";
 import ImageUpload from '../components/ImageUpload'
 import axios from "axios";
 import api from "../api";
@@ -194,8 +194,9 @@ function ProductAdd (props) {
     return (
         <div>           
             <div>
-                <Typography.Title level={4}>Бүтээгдэхүүн нэмэх</Typography.Title>                                        
-                <Row gutter={[16, 0]} style={{ margin: '24px 0' }}>                                                                                                                                 
+                <Typography.Title level={4} style={{ margin: 0 }}>Бүтээгдэхүүн нэмэх</Typography.Title>           
+                <Divider style={{ margin: '12px 0' }} />                             
+                <Row gutter={[16, 0]} style={{ marginBottom: '24px' }}>                                                                                                                                 
                     <Col span={8}>
                         <Typography.Title level={5}>Ангилал:</Typography.Title>
                         <Select                                                                                   

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Button, DatePicker, message, Popconfirm, Popover, Select, Space, Spin, Table, Tag, Typography } from "antd"
+import { Button, DatePicker, Divider, message, Popconfirm, Select, Space, Spin, Table, Tag, Typography } from "antd"
 import axios from "axios"
 import api from "../api"
 import { CheckOutlined, DeleteOutlined, FilePdfOutlined, LoadingOutlined } from "@ant-design/icons"
@@ -117,39 +117,15 @@ function OrderList (props) {
     const columns = [
         {
             title: 'Код',
-            dataIndex: 'ref',
-            key: 'ref',
-            // render: (ref) => <a href={`/orders/${ref}`}>{ref}</a>
+            dataIndex: 'id',
+            key: 'id',
+            render: (id) => <a target="_blank" rel="noreferrer" href={`/orders/${id}`}>{orders.find(x => x.id === id).ref}</a>
         },
         {
             title: 'Захиалагч',
             dataIndex: 'customer',
             key: 'customer',
-            render: (customer) => <a href={`/staff/customers/${customer.id}`}>{customer.company_name}</a>
-        },
-        {
-            title: 'Бүтээгдэхүүн',
-            dataIndex: 'items',
-            key: 'items',
-            render: (items) => <div>
-                <Popover
-                    content={
-                        <div>
-                            {items.map(item => {
-                                return (
-                                    <div>
-                                        {item.item.name} ({formatNumber(item.item.price)}₮) - {item.count}ш
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    }
-                    title="Бүтээгдэхүүнүүд"
-                    trigger="click"
-                >
-                    <Button>Дэлгэрэнгүй</Button>
-                </Popover>
-            </div>
+            render: (customer) => <a target="_blank" rel="noreferrer" href={`/staff/customers/${customer.id}`}>{customer.company_name}</a>
         },
         {
             title: 'Үнийн дүн',
@@ -209,43 +185,51 @@ function OrderList (props) {
 
     return (
         <div>     
-            <div>       
-                <div ref={printRef} style={{ padding: '8px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                        <div>
-                            <Typography.Title level={4}>{props.state === "2" ? 'Төлбөр төлөгдсөн захиалгууд' : 'Төлбөр дутуу захиалгууд'}</Typography.Title>
-                        </div>
-                        <div>
-                            Хугацаа:
-                            <DatePicker.RangePicker style={{ marginLeft: '8px' }} onChange={onSelectDateRange} />
-                        </div>
-                        <div>
-                            Эрэмбэлэх:
-                            <Select value={sorter} style={{ width: '180px', marginLeft: '8px' }} onChange={onSort}>
-                                <Select.Option value="-created_at">Сүүлд нэмэгдсэн</Select.Option>
-                                <Select.Option value="created_at">Анх нэмэгдсэн</Select.Option>
-                                <Select.Option value="-total">Нийт дүн</Select.Option>                                    
-                            </Select>      
-                        </div>
+            <div>                       
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                    <div>
+                        <Typography.Title level={4} style={{ margin: 0 }}>{props.state === "2" ? 'Төлбөр төлөгдсөн захиалгууд' : 'Төлбөр дутуу захиалгууд'}</Typography.Title>
                     </div>
-                    { loading ? (
-                        <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Spin indicator={loadingIcon} />
-                        </div>
-                    ) : (    
+                    <div>
+                        Хугацаа:
+                        <DatePicker.RangePicker style={{ marginLeft: '8px' }} onChange={onSelectDateRange} />
+                    </div>
+                    <div>
+                        Эрэмбэлэх:
+                        <Select value={sorter} style={{ width: '180px', marginLeft: '8px' }} onChange={onSort}>
+                            <Select.Option value="-created_at">Сүүлд нэмэгдсэн</Select.Option>
+                            <Select.Option value="created_at">Анх нэмэгдсэн</Select.Option>
+                            <Select.Option value="-total">Нийт дүн</Select.Option>                                    
+                        </Select>      
+                    </div>
+                </div>
+                <Divider style={{ margin: '12px 0' }} />
+                { loading ? (
+                    <div style={{ width: '100%', minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spin indicator={loadingIcon} />
+                    </div>
+                ) : (    
+                    <div ref={printRef} style={{ padding: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                            <div><Typography.Text style={{ margin: 0 }}>Хугацаа: {dateMin ? moment(dateMin).format("YYYY-MM-DD") : "Nan"} ~ {dateMax ? moment(dateMax).format("YYYY-MM-DD") : "Nan"}</Typography.Text></div>
+                            <Space size={8} wrap>
+                                <img src="/logo.png" alt="dseabi" style={{ width: '24px', height: 'auto' }} /> 
+                                <Typography.Title level={5} style={{ margin: 0 }}>Ди Эс И Эй Би Ай ХХК</Typography.Title>
+                            </Space>
+                        </div> 
                         <Table                    
                             columns={columns} 
                             dataSource={orders} 
                             size="small"                             
                             pagination={{ 
                                 current: page, 
-                                pageSize: 24, 
+                                pageSize: 36, 
                                 total: total,     
                                 onChange: onPageChange                
                             }}
                         />         
-                    )}              
-                </div>   
+                    </div>
+                )}               
                 <Button icon={<FilePdfOutlined />} onClick={handlePrint}>Татаж авах</Button>
             </div>                                     
         </div>

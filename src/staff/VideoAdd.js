@@ -1,4 +1,4 @@
-import { Button, Form, Input, notification, Popconfirm, Typography } from "antd";
+import { Button, Divider, Form, Input, notification, Popconfirm, Typography } from "antd";
 import axios from "axios";
 import api from "../api";
 
@@ -33,7 +33,8 @@ function VideoAdd (props) {
 
     return (
         <div>
-            <Typography.Title level={4}>Видео нэмэх</Typography.Title>            
+            <Typography.Title level={4} style={{ margin: 0 }}>Видео нэмэх</Typography.Title>           
+            <Divider style={{ margin: '12px 0' }} /> 
             <Form 
                 form={form} 
                 layout="vertical" 

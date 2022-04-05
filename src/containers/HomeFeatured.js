@@ -11,8 +11,7 @@ function HomeFeatured (props) {
         axios({
             method: 'GET',
             url: api.items + "?is_featured=true"
-        }).then(res => {          
-            console.log(res.data.results)              
+        }).then(res => {                      
             setItems(res.data.results)            
         }).catch(err => {            
             console.log(err)            

@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Spin, Table } from "antd"
+import { Button, Divider, Popconfirm, Spin, Table, Typography } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import api from "../../api"
@@ -124,6 +124,8 @@ function NewTopUsers (props) {
                 </div>
             ) : users ? (
                 <div>
+                    <Typography.Title level={4} style={{ margin: 0 }}>Шинээр 3-р түвшинд хүрсэн хэрэглэгчид</Typography.Title>    
+                    <Divider style={{ margin: '12px 0' }} />
                     <Table columns={columns} dataSource={users} pagination={false} />
                 </div>
             ) : 
