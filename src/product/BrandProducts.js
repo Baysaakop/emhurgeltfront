@@ -17,7 +17,7 @@ function BrandProducts (props) {
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function getProducts () {        
-        let url = `${api.items}/?is_featured=true`        
+        let url = `${api.items}/?is_featured=true&poster=true`        
         axios({
             method: 'GET',
             url: url           
@@ -50,9 +50,9 @@ function BrandProducts (props) {
                 <Row gutter={[24, 24]}>
                     {items.map(item => {
                         return (
-                            <Col xs={24} sm={24} md={12} lg={8}>                                
+                            <Col xs={24} sm={24} md={12} lg={8}>                                          
                                 <div className="poster">
-                                    <img alt={item.name} src={item.poster} onClick={() => onSelect(item)} />
+                                    <img alt={item.name} src={item.poster ? item.poster : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank1x3.jpg"} onClick={() => onSelect(item)} />
                                     <div className="overlay-bonus">         
                                         <Tooltip title={`Уг барааг захиалвал таны бонус ${item.multiplier} дахин үржигдэж орно.`}>
                                             <Badge count={`${item.multiplier}X`}>
@@ -63,7 +63,7 @@ function BrandProducts (props) {
                                     <div className="overlay-order">                                        
                                         <Button type="primary" shape="round" icon={<ShoppingOutlined />} style={{ background: '#009432' }} href={`products/${item.id}`}>Захиалах</Button>
                                     </div>
-                                </div>
+                                </div>                                            
                             </Col>
                         )
                     })}                    
