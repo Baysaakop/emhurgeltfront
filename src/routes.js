@@ -18,6 +18,7 @@ import Videos from './containers/Videos';
 import PasswordReset from './account/PasswordReset';
 import PasswordResetConfirm from './account/PasswordResetConfirm';
 import OrderDetail from './account/OrderDetail';
+import ProductUpdatePage from './staff/Product/ProductUpdatePage';
 
 function BaseRouter () {
     return (
@@ -45,9 +46,10 @@ function BaseRouter () {
             <Route exact path="/orders/:id" component={OrderDetail} />
             {/* Staff urls */}
             {/* <Route exact path="/stafflogin" component={StaffLogIn} />             */}
+            <Route exact path="/admin" component={Admin} />                      
             <Route exact path="/staff" component={Staff} />          
             <Route exact path="/staff/customers/:id" component={CustomerDetail} />          
-            <Route exact path="/admin" component={Admin} />            
+            <Route exact path="/staff/products/:id" component={ProductUpdatePage} />                        
         </Switch>
     )    
 }

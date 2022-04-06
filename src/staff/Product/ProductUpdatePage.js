@@ -1,12 +1,16 @@
+import { useState, useEffect } from "react"
 import { Button, Col, Form, Input, Checkbox, notification, Popconfirm, Row, Select, Typography, message, Spin, InputNumber } from "antd";
-import ImageUpload from '../components/ImageUpload'
-import axios from "axios";
-import api from "../api";
-import { useState, useEffect } from "react";
+import ImageUpload from '../../components/ImageUpload'
+import axios from "axios"
+import api from "../../api"
+import { connect } from "react-redux"
+import { useHistory } from "react-router-dom";
 
-function ProductEdit (props) {
-    const [form] = Form.useForm()        
-    const [items, setItems] = useState([])
+function ProductUpdatePage (props) {
+    const history = useHistory()
+    const [form] = Form.useForm()   
+    const [user, setUser] = useState()
+    const [selection, setSelection] = useState()    
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [tags, setTags] = useState([])    
@@ -18,65 +22,103 @@ function ProductEdit (props) {
     const [image4, setImage4] = useState()
     const [poster, setPoster] = useState()
     const [loading, setLoading] = useState(false)
-    const [selection, setSelection] = useState()
 
     useEffect(() => {
+        if (!user) {
+            getUser()            
+        }
+        if (!selection) {
+            getItem()
+        }        
         getCategories()
         getCompanies()
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [props.match.params.id]) // eslint-disable-line react-hooks/exhaustive-deps    
 
-    function onSearch (val) {        
-        if (val) {
-            axios({
-                method: 'GET',
-                url: `${api.items}?name=${val}`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${props.token}`            
-                }        
-            }).then(res => {
-                setItems(res.data.results)                    
-            }).catch(err => {
-                message.error("Хуудсыг дахин ачааллана уу")
-            })                
-        } else {
-            setItems(undefined)
-        }        
+    function getUser () {
+        axios({
+            method: 'GET',
+            url: api.profile,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`
+            }
+        }).then(res => {                       
+            setUser(res.data)
+        }).catch(err => {
+            console.log(err)
+        })
     }
-    
-    function onSelect (id) {
-        let hit = items.find(x => x.id.toString() === id)
-        if (hit.category) {            
-            setSubCategories(hit.category.subcategories)
-        }
-        form.setFieldsValue({
-            name: hit.name,            
-            name_en: hit.name_en,                                 
-            description: hit.description !== null ? hit.description : '',
-            description_en: hit.description_en !== null ? hit.description_en : '',
-            ingredients: hit.ingredients !== null ? hit.ingredients : '',
-            ingredients_en: hit.ingredients_en !== null ? hit.ingredients_en : '',
-            usage: hit.usage !== null ? hit.usage : '',
-            usage_en: hit.usage_en !== null ? hit.usage_en : '',
-            caution: hit.caution !== null ? hit.caution : '',
-            caution_en: hit.caution_en !== null ? hit.caution_en : '',
-            storage: hit.storage !== null ? hit.storage : '',
-            storage_en: hit.storage_en !== null ? hit.storage_en : '',
-            price: hit.price !== null ? hit.price : '',
-            count: hit.count !== null ? hit.count : '',
-            multiplier: hit.multiplier !== null ? hit.multiplier : '',
-            company: hit.company !== null ? hit.company.id.toString() : undefined,
-            category: hit.category !== null ? hit.category.id.toString() : undefined,
-            subcategory: hit.subcategories !== null ? getIDs(hit.subcategories) : undefined,
-        })        
-        setFeatured(hit.is_featured)
-        setImage1(hit.image1 !== null ? hit.image1 : undefined)
-        setImage2(hit.image2 !== null ? hit.image2 : undefined)
-        setImage3(hit.image3 !== null ? hit.image3 : undefined)
-        setImage4(hit.image4 !== null ? hit.image4 : undefined)
-        setPoster(hit.poster !== null ? hit.poster : undefined)
-        setSelection(hit)
+
+    function getItem () {
+        axios({
+            method: 'GET',
+            url: `${api.items}/${props.match.params.id}/`,            
+        }).then(res => {                      
+            let hit = res.data
+            if (hit.category) {            
+                setSubCategories(hit.category.subcategories)
+            }
+            form.setFieldsValue({
+                name: hit.name,            
+                name_en: hit.name_en,                                 
+                description: hit.description !== null ? hit.description : '',
+                description_en: hit.description_en !== null ? hit.description_en : '',
+                ingredients: hit.ingredients !== null ? hit.ingredients : '',
+                ingredients_en: hit.ingredients_en !== null ? hit.ingredients_en : '',
+                usage: hit.usage !== null ? hit.usage : '',
+                usage_en: hit.usage_en !== null ? hit.usage_en : '',
+                caution: hit.caution !== null ? hit.caution : '',
+                caution_en: hit.caution_en !== null ? hit.caution_en : '',
+                storage: hit.storage !== null ? hit.storage : '',
+                storage_en: hit.storage_en !== null ? hit.storage_en : '',
+                price: hit.price !== null ? hit.price : '',
+                count: hit.count !== null ? hit.count : '',
+                multiplier: hit.multiplier !== null ? hit.multiplier : '',
+                company: hit.company !== null ? hit.company.id.toString() : undefined,
+                category: hit.category !== null ? hit.category.id.toString() : undefined,
+                subcategory: hit.subcategories !== null ? getIDs(hit.subcategories) : undefined,
+            })        
+            setFeatured(hit.is_featured)
+            setImage1(hit.image1 !== null ? hit.image1 : undefined)
+            setImage2(hit.image2 !== null ? hit.image2 : undefined)
+            setImage3(hit.image3 !== null ? hit.image3 : undefined)
+            setImage4(hit.image4 !== null ? hit.image4 : undefined)
+            setPoster(hit.poster !== null ? hit.poster : undefined)
+            setSelection(hit)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })                
     }
+
+    function getCategories (ids) {
+        axios({
+            method: 'GET',
+            url: `${api.categories}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setCategories(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    }   
+
+    function getCompanies () {
+        axios({
+            method: 'GET',
+            url: `${api.companies}/`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${props.token}`            
+            }        
+        }).then(res => {
+            setCompanies(res.data.results)
+        }).catch(err => {
+            message.error("Хуудсыг дахин ачааллана уу")
+        })
+    }   
 
     function getIDs (arr) {
         let res = []
@@ -98,21 +140,6 @@ function ProductEdit (props) {
             return true
         }
     }
-
-    function getCategories (ids) {
-        axios({
-            method: 'GET',
-            url: `${api.categories}`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setCategories(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }       
 
     function onSelectCategory (id) {                
         if (id) {
@@ -137,21 +164,6 @@ function ProductEdit (props) {
             message.error("Хуудсыг дахин ачааллана уу")
         })
     }
-
-    function getCompanies () {
-        axios({
-            method: 'GET',
-            url: `${api.companies}/`,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`            
-            }        
-        }).then(res => {
-            setCompanies(res.data.results)
-        }).catch(err => {
-            message.error("Хуудсыг дахин ачааллана уу")
-        })
-    }   
 
     function onFinish (values) {
         setLoading(true)
@@ -244,14 +256,8 @@ function ProductEdit (props) {
                     description: `${selection.name} бүтээгдэхүүн амжилттай засагдлаа.`
                 })
                 form.resetFields()
-                setImage1(undefined)                
-                setImage2(undefined)                
-                setImage3(undefined)                
-                setImage4(undefined)   
-                setPoster(undefined)                             
-                setSelection(undefined)
-                setFeatured(false)
                 setLoading(false)
+                history.push(`/products/${selection.id}`)
             }
         }).catch(err => {
             console.log(err)
@@ -278,7 +284,7 @@ function ProductEdit (props) {
                 })
             }
             form.resetFields()
-            setSelection(undefined)            
+            history.push("/products")
         }).catch(err => {
             notification['error']({
                 message: 'Амжилтгүй',
@@ -296,24 +302,12 @@ function ProductEdit (props) {
             ) : ( 
                 <div>
                     <Typography.Title level={4}>Бүтээгдэхүүн засах / устгах</Typography.Title>            
-                    <Select                              
-                        showSearch
-                        onSearch={onSearch}                                              
-                        placeholder="Бүтээгдэхүүн сонгох"
-                        optionFilterProp="children"
-                        onSelect={onSelect}        
-                        style={{ width: '100%' }}        
-                    >
-                        { items ? items.map(item => (
-                            <Select.Option key={item.id}>{item.name}</Select.Option>
-                        )) : <></> }
-                    </Select>   
                     { selection ? (
                         <Form 
                             form={form} 
                             layout="vertical" 
                             onFinish={onFinish}
-                            style={{ marginTop: '16px', border: '1px solid #dedede', padding: '16px' }}
+                            style={{ marginTop: '16px', background: '#fff', border: '1px solid #dedede', padding: '16px' }}
                         >
                             <Row gutter={[16, 0]}>
                                 <Col span={8}>
@@ -491,4 +485,10 @@ function ProductEdit (props) {
     )
 }
 
-export default ProductEdit
+const mapStateToProps = state => {
+    return {
+        token: state.token
+    }
+}
+
+export default connect(mapStateToProps, null)(ProductUpdatePage)

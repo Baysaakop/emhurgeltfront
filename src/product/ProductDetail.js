@@ -1,4 +1,4 @@
-import { CarOutlined, HeartOutlined, QuestionCircleOutlined, ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { CarOutlined, HeartOutlined, QuestionCircleOutlined, ShoppingCartOutlined, ShoppingOutlined, ToolOutlined } from "@ant-design/icons";
 import { Grid, Typography, Breadcrumb, Row, Col, Button, InputNumber, message, Divider, Tag, notification, Avatar, Space, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -259,8 +259,10 @@ function ProductDetail (props) {
                                         </div>
                                     </div>                            
                                     <Divider style={{ margin: '16px 0' }} />  
-                                    { user && user.role !== "3" ? 
-                                        <></>
+                                    { user.role !== "3" ? 
+                                        <>
+                                            <Button href={`/staff/products/${item.id}`} type="primary" size="large" icon={<ToolOutlined />}>Мэдээлэл засах</Button>
+                                        </>
                                     :
                                         <>
                                             <Space size={[8, 8]} wrap>
