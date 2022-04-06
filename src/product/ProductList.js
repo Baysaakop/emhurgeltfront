@@ -213,14 +213,14 @@ function ProductList (props) {
                             <Menu
                                 mode="inline"                                             
                                 openKeys={category}                                    
-                                selectedKeys={subCategory}                                                   
+                                selectedKeys={subCategory}                                                                                   
                                 style={{ height: '100%' }}
                                 onSelect={onSelectSubCategory}
                             >
                                 {categories ? categories.map(cat => (
                                     <SubMenu key={cat.id.toString()} title={cat.name} onTitleClick={onSelectCategory}>
                                         {cat.subcategories.map(sub => (
-                                            <Menu.Item key={sub.id.toString()}>{sub.name}</Menu.Item>
+                                            <Menu.Item key={sub.id.toString()} style={{ height: '24px' }}>{sub.name}</Menu.Item>
                                         ))}
                                     </SubMenu>
                                 )) : <></>}                                    
