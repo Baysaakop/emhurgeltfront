@@ -48,7 +48,7 @@ function OrderDetail (props) {
     }
 
     function formatNumber(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        return parseInt(num).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }    
 
     const columns = [
@@ -136,7 +136,9 @@ function OrderDetail (props) {
                                     <div style={{ textAlign: 'end', marginTop: '8px' }}>
                                         <Typography.Text style={{ display: 'block', fontSize: '16px' }}>Нийт: {formatNumber(order.total)}₮</Typography.Text>
                                         <Typography.Text style={{ display: 'block', fontSize: '16px' }}>Ашигласан бонус: {formatNumber(order.bonus_used)}₮</Typography.Text>
-                                        <Typography.Text style={{ display: 'block', fontSize: '16px' }}>Төлөх дүн: {formatNumber(order.total - order.bonus_used)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block', fontSize: '16px', fontWeight: 'bold' }}>Төлөх дүн: {formatNumber(order.total - order.bonus_used)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block', fontSize: '16px' }}>НӨАТ: {formatNumber((order.total - order.bonus_used) / 11)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block', fontSize: '16px' }}>НӨАТ-гүй үнэ: {formatNumber(order.total - order.bonus_used - (order.total - order.bonus_used) / 11)}₮</Typography.Text>
                                         { order.is_payed ? (
                                             <Typography.Text type="success" style={{ display: 'block', fontSize: '16px' }}>БОНУС: {formatNumber(order.bonus_granted)}₮</Typography.Text>
                                         ) : (

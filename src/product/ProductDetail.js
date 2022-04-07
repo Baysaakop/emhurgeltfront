@@ -249,7 +249,7 @@ function ProductDetail (props) {
                                             <Typography.Title level={5} style={{ margin: '0' }}>
                                                 {props.language === "en" ? translations.en.product_detail.price : translations.mn.product_detail.price}
                                             </Typography.Title>
-                                            <Typography.Title level={2} style={{ margin: '0' }}>{formatNumber(item.price)}₮</Typography.Title>
+                                            <Typography.Title level={2} style={{ margin: '0' }}>{formatNumber(item.price)}₮ <Typography.Text style={{ fontSize: '16px', fontWeight: 'normal'  }}>(НӨАТ орсон)</Typography.Text></Typography.Title>                                            
                                         </div>                                                       
                                         <div style={{ textAlign: 'center' }}>
                                             <Typography.Text style={{ margin: '0' }}>
