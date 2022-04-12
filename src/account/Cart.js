@@ -18,6 +18,33 @@ function Cart (props) {
         setItems(props.items)       
     }, [props.items, props.user]) // eslint-disable-line react-hooks/exhaustive-deps 
 
+    function onCountChange (val, id) {
+        console.log(val)
+        if (val) {
+            axios({
+                method: 'PUT',
+                url: `${api.users}/${props.user.id}/`,
+                headers: {
+                    'Content-Type': 'application/json',      
+                    'Authorization': `Token ${props.token}` 
+                },
+                data: {
+                    cart: true,
+                    mode: 'update',
+                    item: id,
+                    count: val                           
+                }
+            })            
+            .then(res => {                
+                setItems(res.data.cart)                                                               
+            })
+            .catch(err => {                      
+                console.log(err.message)         
+                message.error("Алдаа гарлаа. Дахин оролдоно уу.")          
+            })   
+        }                  
+    }
+
     function onDelete (id) {
         axios({
             method: 'PUT',
@@ -96,7 +123,7 @@ function Cart (props) {
 
     function findItem (id) {
         return items.find(x => x.id === id)
-    }
+    }    
 
     const columns = [
         {
@@ -123,9 +150,10 @@ function Cart (props) {
         },
         {
             title: 'Тоо',
-            dataIndex: 'count',
-            key: 'count',
-            render: (count) => <Typography.Title level={5} style={{ margin: 0 }}>{count}ш</Typography.Title>
+            dataIndex: 'id',
+            key: 'id',
+            render: (id) => 
+            <InputNumber defaultValue={findItem(id).count} size="default" min={1} max={findItem(id).item.count} style={{ width: '80px' }} onChange={(val) => onCountChange(val, findItem(id).item.id)} />                                                                       
         },
         {
             title: 'Нийт',

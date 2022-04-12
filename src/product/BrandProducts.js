@@ -56,7 +56,7 @@ function BrandProducts (props) {
                                     <div className="overlay-bonus">         
                                         <Tooltip title={`Уг барааг захиалвал таны бонус ${item.multiplier} дахин үржигдэж орно.`}>
                                             <Badge count={`${item.multiplier}X`}>
-                                                <Avatar icon={<GiftOutlined />} shape="square" size={40} style={{ background: '#130f40' }}></Avatar>
+                                                <Avatar icon={<GiftOutlined />} shape="square" size="large" style={{ background: '#130f40' }}></Avatar>
                                             </Badge>
                                         </Tooltip>                                                                       
                                     </div>

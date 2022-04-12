@@ -1,5 +1,5 @@
-import { EllipsisOutlined, HeartOutlined, MinusCircleOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { Card, Tooltip, Typography, Modal, message, Button } from "antd";
+import { EllipsisOutlined, GiftOutlined, HeartOutlined, MinusCircleOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Card, Tooltip, Typography, Modal, message, Button, Badge, Avatar } from "antd";
 import { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios"; 
@@ -135,10 +135,17 @@ function ProductCard (props) {
                                         src={props.item.image1 ? props.item.image1 : "https://epharmacy-bucket.s3.ap-northeast-1.amazonaws.com/static/blank.jpg"} 
                                         style={{ width: '90%', height: '90%', objectFit: 'scale-down' }} 
                                     />                            
+                                    {/* <div style={{ position: 'absolute', top: '16px', left: '16px', width: '32px' }}>                                   
+                                        <Typography.Title level={5} style={{ margin: '0' }}>{props.item.count > 20 ? '20+' : props.item.count}</Typography.Title>
+                                    </div> */}
                                     { props.item.is_featured === true ?                                    
-                                        <div style={{ position: 'absolute', top: '8px', right: '8px', width: '32px' }}>
-                                            <img alt="featured" src="/logo.png" style={{ width: '100%', height: 'auto' }} />                                        
-                                        </div>                                    
+                                        <div style={{ position: 'absolute', top: '16px', right: '16px', width: '32px' }}>
+                                            <Tooltip title={`Уг барааг захиалвал таны бонус ${props.item.multiplier} дахин үржигдэж орно.`}>
+                                                <Badge count={`${props.item.multiplier}X`} size="small"> 
+                                                    <Avatar icon={<GiftOutlined />} shape="square" size="default" style={{ background: '#130f40' }}></Avatar>
+                                                </Badge>
+                                            </Tooltip>                                               
+                                        </div>  
                                     : <></>}    
                                 </div>                            
                             </div>
@@ -165,7 +172,7 @@ function ProductCard (props) {
                                 <Tooltip title={props.language === "en" ? translations.en.product_card.cart : translations.mn.product_card.cart}>
                                     <ShoppingCartOutlined key="cart" onClick={() => addToCart("create")} />
                                 </Tooltip>
-                            ),                         
+                            ),                                                     
                             <Tooltip title={props.language === "en" ? translations.en.product_card.more : translations.mn.product_card.more}>
                                 <EllipsisOutlined key="ellip" onClick={() => setVisible(true)} />
                             </Tooltip>,                                        
@@ -180,9 +187,14 @@ function ProductCard (props) {
                             title={
                                 <Tooltip title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name}>{ props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name }</Tooltip>
                             }                                              
-                        />
-                        <div style={{ marginTop: '16px', textAlign: 'center' }}>                        
-                            <Typography.Title level={4} style={{ margin: '0', color: '#000' }}>{formatNumber(props.item.price)}₮</Typography.Title>
+                        />                        
+                        <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>                        
+                            <div>
+                                <Typography.Title level={4} style={{ margin: '0', color: '#000' }}>{formatNumber(props.item.price)}₮</Typography.Title>
+                            </div>
+                            <div>
+                            <Typography.Title level={5} style={{ margin: '0', color: 'rgb(44, 62, 80)' }}>{props.item.count > 20 ? '20+' : `${props.item.count}ш`}</Typography.Title>
+                            </div>
                         </div>
                     </Link>
                     <Modal title={props.language === "en" && props.item.name_en ? props.item.name_en : props.item.name} visible={visible} footer={false} onCancel={() => setVisible(false)}>
