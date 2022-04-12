@@ -97,7 +97,7 @@ function Cart (props) {
                     description: `'${res.data.ref}' дугаартай захиалга үүслээ.`,
                     duration: 8
                 });                                                                                           
-                history.push(`/orders/${res.data.ref}`)
+                history.push(`/orders/${res.data.id}`)
             } else if (res.status === 406) {                                           
                 notification['error']({
                     message: 'Захиалга амжилтгүй боллоо.',
