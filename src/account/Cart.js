@@ -15,11 +15,14 @@ function Cart (props) {
     const [checked, setChecked] = useState(false)
 
     useEffect(() => {   
-        setItems(props.items)       
+        setItems(sortByID(props.items))       
     }, [props.items, props.user]) // eslint-disable-line react-hooks/exhaustive-deps 
 
+    function sortByID (data) {
+        return data.sort((a, b) => b.id - a.id)
+    }
+
     function onCountChange (val, id) {
-        console.log(val)
         if (val) {
             axios({
                 method: 'PUT',
@@ -36,16 +39,16 @@ function Cart (props) {
                 }
             })            
             .then(res => {                
-                setItems(res.data.cart)                                                               
+                setItems(sortByID(res.data.cart))                                                          
             })
             .catch(err => {                      
                 console.log(err.message)         
-                message.error("Алдаа гарлаа. Дахин оролдоно уу.")          
+                message.error("Алдаа гарлаа. Дахин оролдоно уу.")                                                      
             })   
         }                  
     }
 
-    function onDelete (id) {
+    function onDelete (id) {                                        
         axios({
             method: 'PUT',
             url: `${api.users}/${props.user.id}/`,
@@ -61,16 +64,16 @@ function Cart (props) {
             }
         })            
         .then(res => {                
-            setItems(res.data.cart)       
-            props.onUpdateCart(res.data.cart)                                            
+            setItems(sortByID(res.data.cart))     
+            props.onUpdateCart(res.data.cart)                                                                                      
         })
         .catch(err => {                      
             console.log(err.message)         
-            message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
+            message.error("Алдаа гарлаа. Дахин оролдоно уу.")                                                      
         }) 
     }
 
-    function onFinish (values) {          
+    function onFinish (values) {                                                  
         axios({
             method: 'POST',
             url: `${api.orders}/`,
@@ -88,14 +91,14 @@ function Cart (props) {
         })            
         .then(res => {
             if (res.status === 201) {                                                                      
-                props.onUpdateCart(res.data.customer.cart)                                    
+                props.onUpdateCart(res.data.customer.cart)                                                                           
                 notification['success']({
                     message: 'Захиалга хүлээж авлаа.',
                     description: `'${res.data.ref}' дугаартай захиалга үүслээ.`,
                     duration: 8
-                });                                
+                });                                                                                           
                 history.push(`/orders/${res.data.ref}`)
-            } else if (res.status === 406) {
+            } else if (res.status === 406) {                                           
                 notification['error']({
                     message: 'Захиалга амжилтгүй боллоо.',
                     description: `Таны захиалга амжилтгүй боллоо. Та 1132-2817 дугаарт холбогдон лавлана уу. Баярлалаа,`,
@@ -225,7 +228,7 @@ function Cart (props) {
                         </div>   
                     :
                         <></>
-                    }                             
+                    }         
                 </div>
             )}   
             <div style={{ border: '1px solid #dedede', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '16px 8px', marginTop: '16px' }}>
