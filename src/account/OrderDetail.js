@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import api from "../api"
 import moment from 'moment'
 import { useReactToPrint } from "react-to-print";
+import './OrderDetail.css'
 
 function OrderDetail (props) {
     const printRef = useRef()
@@ -132,7 +133,7 @@ function OrderDetail (props) {
                                             <div>Захиалгын огноо: {moment(order.created_at).format("YYYY оны MM сарын DD")}</div>
                                         </div>
                                     </div>                            
-                                    <Table bordered columns={columns} dataSource={order.items} pagination={false} size="small" />
+                                    <Table className="order-items-table" bordered columns={columns} dataSource={order.items} pagination={false} size="small" />
                                     <div style={{ textAlign: 'end', marginTop: '8px' }}>
                                         <Typography.Text style={{ display: 'block' }}>Нийт: {formatNumber(order.total)}₮</Typography.Text>
                                         <Typography.Text style={{ display: 'block' }}>Ашигласан бонус: {formatNumber(order.bonus_used)}₮</Typography.Text>
