@@ -106,7 +106,8 @@ function Staff (props) {
                                     >
                                         <SubMenu key="sub1" icon={<HistoryOutlined />} title="Захиалга">
                                             <Menu.Item key="1">Шинээр үүссэн</Menu.Item>             
-                                            <Menu.Item key="2">Төлбөр төлсөн</Menu.Item>                                            
+                                            <Menu.Item key="2">Хүргэгдсэн</Menu.Item>             
+                                            <Menu.Item key="3">Төлбөр төлсөн</Menu.Item>                                            
                                         </SubMenu>
                                         <SubMenu key="sub2" icon={<UserOutlined />} title="Хэрэглэгч">
                                             <Menu.Item key="11">Хүсэлтүүд</Menu.Item>           
@@ -149,6 +150,8 @@ function Staff (props) {
                                         <OrderList state="1" token={props.token} />
                                     ) : key === "2" ? (
                                         <OrderList state="2" token={props.token} />
+                                    ) : key === "3" ? (
+                                        <OrderList state="3" token={props.token} />
                                     ) : key === "11" ? (                                        
                                         <SignupRequests token={props.token} />
                                     ) : key === "12" ? (                                        

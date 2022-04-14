@@ -26,8 +26,10 @@ function OrderList (props) {
         setLoading(true)
         let url = "?"
         if (state === "1") {
-            url += "is_payed=False&"
+            url += "is_payed=False&is_delivered=False&"
         } else if (state === "2") {
+            url += "is_payed=False&is_delivered=True&"
+        } else if (state === "3") {
             url += "is_payed=True&"
         }        
 
@@ -74,6 +76,27 @@ function OrderList (props) {
     function formatNumber(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
+
+    function onDelivered(id) {
+        axios({
+            method: 'PUT',
+            url: `${api.orders}/${id}/`,
+            headers: {
+                'Content-Type': 'application/json',     
+                'Authorization': `Token ${props.token}`                                         
+            },
+            data: {                
+                is_delivered: true                                       
+            }
+        })            
+        .then(res => {
+            getOrders(props.state, page)                                                             
+        })
+        .catch(err => {                      
+            console.log(err.message)         
+            message.error("Алдаа гарлаа. Дахин оролдоно уу.")            
+        }) 
+    }    
 
     function onPayed(id) {
         axios({
@@ -162,20 +185,37 @@ function OrderList (props) {
             render: (date) => moment(date).format("YYYY-MM-DD HH:mm")
         },
         {
-            title: 'Төлөв',
+            title: 'Хүргэлт',
+            dataIndex: 'id',
+            key: 'id',
+            render: (id) => 
+            orders.find(x => x.id === id).is_delivered ?
+                <Tag color="success">Хүргэгдсэн</Tag>
+            : <Popconfirm title="Хүргэгдсэн төлөвт шилжүүлэх үү?" onConfirm={() => onDelivered(id)}>
+                <Button icon={<CheckOutlined />} size="middle" type="primary" />          
+            </Popconfirm>  
+        },
+        {
+            title: 'Төлбөр',
             dataIndex: 'id',
             key: 'id',
             render: (id) => 
             orders.find(x => x.id === id).is_payed ?
                 <Tag color="success">Төлсөн</Tag>
-            : <Space size={8} wrap>
-                   <Popconfirm title="Төлсөн төлөвт шилжүүлэх үү?" onConfirm={() => onPayed(id)}>
-                        <Button icon={<CheckOutlined />} size="middle" type="primary" />          
-                    </Popconfirm>  
-                    <Popconfirm title="Захиалгыг цуцлах уу?" onConfirm={() => onDecline(id)}>
-                        <Button danger icon={<DeleteOutlined />} size="middle" type="primary" />           
-                    </Popconfirm>  
-                </Space>
+            : <Popconfirm title="Төлсөн төлөвт шилжүүлэх үү?" onConfirm={() => onPayed(id)}>
+                <Button icon={<CheckOutlined />} size="middle" type="primary" />          
+            </Popconfirm>  
+        },
+        {
+            title: 'Цуцлах',
+            dataIndex: 'id',
+            key: 'id',
+            render: (id) => 
+            orders.find(x => x.id === id).is_payed ?
+                <Tag color="warning">Боломжгүй</Tag>
+            : <Popconfirm title="Захиалгыг цуцлах уу?" onConfirm={() => onDecline(id)}>
+                <Button danger icon={<DeleteOutlined />} size="middle" type="primary" />           
+            </Popconfirm>  
         },
     ]
     

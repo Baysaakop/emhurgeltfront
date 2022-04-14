@@ -132,13 +132,13 @@ function OrderDetail (props) {
                                             <div>Захиалгын огноо: {moment(order.created_at).format("YYYY оны MM сарын DD")}</div>
                                         </div>
                                     </div>                            
-                                    <Table bordered columns={columns} dataSource={order.items} pagination={false} />
+                                    <Table bordered columns={columns} dataSource={order.items} pagination={false} size="small" />
                                     <div style={{ textAlign: 'end', marginTop: '8px' }}>
-                                        <Typography.Text style={{ display: 'block', fontSize: '16px' }}>Нийт: {formatNumber(order.total)}₮</Typography.Text>
-                                        <Typography.Text style={{ display: 'block', fontSize: '16px' }}>Ашигласан бонус: {formatNumber(order.bonus_used)}₮</Typography.Text>
-                                        <Typography.Text style={{ display: 'block', fontSize: '16px', fontWeight: 'bold' }}>Төлөх дүн: {formatNumber(order.total - order.bonus_used)}₮</Typography.Text>
-                                        <Typography.Text style={{ display: 'block', fontSize: '16px' }}>НӨАТ: {formatNumber((order.total - order.bonus_used) / 11)}₮</Typography.Text>
-                                        <Typography.Text style={{ display: 'block', fontSize: '16px' }}>НӨАТ-гүй үнэ: {formatNumber(order.total - order.bonus_used - (order.total - order.bonus_used) / 11)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block' }}>Нийт: {formatNumber(order.total)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block' }}>Ашигласан бонус: {formatNumber(order.bonus_used)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block', fontWeight: 'bold' }}>Төлөх дүн: {formatNumber(order.total - order.bonus_used)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block' }}>НӨАТ: {formatNumber((order.total - order.bonus_used) / 11)}₮</Typography.Text>
+                                        <Typography.Text style={{ display: 'block' }}>НӨАТ-гүй үнэ: {formatNumber(order.total - order.bonus_used - (order.total - order.bonus_used) / 11)}₮</Typography.Text>
                                         { order.is_payed ? (
                                             <Typography.Text type="success" style={{ display: 'block', fontSize: '16px' }}>БОНУС: {formatNumber(order.bonus_granted)}₮</Typography.Text>
                                         ) : (
@@ -163,7 +163,7 @@ function OrderDetail (props) {
                                                 <div style={{ width: '100px' }}>
                                                     <img src="/khanbank.jpg" alt="khanbank" style={{ width: '100%', height: 'auto' }} />
                                                 </div>
-                                                <div style={{ fontSize: '16px' }}>
+                                                <div>
                                                     <div>Банк: Хаан Банк</div>
                                                     <div>Дансны дугаар: 5219166940</div>
                                                     <div>Хүлээн авагч: ДИ ЭС И ЭЙ БИ АЙ</div>
@@ -176,7 +176,7 @@ function OrderDetail (props) {
                                                 <div style={{ width: '100px' }}>
                                                     <img src="/tdb.jpg" alt="khanbank" style={{ width: '100%', height: 'auto' }} />
                                                 </div>
-                                                <div style={{ fontSize: '16px' }}>
+                                                <div>
                                                     <div>Банк: Худалдаа Хөгжлийн Банк</div>
                                                     <div>Дансны дугаар: 472037839</div>
                                                     <div>Хүлээн авагч: ДИ ЭС И ЭЙ БИ АЙ</div>
@@ -196,7 +196,7 @@ function OrderDetail (props) {
                                                 <div style={{ width: '100px' }}>
                                                     <img src="/khanbank.jpg" alt="khanbank" style={{ width: '100%', height: 'auto' }} />
                                                 </div>
-                                                <div style={{ fontSize: '16px' }}>
+                                                <div>
                                                     <div>Банк: Хаан Банк</div>
                                                     <div>Дансны дугаар: 5219166940</div>
                                                     <div>Хүлээн авагч: ДИ ЭС И ЭЙ БИ АЙ</div>
@@ -209,7 +209,7 @@ function OrderDetail (props) {
                                                 <div style={{ width: '100px' }}>
                                                     <img src="/tdb.jpg" alt="khanbank" style={{ width: '100%', height: 'auto' }} />
                                                 </div>
-                                                <div style={{ fontSize: '16px' }}>
+                                                <div>
                                                     <div>Банк: Худалдаа Хөгжлийн Банк</div>
                                                     <div>Дансны дугаар: 472037839</div>
                                                     <div>Хүлээн авагч: ДИ ЭС И ЭЙ БИ АЙ</div>
